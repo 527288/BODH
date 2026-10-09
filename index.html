@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101b35">
+<meta name="description" content="BODH - विद्यार्थियों के लिए परीक्षा तैयारी, मॉक टेस्ट और उपयोगी डिजिटल टूल्स।">
+<title>BODH | आपकी तैयारी, आपकी तरक्की</title>
+<style>
+:root{--navy:#101b35;--blue:#254d91;--gold:#e8bd68;--paper:#f7f5ef;--ink:#17233b;--muted:#68738a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;background:var(--paper);color:var(--ink)}
+a{text-decoration:none;color:inherit}
+.topbar{background:#080f20;color:#e8bd68;text-align:center;padding:9px;font-size:12px;letter-spacing:.5px}
+header{background:var(--navy);color:white;padding:17px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid #ffffff20}
+.brand{display:flex;align-items:center;gap:11px}
+.emblem{width:48px;height:48px;display:grid;place-items:center;border:1px solid var(--gold);border-radius:14px 14px 14px 4px;background:linear-gradient(145deg,#304b77,#101b35);color:var(--gold);font-size:27px;font-weight:800}
+.brand-name{font-size:25px;font-weight:850;letter-spacing:2px}
+.brand-sub{font-size:10px;color:#e8bd68;letter-spacing:1.5px}
+.nav{display:flex;gap:20px;font-size:13px;color:#e0e6f3}
+.nav a:hover{color:var(--gold)}
+.hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 85% 20%,#36558b99,transparent 38%),linear-gradient(120deg,#101b35,#192f55 68%,#27466f);color:white;padding:55px 5% 45px}
+.hero:after{content:"ब";position:absolute;right:5%;bottom:-115px;font-size:330px;font-weight:900;color:#ffffff08;pointer-events:none}
+.hero-inner{max-width:1100px;margin:auto;position:relative;z-index:1}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--gold)}
+h1{font-size:clamp(35px,6vw,58px);line-height:1.2;margin:17px 0;max-width:700px}
+h1 span{color:var(--gold)}
+.hero p{color:#d5dfef;line-height:1.9;max-width:600px;font-size:15px}
+.search{margin-top:24px;max-width:620px;display:flex;background:white;border-radius:12px;padding:6px;gap:6px;box-shadow:0 12px 35px #0002}
+.search input{flex:1;min-width:0;border:0;outline:0;padding:13px;font-size:14px;background:transparent;color:#17233b}
+.btn{display:inline-block;border:0;border-radius:9px;padding:12px 17px;font-size:13px;font-weight:750;cursor:pointer;text-align:center}
+.btn-gold{background:var(--gold);color:#18213a}
+.btn-outline{border:1px solid #ffffff55;color:white;margin-top:17px}
+.hero-note{font-size:12px!important;color:#b9c8df!important;margin-top:15px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);max-width:650px;margin-top:32px;gap:10px}
+.stat{border-left:2px solid var(--gold);padding:5px 13px}
+.stat strong{display:block;font-size:15px}
+.stat small{font-size:11px;color:#bdcbe0}
+main{max-width:1150px;margin:auto;padding:0 5%}
+section{padding:45px 0}
+.section-head{margin-bottom:22px}
+.section-head small{color:#98702f;font-weight:800;letter-spacing:1.5px}
+h2{font-size:clamp(24px,4vw,33px);margin:8px 0;color:var(--navy)}
+.section-head p{font-size:14px;line-height:1.8;color:var(--muted);margin:8px 0}
+.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.feature{background:#fff;border:1px solid #e5e1d7;border-radius:15px;padding:21px 18px;min-height:180px;box-shadow:0 5px 18px #1a294008;transition:transform .2s,border-color .2s}
+.feature:hover{transform:translateY(-3px);border-color:#d6b36c}
+.feature-icon{width:45px;height:45px;display:grid;place-items:center;font-size:23px;border-radius:12px;background:#edf1f8;margin-bottom:14px}
+.feature h3{font-size:16px;margin:0 0 8px}
+.feature p{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 14px}
+.feature a{font-size:12px;font-weight:800;color:var(--blue)}
+.exam-section{background:#eaeef5;border-radius:20px;padding:26px}
+.exam-list{display:flex;flex-wrap:wrap;gap:10px}
+.exam{padding:12px 15px;background:white;border:1px solid #d9dfeb;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer}
+.exam:hover,.exam.active{border-color:var(--blue);color:var(--blue);background:#f5f8ff}
+.callout{background:var(--navy);color:white;border-radius:18px;padding:27px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.callout h2{color:white;font-size:23px}
+.callout p{color:#c8d3e5;line-height:1.8;font-size:13px}
+footer{background:#080f20;color:#c7d0df;padding:30px 5%;margin-top:42px}
+.footer-inner{max-width:1100px;margin:auto}
+.footer-brand{color:white;font-size:21px;font-weight:850;letter-spacing:2px}
+footer p{font-size:12px;line-height:1.8}
+.footer-links{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0;font-size:12px}
+.copyright{border-top:1px solid #ffffff22;padding-top:15px;color:#9eabc1}
+.notice{font-size:12px;color:var(--muted);margin-top:15px}
+@media(max-width:700px){
+header{padding:14px 5%}.nav{display:none}
+.hero{padding:42px 5% 34px}.hero:after{font-size:210px;right:-15px;bottom:-65px}
+.search{flex-direction:column;background:transparent;box-shadow:none;padding:0}
+.search input{background:white;border-radius:9px;padding:15px}
+.search .btn{padding:14px}
+.stats{margin-top:27px}.stat{padding-left:8px}.stat strong{font-size:12px}.stat small{font-size:10px}
+section{padding:33px 0}
+.features{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.feature{padding:16px 13px;min-height:175px}.feature-icon{width:39px;height:39px;font-size:20px}
+.feature h3{font-size:14px}.feature p{font-size:11px}
+.exam-section{padding:19px 14px}.exam{padding:10px 12px;font-size:12px}
+.callout{align-items:flex-start;flex-direction:column;padding:22px}
+}
+@media(max-width:360px){.features{grid-template-columns:1fr}.brand-name{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="topbar">ज्ञान • तैयारी • अवसर &nbsp; | &nbsp; विद्यार्थियों के लिए एक उपयोगी मंच</div>
+
+<header>
+<a class="brand" href="#" aria-label="BODH Home">
+<div class="emblem">ब</div>
+<div><div class="brand-name">BODH</div><div class="brand-sub">बोध · ज्ञान की दिशा</div></div>
+</a>
+<nav class="nav">
+<a href="#features">सुविधाएँ</a>
+<a href="#exams">परीक्षाएँ</a>
+<a href="#about">हमारे बारे में</a>
+</nav>
+</header>
+
+<div class="hero">
+<div class="hero-inner">
+<div class="eyebrow">YOUR JOURNEY · YOUR FUTURE</div>
+<h1>आपकी तैयारी,<br><span>आपकी तरक्की।</span></h1>
+<p>पढ़ाई को आसान बनाइए। मॉक टेस्ट दीजिए, जरूरी डिजिटल टूल्स इस्तेमाल कीजिए और अपनी अगली परीक्षा की तैयारी एक ही जगह से शुरू कीजिए।</p>
+
+<form class="search" id="searchForm">
+<input id="searchInput" type="search" placeholder="मॉक टेस्ट, परीक्षा या टूल खोजें..." aria-label="वेबसाइट में खोजें">
+<button class="btn btn-gold" type="submit">खोजें ↗</button>
+</form>
+
+<a class="btn btn-outline" href="#features">सभी सुविधाएँ देखें ↓</a>
+<div class="stats">
+<div class="stat"><strong>एक मंच</strong><small>कई उपयोगी सुविधाएँ</small></div>
+<div class="stat"><strong>हिंदी + English</strong><small>आपकी पसंद की भाषा</small></div>
+<div class="stat"><strong>मोबाइल-फ्रेंडली</strong><small>कहीं भी, कभी भी</small></div>
+</div>
+</div>
+</div>
+
+<main>
+<section id="features">
+<div class="section-head">
+<small>LEARN · PRACTICE · GROW</small>
+<h2>आपकी जरूरत के सभी टूल्स</h2>
+<p>परीक्षा की तैयारी से लेकर आवेदन के जरूरी कामों तक—शुरुआत यहीं से करें।</p>
+</div>
+<div class="features" id="featureGrid">
+<article class="feature" data-search="mock test mocktest परीक्षा अभ्यास प्रश्न उत्तर">
+<div class="feature-icon">✍️</div>
+<h3>Mock Tests</h3>
+<p>विषयवार अभ्यास और फुल मॉक टेस्ट के लिए अलग सेक्शन।</p>
+<a href="#exams">परीक्षा चुनें →</a>
+</article>
+<article class="feature" data-search="photo signature resize image फोटो सिग्नेचर आकार">
+<div class="feature-icon">🖼️</div>
+<h3>Photo & Signature</h3>
+<p>आवेदन के अनुसार फोटो और हस्ताक्षर का आकार तैयार करने की सुविधा।</p>
+<a href="#about">जल्द उपलब्ध होगा →</a>
+</article>
+<article class="feature" data-search="pdf merge split compress पीडीएफ">
+<div class="feature-icon">📄</div>
+<h3>PDF Tools</h3>
+<p>PDF मर्ज, स्प्लिट और कंप्रेस करने के लिए उपयोगी टूल्स।</p>
+<a href="#about">जल्द उपलब्ध होगा →</a>
+</article>
+<article class="feature" data-search="resume biodata cv नौकरी रिज्यूमे">
+<div class="feature-icon">🧾</div>
+<h3>Resume Maker</h3>
+<p>अपनी जानकारी से व्यवस्थित रिज्यूमे तैयार करने की योजना।</p>
+<a href="#about">जल्द उपलब्ध होगा →</a>
+</article>
+<article class="feature" data-search="exam guide syllabus eligibility date documents सरकारी नौकरी">
+<div class="feature-icon">📚</div>
+<h3>Exam & Job Guides</h3>
+<p>पात्रता, सिलेबस, जरूरी दस्तावेज और आधिकारिक आवेदन लिंक।</p>
+<a href="#exams">परीक्षाएँ देखें →</a>
+</article>
+<article class="feature" data-search="books store किताबें पुस्तक study material">
+<div class="feature-icon">🎓</div>
+<h3>Books Store</h3>
+<p>अपनी परीक्षा के अनुसार किताबें और अध्ययन सामग्री खोजें।</p>
+<a href="#exams">परीक्षा चुनें →</a>
+</article>
+</div>
+<p id="searchMessage" class="notice" aria-live="polite"></p>
+</section>
+
+<section id="exams">
+<div class="exam-section">
+<div class="section-head">
+<small>YOUR EXAM, YOUR PLAN</small>
+<h2>किस परीक्षा की तैयारी कर रहे हैं?</h2>
+<p>अपनी परीक्षा चुनें। अभी ये श्रेणियाँ शुरुआती रूप में हैं; आगे इनमें संबंधित टेस्ट और अध्ययन सामग्री जोड़ी जाएगी।</p>
+</div>
+<div class="exam-list">
+<button class="exam" data-exam="UPSSSC PET">UPSSSC PET</button>
+<button class="exam" data-exam="SSC">SSC</button>
+<button class="exam" data-exam="Railway">Railway</button>
+<button class="exam" data-exam="Police">Police</button>
+<button class="exam" data-exam="UPPSC">UPPSC</button>
+<button class="exam" data-exam="अन्य परीक्षाएँ">अन्य परीक्षाएँ</button>
+</div>
+<p id="examMessage" class="notice" aria-live="polite">परीक्षा चुनने पर यहाँ आपका चयन दिखाई देगा।</p>
+</div>
+</section>
+
+<section id="about">
+<div class="callout">
+<div>
+<div class="eyebrow">BODH · बोध</div>
+<h2>सीखिए। अभ्यास कीजिए। आगे बढ़िए।</h2>
+<p>एक ऐसा मंच जहाँ विद्यार्थियों को तैयारी और जरूरी डिजिटल कामों में मदद मिल सके।</p>
+</div>
+<a class="btn btn-gold" href="#features">सुविधाएँ देखें ↗</a>
+</div>
+<p class="notice">नोट: यह वेबसाइट का शुरुआती संस्करण है। टेस्ट, PDF प्रोसेसिंग, रिज्यूमे डाउनलोड, अकाउंट और स्टोर जैसी सुविधाएँ आगे विकसित करनी होंगी।</p>
+</section>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div class="footer-brand">BODH <span style="color:#e8bd68">बोध</span></div>
+<p>ज्ञान • तैयारी • अवसर<br>विद्यार्थियों के लिए उपयोगी डिजिटल मंच।</p>
+<div class="footer-links">
+<a href="#features">सुविधाएँ</a>
+<a href="#exams">परीक्षाएँ</a>
+<a href="#about">हमारे बारे में</a>
+</div>
+<div class="copyright">© <span id="year"></span> BODH. सर्वाधिकार सुरक्षित।</div>
+</div>
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+document.getElementById("searchForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const query = document.getElementById("searchInput").value.trim().toLocaleLowerCase();
+  const cards = Array.from(document.querySelectorAll(".feature"));
+  const message = document.getElementById("searchMessage");
+
+  if (!query) {
+    message.textContent = "कृपया खोजने के लिए कोई शब्द लिखें।";
+    return;
+  }
+
+  let count = 0;
+  cards.forEach(function(card) {
+    const text = (card.innerText + " " + card.dataset.search).toLocaleLowerCase();
+    const match = text.includes(query);
+    card.style.display = match ? "" : "none";
+    if (match) count++;
+  });
+
+  message.textContent = count
+    ? count + " संबंधित सुविधा मिली।"
+    : "कोई मिलती-जुलती सुविधा नहीं मिली। दूसरा शब्द आजमाएँ।";
+  document.getElementById("features").scrollIntoView({behavior:"smooth"});
+});
+
+document.querySelectorAll("[data-exam]").forEach(function(button) {
+  button.addEventListener("click", function() {
+    document.querySelectorAll("[data-exam]").forEach(function(item) {
+      item.classList.remove("active");
+    });
+    button.classList.add("active");
+    document.getElementById("examMessage").textContent =
+      "आपने " + button.dataset.exam + " चुना है। इस परीक्षा के मॉक टेस्ट और अध्ययन सामग्री आगे जोड़ी जाएगी।";
+  });
+});
+</script>
+</body>
+  </html>
+                     
