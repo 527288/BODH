@@ -1,254 +1,241 @@
-
+  
 <!DOCTYPE html>
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101b35">
-<meta name="description" content="BODH - विद्यार्थियों के लिए परीक्षा तैयारी, मॉक टेस्ट और उपयोगी डिजिटल टूल्स।">
-<title>BODH | आपकी तैयारी, आपकी तरक्की</title>
+<title>BODH — आपकी तैयारी, आपकी तरक्की</title>
 <style>
-:root{--navy:#101b35;--blue:#254d91;--gold:#e8bd68;--paper:#f7f5ef;--ink:#17233b;--muted:#68738a}
+:root{--navy:#101b35;--navy2:#19294b;--gold:#e5b85c;--cream:#faf8f1;--muted:#68738a;--white:#fff;--line:#e8e7e0;--green:#23764d}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;background:var(--paper);color:var(--ink)}
-a{text-decoration:none;color:inherit}
-.topbar{background:#080f20;color:#e8bd68;text-align:center;padding:9px;font-size:12px;letter-spacing:.5px}
-header{background:var(--navy);color:white;padding:17px 5%;display:flex;align-items:center;justify-content:space-between;gap:15px;border-bottom:1px solid #ffffff20}
-.brand{display:flex;align-items:center;gap:11px}
-.emblem{width:48px;height:48px;display:grid;place-items:center;border:1px solid var(--gold);border-radius:14px 14px 14px 4px;background:linear-gradient(145deg,#304b77,#101b35);color:var(--gold);font-size:27px;font-weight:800}
-.brand-name{font-size:25px;font-weight:850;letter-spacing:2px}
-.brand-sub{font-size:10px;color:#e8bd68;letter-spacing:1.5px}
-.nav{display:flex;gap:20px;font-size:13px;color:#e0e6f3}
-.nav a:hover{color:var(--gold)}
-.hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 85% 20%,#36558b99,transparent 38%),linear-gradient(120deg,#101b35,#192f55 68%,#27466f);color:white;padding:55px 5% 45px}
-.hero:after{content:"ब";position:absolute;right:5%;bottom:-115px;font-size:330px;font-weight:900;color:#ffffff08;pointer-events:none}
-.hero-inner{max-width:1100px;margin:auto;position:relative;z-index:1}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--gold)}
-h1{font-size:clamp(35px,6vw,58px);line-height:1.2;margin:17px 0;max-width:700px}
-h1 span{color:var(--gold)}
-.hero p{color:#d5dfef;line-height:1.9;max-width:600px;font-size:15px}
-.search{margin-top:24px;max-width:620px;display:flex;background:white;border-radius:12px;padding:6px;gap:6px;box-shadow:0 12px 35px #0002}
-.search input{flex:1;min-width:0;border:0;outline:0;padding:13px;font-size:14px;background:transparent;color:#17233b}
-.btn{display:inline-block;border:0;border-radius:9px;padding:12px 17px;font-size:13px;font-weight:750;cursor:pointer;text-align:center}
-.btn-gold{background:var(--gold);color:#18213a}
-.btn-outline{border:1px solid #ffffff55;color:white;margin-top:17px}
-.hero-note{font-size:12px!important;color:#b9c8df!important;margin-top:15px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);max-width:650px;margin-top:32px;gap:10px}
-.stat{border-left:2px solid var(--gold);padding:5px 13px}
-.stat strong{display:block;font-size:15px}
-.stat small{font-size:11px;color:#bdcbe0}
-main{max-width:1150px;margin:auto;padding:0 5%}
-section{padding:45px 0}
-.section-head{margin-bottom:22px}
-.section-head small{color:#98702f;font-weight:800;letter-spacing:1.5px}
-h2{font-size:clamp(24px,4vw,33px);margin:8px 0;color:var(--navy)}
-.section-head p{font-size:14px;line-height:1.8;color:var(--muted);margin:8px 0}
-.features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.feature{background:#fff;border:1px solid #e5e1d7;border-radius:15px;padding:21px 18px;min-height:180px;box-shadow:0 5px 18px #1a294008;transition:transform .2s,border-color .2s}
-.feature:hover{transform:translateY(-3px);border-color:#d6b36c}
-.feature-icon{width:45px;height:45px;display:grid;place-items:center;font-size:23px;border-radius:12px;background:#edf1f8;margin-bottom:14px}
-.feature h3{font-size:16px;margin:0 0 8px}
-.feature p{font-size:12px;line-height:1.8;color:var(--muted);margin:0 0 14px}
-.feature a{font-size:12px;font-weight:800;color:var(--blue)}
-.exam-section{background:#eaeef5;border-radius:20px;padding:26px}
-.exam-list{display:flex;flex-wrap:wrap;gap:10px}
-.exam{padding:12px 15px;background:white;border:1px solid #d9dfeb;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer}
-.exam:hover,.exam.active{border-color:var(--blue);color:var(--blue);background:#f5f8ff}
-.callout{background:var(--navy);color:white;border-radius:18px;padding:27px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.callout h2{color:white;font-size:23px}
-.callout p{color:#c8d3e5;line-height:1.8;font-size:13px}
-footer{background:#080f20;color:#c7d0df;padding:30px 5%;margin-top:42px}
-.footer-inner{max-width:1100px;margin:auto}
-.footer-brand{color:white;font-size:21px;font-weight:850;letter-spacing:2px}
-footer p{font-size:12px;line-height:1.8}
-.footer-links{display:flex;flex-wrap:wrap;gap:16px;margin:16px 0;font-size:12px}
-.copyright{border-top:1px solid #ffffff22;padding-top:15px;color:#9eabc1}
-.notice{font-size:12px;color:var(--muted);margin-top:15px}
-@media(max-width:700px){
-header{padding:14px 5%}.nav{display:none}
-.hero{padding:42px 5% 34px}.hero:after{font-size:210px;right:-15px;bottom:-65px}
-.search{flex-direction:column;background:transparent;box-shadow:none;padding:0}
-.search input{background:white;border-radius:9px;padding:15px}
-.search .btn{padding:14px}
-.stats{margin-top:27px}.stat{padding-left:8px}.stat strong{font-size:12px}.stat small{font-size:10px}
-section{padding:33px 0}
-.features{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.feature{padding:16px 13px;min-height:175px}.feature-icon{width:39px;height:39px;font-size:20px}
-.feature h3{font-size:14px}.feature p{font-size:11px}
-.exam-section{padding:19px 14px}.exam{padding:10px 12px;font-size:12px}
-.callout{align-items:flex-start;flex-direction:column;padding:22px}
-}
-@media(max-width:360px){.features{grid-template-columns:1fr}.brand-name{font-size:22px}}
+body{margin:0;background:var(--cream);color:var(--navy);font-family:Arial,"Noto Sans Devanagari",sans-serif;line-height:1.55}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e5b85c;outline-offset:3px}
+header{background:var(--navy);color:white;padding:14px 18px;position:sticky;top:0;z-index:5;border-bottom:1px solid #34405a}
+.nav{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;color:white;text-decoration:none}
+.logo{width:43px;height:43px;border:2px solid var(--gold);border-radius:13px;display:grid;place-items:center;color:var(--gold);font-size:25px;font-weight:bold}
+.brand b{font-size:23px;letter-spacing:2px}.brand small{display:block;color:#d8dce7;font-size:11px;letter-spacing:0}
+.nav-actions{display:flex;gap:8px;align-items:center}
+.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:bold}
+.btn-gold{background:var(--gold);color:var(--navy)}
+.btn-outline{background:transparent;color:white;border:1px solid #65708a}
+main{max-width:1100px;margin:auto;padding:22px 16px 80px}
+.hero{background:linear-gradient(130deg,#101b35,#24395e);color:white;border-radius:22px;padding:28px 22px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:190px;height:190px;border:1px solid #e5b85c55;border-radius:50%;right:-65px;top:-65px;box-shadow:0 0 0 25px #e5b85c0d,0 0 0 50px #e5b85c08}
+.eyebrow{color:var(--gold);font-size:12px;font-weight:bold;letter-spacing:2px}
+.hero h1{font-size:clamp(29px,6vw,48px);line-height:1.2;margin:12px 0;max-width:600px}
+.hero p{color:#dce2ef;max-width:530px;margin-bottom:22px}
+.searchbar{display:flex;background:white;border-radius:13px;padding:5px;max-width:570px;position:relative;z-index:1}
+.searchbar input{flex:1;min-width:0;border:0;outline:0;padding:10px;color:var(--navy);background:transparent}
+.searchbar button{background:var(--gold);border:0;border-radius:9px;padding:10px 15px;font-weight:bold}
+.quick{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px;position:relative;z-index:1}
+.pill{border:1px solid #ffffff50;background:#ffffff10;color:white;border-radius:30px;padding:7px 12px;font-size:13px}
+.section{margin-top:30px;scroll-margin-top:90px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:15px}
+.section-head h2{margin:0;font-size:23px}
+.section-head p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.card{background:white;border:1px solid var(--line);border-radius:17px;padding:17px;min-width:0;box-shadow:0 4px 16px #15234205}
+.card-icon{width:44px;height:44px;display:grid;place-items:center;background:#f6edda;border-radius:13px;font-size:23px;margin-bottom:12px}
+.card h3{font-size:16px;margin:0 0 5px}
+.card p{font-size:13px;color:var(--muted);margin:0 0 14px}
+.card button,.small-btn{background:var(--navy);color:white;border:0;border-radius:9px;padding:10px 12px;font-size:13px;font-weight:bold}
+.exam-row{display:flex;gap:9px;flex-wrap:wrap}
+.exam-btn{background:white;border:1px solid var(--line);padding:12px 15px;border-radius:11px;color:var(--navy);font-weight:bold}
+.exam-btn.active{background:var(--navy);color:white;border-color:var(--navy)}
+.notice{background:#fff5df;border:1px solid #f0d69a;border-radius:12px;padding:12px 14px;color:#654916;font-size:13px}
+.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:19px;margin-top:15px}
+.panel h3{margin-top:0}
+.field{display:grid;gap:6px;margin:12px 0}
+.field label{font-size:13px;font-weight:bold}
+.field input,.field select,.field textarea{width:100%;border:1px solid #d9dce3;border-radius:10px;padding:11px;background:white;color:var(--navy)}
+footer{background:var(--navy);color:#e2e6ef;padding:27px 18px;text-align:center;font-size:13px}
+footer strong{color:var(--gold)}
+#chatFab{position:fixed;right:17px;bottom:18px;z-index:10;border:0;border-radius:50px;padding:14px 18px;background:var(--gold);color:var(--navy);font-weight:bold;box-shadow:0 5px 22px #101b3540}
+#chatBox{display:none;position:fixed;right:12px;bottom:82px;width:min(370px,calc(100% - 24px));height:min(490px,70dvh);z-index:11;background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 40px #101b3540;overflow:hidden;flex-direction:column}
+.chat-head{background:var(--navy);color:white;padding:14px;display:flex;justify-content:space-between;align-items:center}
+.chat-head small{display:block;color:#d5dbea}
+#chatMessages{padding:13px;overflow:auto;flex:1;background:#f8f8f5}
+.msg{padding:10px 12px;border-radius:13px;margin:8px 0;max-width:90%;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.bot{background:white;border:1px solid var(--line)}
+.user{background:#e8edf7;margin-left:auto}
+.chat-form{display:flex;padding:10px;gap:7px;border-top:1px solid var(--line)}
+.chat-form input{min-width:0;flex:1;border:1px solid var(--line);border-radius:10px;padding:10px}
+.chat-form button{border:0;border-radius:10px;background:var(--gold);padding:10px;font-weight:bold}
+.option-list{display:grid;gap:10px;margin:16px 0}
+.option{background:white;border:1px solid var(--line);padding:12px;border-radius:10px;text-align:left;color:var(--navy)}
+.option.selected{border:2px solid #315b9b;background:#eef3fb}
+.result{padding:14px;border-radius:12px;background:#edf7ef;margin-top:15px}
+.hidden{display:none!important}
+@media(max-width:650px){.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:13px}.card-icon{width:39px;height:39px}.hero{padding:24px 17px}.hero h1{font-size:31px}.section-head h2{font-size:20px}.brand b{font-size:20px}.nav{gap:6px}.btn{padding:9px 10px;font-size:12px}}
+@media(max-width:380px){.cards{grid-template-columns:1fr}.nav-actions .btn-outline{display:none}}
 </style>
 </head>
 <body>
-<div class="topbar">ज्ञान • तैयारी • अवसर &nbsp; | &nbsp; विद्यार्थियों के लिए एक उपयोगी मंच</div>
-
 <header>
-<a class="brand" href="#" aria-label="BODH Home">
-<div class="emblem">ब</div>
-<div><div class="brand-name">BODH</div><div class="brand-sub">बोध · ज्ञान की दिशा</div></div>
-</a>
-<nav class="nav">
-<a href="#features">सुविधाएँ</a>
-<a href="#exams">परीक्षाएँ</a>
-<a href="#about">हमारे बारे में</a>
-</nav>
+ <div class="nav">
+  <a class="brand" href="#" aria-label="BODH Home">
+   <span class="logo">ब</span>
+   <span><b>BODH</b><small>ज्ञान • तैयारी • अवसर</small></span>
+  </a>
+  <div class="nav-actions">
+   <button class="btn btn-outline" id="langBtn">English</button>
+   <button class="btn btn-gold" onclick="openChat()">✦ BODH AI</button>
+  </div>
+ </div>
 </header>
 
-<div class="hero">
-<div class="hero-inner">
-<div class="eyebrow">YOUR JOURNEY · YOUR FUTURE</div>
-<h1>आपकी तैयारी,<br><span>आपकी तरक्की।</span></h1>
-<p>पढ़ाई को आसान बनाइए। मॉक टेस्ट दीजिए, जरूरी डिजिटल टूल्स इस्तेमाल कीजिए और अपनी अगली परीक्षा की तैयारी एक ही जगह से शुरू कीजिए।</p>
-
-<form class="search" id="searchForm">
-<input id="searchInput" type="search" placeholder="मॉक टेस्ट, परीक्षा या टूल खोजें..." aria-label="वेबसाइट में खोजें">
-<button class="btn btn-gold" type="submit">खोजें ↗</button>
-</form>
-
-<a class="btn btn-outline" href="#features">सभी सुविधाएँ देखें ↓</a>
-<div class="stats">
-<div class="stat"><strong>एक मंच</strong><small>कई उपयोगी सुविधाएँ</small></div>
-<div class="stat"><strong>हिंदी + English</strong><small>आपकी पसंद की भाषा</small></div>
-<div class="stat"><strong>मोबाइल-फ्रेंडली</strong><small>कहीं भी, कभी भी</small></div>
-</div>
-</div>
-</div>
-
 <main>
-<section id="features">
-<div class="section-head">
-<small>LEARN · PRACTICE · GROW</small>
-<h2>आपकी जरूरत के सभी टूल्स</h2>
-<p>परीक्षा की तैयारी से लेकर आवेदन के जरूरी कामों तक—शुरुआत यहीं से करें।</p>
-</div>
-<div class="features" id="featureGrid">
-<article class="feature" data-search="mock test mocktest परीक्षा अभ्यास प्रश्न उत्तर">
-<div class="feature-icon">✍️</div>
-<h3>Mock Tests</h3>
-<p>विषयवार अभ्यास और फुल मॉक टेस्ट के लिए अलग सेक्शन।</p>
-<a href="#exams">परीक्षा चुनें →</a>
-</article>
-<article class="feature" data-search="photo signature resize image फोटो सिग्नेचर आकार">
-<div class="feature-icon">🖼️</div>
-<h3>Photo & Signature</h3>
-<p>आवेदन के अनुसार फोटो और हस्ताक्षर का आकार तैयार करने की सुविधा।</p>
-<a href="#about">जल्द उपलब्ध होगा →</a>
-</article>
-<article class="feature" data-search="pdf merge split compress पीडीएफ">
-<div class="feature-icon">📄</div>
-<h3>PDF Tools</h3>
-<p>PDF मर्ज, स्प्लिट और कंप्रेस करने के लिए उपयोगी टूल्स।</p>
-<a href="#about">जल्द उपलब्ध होगा →</a>
-</article>
-<article class="feature" data-search="resume biodata cv नौकरी रिज्यूमे">
-<div class="feature-icon">🧾</div>
-<h3>Resume Maker</h3>
-<p>अपनी जानकारी से व्यवस्थित रिज्यूमे तैयार करने की योजना।</p>
-<a href="#about">जल्द उपलब्ध होगा →</a>
-</article>
-<article class="feature" data-search="exam guide syllabus eligibility date documents सरकारी नौकरी">
-<div class="feature-icon">📚</div>
-<h3>Exam & Job Guides</h3>
-<p>पात्रता, सिलेबस, जरूरी दस्तावेज और आधिकारिक आवेदन लिंक।</p>
-<a href="#exams">परीक्षाएँ देखें →</a>
-</article>
-<article class="feature" data-search="books store किताबें पुस्तक study material">
-<div class="feature-icon">🎓</div>
-<h3>Books Store</h3>
-<p>अपनी परीक्षा के अनुसार किताबें और अध्ययन सामग्री खोजें।</p>
-<a href="#exams">परीक्षा चुनें →</a>
-</article>
-</div>
-<p id="searchMessage" class="notice" aria-live="polite"></p>
-</section>
+ <section class="hero">
+  <div class="eyebrow" id="heroEyebrow">YOUR LEARNING. YOUR FUTURE.</div>
+  <h1 id="heroTitle">आपकी तैयारी,<br>आपकी तरक्की।</h1>
+  <p id="heroText">परीक्षा की तैयारी से लेकर जरूरी ऑनलाइन टूल्स तक — आपकी पढ़ाई का साथी, एक ही जगह।</p>
+  <div class="searchbar">
+   <input id="searchInput" placeholder="क्या खोज रहे हैं? जैसे Mock Test, Resume..." aria-label="वेबसाइट पर खोजें">
+   <button onclick="searchFeatures()" id="searchBtn">खोजें</button>
+  </div>
+  <div class="quick">
+   <button class="pill" onclick="selectExam('UPSSSC PET')">UPSSSC PET</button>
+   <button class="pill" onclick="goTo('tools')">PDF Tools</button>
+   <button class="pill" onclick="goTo('jobs')">सरकारी योजनाएँ</button>
+  </div>
+ </section>
 
-<section id="exams">
-<div class="exam-section">
-<div class="section-head">
-<small>YOUR EXAM, YOUR PLAN</small>
-<h2>किस परीक्षा की तैयारी कर रहे हैं?</h2>
-<p>अपनी परीक्षा चुनें। अभी ये श्रेणियाँ शुरुआती रूप में हैं; आगे इनमें संबंधित टेस्ट और अध्ययन सामग्री जोड़ी जाएगी।</p>
-</div>
-<div class="exam-list">
-<button class="exam" data-exam="UPSSSC PET">UPSSSC PET</button>
-<button class="exam" data-exam="SSC">SSC</button>
-<button class="exam" data-exam="Railway">Railway</button>
-<button class="exam" data-exam="Police">Police</button>
-<button class="exam" data-exam="UPPSC">UPPSC</button>
-<button class="exam" data-exam="अन्य परीक्षाएँ">अन्य परीक्षाएँ</button>
-</div>
-<p id="examMessage" class="notice" aria-live="polite">परीक्षा चुनने पर यहाँ आपका चयन दिखाई देगा।</p>
-</div>
-</section>
+ <section class="section" id="exams">
+  <div class="section-head"><div><h2 id="examTitle">अपनी परीक्षा चुनें</h2><p id="examSub">अपनी तैयारी के लिए परीक्षा चुनकर Mock Test शुरू करें।</p></div></div>
+  <div class="exam-row" id="examButtons">
+   <button class="exam-btn active" onclick="selectExam('UPSSSC PET')">UPSSSC PET</button>
+   <button class="exam-btn" onclick="selectExam('SSC')">SSC</button>
+   <button class="exam-btn" onclick="selectExam('Railway')">Railway</button>
+   <button class="exam-btn" onclick="selectExam('Police')">Police</button>
+   <button class="exam-btn" onclick="selectExam('UPPSC')">UPPSC</button>
+  </div>
+  <div class="panel">
+   <div class="section-head"><div><h3 id="chosenExam">UPSSSC PET तैयारी</h3><p id="chosenDesc">अभ्यास के लिए नमूना प्रश्न।</p></div><button class="btn btn-gold" onclick="startQuiz()" id="startQuizBtn">टेस्ट शुरू करें →</button></div>
+   <div id="quizArea" class="hidden"></div>
+  </div>
+ </section>
 
-<section id="about">
-<div class="callout">
-<div>
-<div class="eyebrow">BODH · बोध</div>
-<h2>सीखिए। अभ्यास कीजिए। आगे बढ़िए।</h2>
-<p>एक ऐसा मंच जहाँ विद्यार्थियों को तैयारी और जरूरी डिजिटल कामों में मदद मिल सके।</p>
-</div>
-<a class="btn btn-gold" href="#features">सुविधाएँ देखें ↗</a>
-</div>
-<p class="notice">नोट: यह वेबसाइट का शुरुआती संस्करण है। टेस्ट, PDF प्रोसेसिंग, रिज्यूमे डाउनलोड, अकाउंट और स्टोर जैसी सुविधाएँ आगे विकसित करनी होंगी।</p>
-</section>
+ <section class="section" id="features">
+  <div class="section-head"><div><h2 id="featureTitle">आपके लिए उपयोगी टूल्स</h2><p id="featureSub">जरूरी काम आसान बनाने के लिए।</p></div></div>
+  <div class="cards" id="featureCards">
+   <article class="card" data-search="mock test परीक्षा quiz practice">
+    <div class="card-icon">📝</div><h3>Mock Tests</h3><p>प्रश्न हल करें और अपना स्कोर देखें।</p><button onclick="goTo('exams')">टेस्ट दें →</button>
+   </article>
+   <article class="card" data-search="photo signature resize फोटो सिग्नेचर">
+    <div class="card-icon">🖼️</div><h3>Photo Resizer</h3><p>फोटो का आकार बदलें और डाउनलोड करें।</p><button onclick="openPhoto()">टूल खोलें →</button>
+   </article>
+   <article class="card" data-search="pdf tools merge compress split पीडीएफ">
+    <div class="card-icon">📄</div><h3>PDF Tools</h3><p>PDF सुविधाएँ — अगले चरण में जोड़ी जाएँगी।</p><button onclick="showMessage('PDF जोड़ना, विभाजित करना और compress करना अभी तैयार नहीं है। इसे अगले चरण में बनाएँगे।')">विवरण देखें →</button>
+   </article>
+   <article class="card" data-search="resume maker cv biodata नौकरी">
+    <div class="card-icon">📑</div><h3>Resume Maker</h3><p>अपनी जानकारी से Resume बनाएँ और प्रिंट करें।</p><button onclick="openResume()">Resume बनाएँ →</button>
+   </article>
+   <article class="card" data-search="government jobs schemes sarkari naukri yojana">
+    <div class="card-icon">🏛️</div><h3>Jobs & Schemes</h3><p>भर्ती और सरकारी योजनाओं के लिए उपयोगी लिंक।</p><button onclick="goTo('jobs')">जानकारी देखें →</button>
+   </article>
+   <article class="card" data-search="books store books kitabe pustak">
+    <div class="card-icon">📚</div><h3>Books Store</h3><p>परीक्षा के अनुसार किताबों की सूची बाद में जोड़ी जाएगी।</p><button onclick="showMessage('Books Store अभी तैयार हो रहा है।')">किताबें देखें →</button>
+   </article>
+  </div>
+  <p id="noResults" class="notice hidden">इस खोज से मेल खाने वाला कोई फीचर नहीं मिला।</p>
+ </section>
+
+ <section class="section" id="tools">
+  <div class="section-head"><div><h2>Photo Resizer</h2><p>फोटो चुनें, चौड़ाई और ऊँचाई सेट करें और JPG डाउनलोड करें।</p></div></div>
+  <div class="panel">
+   <div class="field"><label for="photoFile">फोटो चुनें</label><input type="file" id="photoFile" accept="image/*"></div>
+   <div class="cards">
+    <div class="field"><label for="photoW">चौड़ाई (px)</label><input type="number" id="photoW" value="200" min="1" max="3000"></div>
+    <div class="field"><label for="photoH">ऊँचाई (px)</label><input type="number" id="photoH" value="230" min="1" max="3000"></div>
+    <div class="field"><label for="photoQuality">JPG गुणवत्ता (%)</label><input type="number" id="photoQuality" value="90" min="10" max="100"></div>
+   </div>
+   <button class="btn btn-gold" onclick="resizePhoto()">फोटो तैयार करें</button>
+   <div id="photoResult" class="hidden" style="margin-top:15px">
+    <img id="photoPreview" alt="तैयार फोटो" style="max-width:160px;max-height:190px;border:1px solid #ddd;border-radius:8px;display:block;margin-bottom:12px">
+    <a id="photoDownload" class="small-btn" download="bodh-photo.jpg" style="display:inline-block;text-decoration:none">फोटो डाउनलोड करें</a>
+   </div>
+  </div>
+ </section>
+
+ <section class="section hidden" id="resume">
+  <div class="section-head"><div><h2>Resume Maker</h2><p>अपनी जानकारी भरें, फिर प्रिंट या PDF में सेव करें।</p></div></div>
+  <div class="panel">
+   <div class="field"><label>पूरा नाम</label><input id="rName" placeholder="अपना नाम लिखें"></div>
+   <div class="field"><label>मोबाइल / ईमेल</label><input id="rContact" placeholder="मोबाइल नंबर और ईमेल"></div>
+   <div class="field"><label>पता</label><input id="rAddress" placeholder="अपना पता"></div>
+   <div class="field"><label>शिक्षा</label><textarea id="rEducation" rows="3" placeholder="कक्षा, बोर्ड, वर्ष, अंक या डिग्री"></textarea></div>
+   <div class="field"><label>कौशल</label><textarea id="rSkills" rows="2" placeholder="अपने कौशल लिखें"></textarea></div>
+   <div class="field"><label>अनुभव / उद्देश्य</label><textarea id="rExperience" rows="3" placeholder="अनुभव या करियर उद्देश्य"></textarea></div>
+   <button class="btn btn-gold" onclick="makeResume()">Resume तैयार करें</button>
+   <div id="resumeOutput" class="hidden"></div>
+  </div>
+ </section>
+
+ <section class="section" id="jobs">
+  <div class="section-head"><div><h2>सरकारी नौकरी और योजनाएँ</h2><p>आवेदन करने से पहले हमेशा आधिकारिक वेबसाइट पर जानकारी सत्यापित करें।</p></div></div>
+  <div class="cards">
+   <article class="card"><div class="card-icon">🇮🇳</div><h3>National Career Service</h3><p>रोजगार और करियर संबंधी सरकारी पोर्टल।</p><button onclick="openLink('https://www.ncs.gov.in/')">आधिकारिक साइट ↗</button></article>
+   <article class="card"><div class="card-icon">📋</div><h3>UPSSSC</h3><p>उत्तर प्रदेश अधीनस्थ सेवा चयन आयोग।</p><button onclick="openLink('https://upsssc.gov.in/')">आधिकारिक साइट ↗</button></article>
+   <article class="card"><div class="card-icon">🪪</div><h3>National Scholarship Portal</h3><p>छात्रवृत्ति योजनाओं की जानकारी और आवेदन।</p><button onclick="openLink('https://scholarships.gov.in/')">आधिकारिक साइट ↗</button></article>
+  </div>
+ </section>
+
+ <section class="section" id="about">
+  <div class="notice"><strong>BODH की शुरुआत:</strong> यह शुरुआती संस्करण है। कुछ सुविधाएँ अभी विकास के चरण में हैं। सरकारी आवेदन करने से पहले संबंधित विभाग की आधिकारिक सूचना अवश्य देखें।</div>
+ </section>
 </main>
 
-<footer>
-<div class="footer-inner">
-<div class="footer-brand">BODH <span style="color:#e8bd68">बोध</span></div>
-<p>ज्ञान • तैयारी • अवसर<br>विद्यार्थियों के लिए उपयोगी डिजिटल मंच।</p>
-<div class="footer-links">
-<a href="#features">सुविधाएँ</a>
-<a href="#exams">परीक्षाएँ</a>
-<a href="#about">हमारे बारे में</a>
+<footer><strong>BODH</strong><br>आपकी तैयारी, आपकी तरक्की।<br><span>ज्ञान • तैयारी • अवसर</span></footer>
+
+<button id="chatFab" onclick="toggleChat()">✦ BODH AI से पूछें</button>
+<div id="chatBox" role="dialog" aria-label="BODH AI चैट">
+ <div class="chat-head"><div><strong>✦ BODH AI</strong><small>आपका स्टडी असिस्टेंट</small></div><button class="btn btn-outline" onclick="toggleChat()" aria-label="चैट बंद करें">✕</button></div>
+ <div id="chatMessages" aria-live="polite"><div class="msg bot">नमस्ते! मैं BODH AI का शुरुआती चैट डेमो हूँ। आप Mock Test, Resume या वेबसाइट के टूल्स के बारे में पूछ सकते हैं। असली AI कनेक्शन अभी जोड़ा नहीं गया है।</div></div>
+ <form class="chat-form" id="chatForm"><input id="chatInput" placeholder="अपना सवाल लिखें..." autocomplete="off" required><button type="submit">भेजें</button></form>
 </div>
-<div class="copyright">© <span id="year"></span> BODH. सर्वाधिकार सुरक्षित।</div>
+
+<div id="modal" style="display:none;position:fixed;inset:0;background:#101b3599;z-index:20;align-items:center;justify-content:center;padding:20px">
+ <div class="panel" style="width:min(420px,100%);max-height:80vh;overflow:auto">
+  <div class="section-head"><h3 id="modalTitle">BODH</h3><button class="small-btn" onclick="closeModal()">बंद करें ✕</button></div>
+  <p id="modalText"></p><button class="btn btn-gold" onclick="closeModal()">ठीक है</button>
+ </div>
 </div>
-</footer>
 
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-document.getElementById("searchForm").addEventListener("submit", function(event) {
-  event.preventDefault();
-  const query = document.getElementById("searchInput").value.trim().toLocaleLowerCase();
-  const cards = Array.from(document.querySelectorAll(".feature"));
-  const message = document.getElementById("searchMessage");
-
-  if (!query) {
-    message.textContent = "कृपया खोजने के लिए कोई शब्द लिखें।";
-    return;
-  }
-
-  let count = 0;
-  cards.forEach(function(card) {
-    const text = (card.innerText + " " + card.dataset.search).toLocaleLowerCase();
-    const match = text.includes(query);
-    card.style.display = match ? "" : "none";
-    if (match) count++;
-  });
-
-  message.textContent = count
-    ? count + " संबंधित सुविधा मिली।"
-    : "कोई मिलती-जुलती सुविधा नहीं मिली। दूसरा शब्द आजमाएँ।";
-  document.getElementById("features").scrollIntoView({behavior:"smooth"});
-});
-
-document.querySelectorAll("[data-exam]").forEach(function(button) {
-  button.addEventListener("click", function() {
-    document.querySelectorAll("[data-exam]").forEach(function(item) {
-      item.classList.remove("active");
-    });
-    button.classList.add("active");
-    document.getElementById("examMessage").textContent =
-      "आपने " + button.dataset.exam + " चुना है। इस परीक्षा के मॉक टेस्ट और अध्ययन सामग्री आगे जोड़ी जाएगी।";
-  });
-});
-</script>
-</body>
-  </html>
-                     
+let selectedExam="UPSSSC PET";
+let lang="hi";
+let quizIndex=0,quizScore=0,quizAnswers=[];
+const questions=[
+ {q:"भारतीय संविधान कब लागू हुआ?",opts:["15 अगस्त 1947","26 जनवरी 1950","26 नवंबर 1949","2 अक्टूबर 1950"],a:1,ex:"संविधान 26 जनवरी 1950 को लागू हुआ।"},
+ {q:"भारत का राष्ट्रीय पशु कौन है?",opts:["सिंह","हाथी","बाघ","तेंदुआ"],a:2,ex:"भारत का राष्ट्रीय पशु बाघ है।"},
+ {q:"भारतीय संविधान की प्रारूप समिति के अध्यक्ष कौन थे?",opts:["डॉ. बी. आर. आंबेडकर","डॉ. राजेंद्र प्रसाद","जवाहरलाल नेहरू","सरदार पटेल"],a:0,ex:"डॉ. बी. आर. आंबेडकर प्रारूप समिति के अध्यक्ष थे।"},
+ {q:"भारत में हरित क्रांति मुख्यतः किससे संबंधित है?",opts:["दूध उत्पादन","खाद्यान्न उत्पादन","मछली उत्पादन","वन संरक्षण"],a:1,ex:"हरित क्रांति का संबंध कृषि और खाद्यान्न उत्पादन में वृद्धि से है।"},
+ {q:"भारत का केंद्रीय बैंक कौन-सा है?",opts:["SBI","NABARD","RBI","SEBI"],a:2,ex:"भारतीय रिज़र्व बैंक (RBI) भारत का केंद्रीय बैंक है।"}
+];
+function showMessage(t,title="BODH"){document.getElementById("modalTitle").textContent=title;document.getElementById("modalText").textContent=t;document.getElementById("modal").style.display="flex"}
+function closeModal(){document.getElementById("modal").style.display="none"}
+function goTo(id){document.getElementById(id).classList.remove("hidden");document.getElementById(id).scrollIntoView({behavior:"smooth",block:"start"})}
+function openLink(url){window.open(url,"_blank","noopener,noreferrer")}
+function selectExam(name){selectedExam=name;document.getElementById("chosenExam").textContent=name+" तैयारी";document.querySelectorAll(".exam-btn").forEach(b=>b.classList.toggle("active",b.textContent.trim()===name));document.getElementById("quizArea").classList.add("hidden");document.getElementById("chosenDesc").textContent="नमूना सामान्य ज्ञान प्रश्न। फिलहाल सभी परीक्षाओं के लिए सीमित डेमो प्रश्न उपलब्ध हैं।"}
+function startQuiz(){quizIndex=0;quizScore=0;quizAnswers=[];document.getElementById("quizArea").classList.remove("hidden");renderQuestion();document.getElementById("quizArea").scrollIntoView({behavior:"smooth",block:"nearest"})}
+function renderQuestion(){
+ const area=document.getElementById("quizArea");
+ if(quizIndex>=questions.length){area.innerHTML='<div class="result"><h3>टेस्ट पूरा हुआ!</h3><p>आपका स्कोर: <strong>'+quizScore+' / '+questions.length+'</strong></p><p>यह एक छोटा डेमो टेस्ट है। अधिक प्रश्न आगे जोड़े जाएँगे।</p><button class="btn btn-gold" onclick="startQuiz()">दोबारा टेस्ट दें</button></div>';return}
+ const q=questions[quizIndex];
+ area.innerHTML='<div class="section-head"><div><strong>प्रश्न '+(quizIndex+1)+' / '+questions.length+'</strong></div><span>'+selectedExam+'</span></div><h3>'+q.q+'</h3><div class="option-list">'+q.opts.map((o,i)=>'<button class="option" onclick="answerQuestion('+i+')" >'+String.fromCharCode(65+i)+'. '+o+'</button>').join("")+'</div><div id="answerFeedback"></div>';
+}
+function answerQuestion(i){if(quizAnswers[quizIndex]!==undefined)return;quizAnswers[quizIndex]=i;const q=questions[quizIndex];const correct=i===q.a;if(correct)quizScore++;document.querySelectorAll("#quizArea .option").forEach((b,j)=>{b.disabled=true;if(j===q.a)b.style.borderColor="#23764d";if(j===i&&!correct)b.style.borderColor="#b13b3b"});document.getElementById("answerFeedback").innerHTML='<div class="result"><strong>'+(correct?"सही जवाब!":"सही जवाब: "+q.opts[q.a])+'</strong><p>'+q.ex+'</p><button class="btn btn-gold" onclick="quizIndex++;renderQuestion()">'+(quizIndex===questions.length-1?"परिणाम देखें":"अगला प्रश्न →")+'</button></div>'}
+function searchFeatures(){const term=document.getElementById("searchInput").value.trim().toLowerCase();let count=0;document.querySelectorAll("#featureCards .card").forEach(c=>{const match=!term||(c.innerText+" "+c.dataset.search).toLowerCase().includes(term);c.classList.toggle("hidden",!match);if(match)count++});document.getElementById("noResults").classList.toggle("hidden",count!==0);goTo("features")}
+document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")searchFeatures()});
+function openPhoto(){goTo("tools");document.getElementById("photoFile").focus()}
+function resizePhoto(){
+ const f=document.getElementById("photoFile").files[0],w=Number(document.getElementById("photoW").value),h=Number(document.getElementById("photoH").value),quality=Number(document.getElementById("photoQuality").value);
+ if(!f){showMessage("पहले अपनी फोटो चुनें।");return}
+ if(!f.type.startsWith("image/")){showMessage("कृपया एक वैध image file चुनें।");return}
+ if(!(w>0&&h>0&&w<=3000&&h<=3000&&quality>=10&&quality<=100)){showMessage("चौड़ाई, ऊँचाई 1 से 3000 और गुणवत्ता 10 से 100 के बीच रखें।");return}
+ const reader=new FileReader();
+ reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;canvas.getContext("2d").drawImage(img,0,0,w,h);canvas.toBlob(blob=>{if(!blob){sho
