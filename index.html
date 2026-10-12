@@ -2,383 +2,343 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#09152e">
-<title>BODH — पढ़ाई और उपयोगी टूल्स</title>
-
-<!-- PDF टूल के लिए इंटरनेट से लाइब्रेरी -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1747a6">
+<title>BODH — Student Help Hub</title>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 <style>
-:root{--bg:#081329;--card:#132442;--text:#f5f7ff;--muted:#b7c4dd;--line:#304364;--accent:#7c8cff}
+:root{--blue:#1747a6;--ink:#172033;--muted:#667085;--bg:#f4f7fc;--card:#fff}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,"Noto Sans Devanagari",sans-serif;line-height:1.6}
-header{position:sticky;top:0;background:#09152ef5;border-bottom:1px solid var(--line);z-index:5}
-nav{max-width:1000px;margin:auto;padding:12px 4%;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:25px;font-weight:bold;color:white;text-decoration:none}
-.logo span{color:#edca7b}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,"Noto Sans Devanagari",sans-serif}
 button,input,select,textarea{font:inherit}
-button,.btn{background:var(--accent);border:0;border-radius:9px;padding:10px 14px;color:white;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
-button:disabled{opacity:.5}
-.secondary{background:transparent;border:1px solid var(--line)}
-.container{max-width:1000px;width:92%;margin:auto}
-.hero{text-align:center;padding:35px 0 25px;background:radial-gradient(ellipse at top,#1d2e5a,transparent 70%)}
-h1{font-size:clamp(32px,7vw,54px);line-height:1.2;margin:12px 0}
-h2{margin:0 0 8px}
-p{margin-top:5px}
-.muted{color:var(--muted);font-size:14px}
-.search{display:flex;gap:8px;margin:20px auto;max-width:600px}
-input,select,textarea{width:100%;background:#09162c;border:1px solid var(--line);border-radius:8px;padding:10px;color:white}
-.search input{flex:1;min-width:0}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:17px;display:flex;flex-direction:column;align-items:flex-start;min-height:165px}
-.card .ico{font-size:28px;margin-bottom:5px}
-.card h3{margin:0 0 5px;font-size:17px}
-.card p{font-size:13px;color:var(--muted);flex:1}
-section{padding:22px 0}
-.panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin:20px 0}
+button{cursor:pointer;border:0;border-radius:10px;padding:11px 14px;background:var(--blue);color:white;font-weight:700}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{width:100%;padding:12px;border:1px solid #d8dfeb;border-radius:10px;background:#fff;color:#172033}
+textarea{min-height:95px;resize:vertical}
+label{display:block;font-size:14px;font-weight:700;margin:12px 0 6px}
+a{color:#1747a6;overflow-wrap:anywhere}
+header{background:linear-gradient(120deg,#132f73,#2874db);color:#fff;padding:20px 16px 24px}
+.top{display:flex;align-items:center;gap:12px;max-width:1050px;margin:auto}
+.logo{height:48px;width:48px;border-radius:15px;background:#fff;color:#1747a6;display:grid;place-items:center;font-size:23px;font-weight:900}
+.brand{font-size:25px;font-weight:900;letter-spacing:2px}
+.tag{font-size:12px;opacity:.9;margin-top:4px}
+.hero{max-width:1050px;margin:25px auto 0}
+.hero h1{font-size:27px;line-height:1.3;margin:0 0 9px}
+.hero p{line-height:1.6;margin:0;color:#e8efff}
+.wrap{max-width:1050px;margin:auto;padding:17px}
+.search{margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.tile{background:#fff;border:1px solid #e5eaf3;border-radius:16px;padding:16px 12px;text-align:left;color:var(--ink);min-height:125px;box-shadow:0 3px 12px #17203308}
+.tile .emoji{font-size:27px;display:block;margin-bottom:10px}
+.tile strong{display:block;font-size:15px;margin-bottom:6px}
+.tile small{font-weight:400;color:var(--muted);line-height:1.45}
+.tile:active{transform:scale(.98)}
+.panel{display:none;background:#fff;border-radius:16px;border:1px solid #e1e7f0;padding:17px;margin-top:15px}
 .panel.active{display:block}
-.panel[data-color="pdf"]{--accent:#ef9c4b}
-.panel[data-color="photo"]{--accent:#2bc5aa}
-.panel[data-color="quiz"]{--accent:#e5b64d}
-.panel[data-color="resume"]{--accent:#b28cff}
-.panel[data-color="notes"]{--accent:#50b9e8}
-.panel[data-color="jobs"]{--accent:#48c79a}
-.panel[data-color="ai"]{--accent:#e681b4}
-.row{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.row>*{flex:1;min-width:120px}
-.field{margin:12px 0}
-label{display:block;color:var(--muted);font-size:14px;margin-bottom:5px}
-.status{padding:12px;border:1px solid var(--line);background:#09162c;border-radius:9px;margin-top:12px;overflow-wrap:anywhere}
-.status:empty{display:none}
-.question{border-bottom:1px solid var(--line);padding:12px 0}
-.option{display:block;border:1px solid var(--line);border-radius:8px;padding:8px;margin:7px 0;color:white}
-.option input{width:auto;margin-right:8px}
-footer{text-align:center;color:var(--muted);border-top:1px solid var(--line);padding:25px;margin-top:30px}
-[hidden]{display:none!important}
-@media(max-width:650px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:12px;min-height:170px}.card h3{font-size:15px}.search button{padding:9px}.panel{padding:13px}}
-@media(max-width:380px){.grid{grid-template-columns:1fr}}
-@media print{header,body>footer,.no-print{display:none!important}body{background:white;color:black}.panel{display:none!important}#resumePanel{display:block!important;background:white;color:black;border:0}.status{color:black;background:white}}
+.panel h2{font-size:22px;margin:4px 0 8px}
+.panel h3{margin:18px 0 8px}
+.sub{color:var(--muted);font-size:14px;line-height:1.6}
+.back{background:#edf2fb;color:#1747a6;margin-bottom:12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:1}
+.secondary{background:#eaf0fa;color:#1747a6}
+.danger{background:#b42318}
+.out{background:#f6f8fc;border-radius:12px;padding:13px;margin-top:12px;overflow-wrap:anywhere}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+hr{border:0;border-top:1px solid #e5eaf3;margin:18px 0}
+.hidden{display:none!important}
+.notice{font-size:13px;color:#7a4b00;background:#fff4d6;padding:11px;border-radius:10px;line-height:1.6;margin:12px 0}
+.good{background:#e7f8ef;color:#17663c;padding:11px;border-radius:10px;margin-top:10px}
+.bad{background:#fff0ee;color:#a12b20;padding:11px;border-radius:10px;margin-top:10px}
+footer{text-align:center;padding:25px 15px;color:var(--muted);font-size:12px;line-height:1.8}
+.preview{max-width:100%;max-height:260px;object-fit:contain;margin-top:12px;border-radius:8px}
+.qoption{display:block;width:100%;text-align:left;background:#f1f5fb;color:#172033;margin:8px 0;font-weight:500}
+.qoption.chosen{background:#d8e8ff;border:2px solid #1747a6}
+#resumePreview{background:#fff;color:#111;padding:20px;margin-top:16px;border:1px solid #ddd}
+#resumePreview h2{margin-top:0}
+.listitem{padding:12px 0;border-bottom:1px solid #e5eaf3}
+.listitem button{margin:5px 4px 0 0}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.wrap{padding:24px}.hero h1{font-size:34px}}
 </style>
 </head>
+
 <body>
 <header>
-<nav>
-<a href="#" class="logo" onclick="home();return false">◉ BODH<span>.</span></a>
-<button class="secondary" onclick="home()">⌂ Home</button>
-</nav>
+  <div class="top">
+    <div class="logo">ब</div>
+    <div><div class="brand">BODH</div><div class="tag">सीखें • तैयारी करें • आगे बढ़ें</div></div>
+  </div>
+  <div class="hero">
+    <h1>छात्रों और नौकरी की तैयारी करने वालों का साथी</h1>
+    <p>फोटो, PDF, रिज्यूमे, मॉक टेस्ट, पढ़ाई और सरकारी योजनाओं के लिए एक ही जगह।</p>
+  </div>
 </header>
 
-<main>
-<section class="hero" id="home">
-<div class="container">
-<p class="muted">LEARN · PRACTICE · GROW</p>
-<h1>स्वागत है <span style="color:#8b9cff">BODH</span> पर</h1>
-<p class="muted">पढ़ाई, परीक्षा अभ्यास और रोज़मर्रा के डिजिटल टूल्स — एक जगह।</p>
-<form class="search" id="searchForm">
-<input id="searchInput" placeholder="टूल खोजें, जैसे PDF या Resume">
-<button>खोजें</button>
-</form>
-</div>
-</section>
+<main class="wrap">
+  <input id="search" class="search" placeholder="🔎 अपना टूल खोजें..." oninput="filterTiles()">
 
-<section id="tools" class="container">
-<h2>सभी टूल्स</h2>
-<p class="muted">किसी विकल्प पर टैप करके उसका टूल खोलें।</p>
-<div class="grid" id="toolGrid">
-<div class="card" data-key="pdf pdf tools merge split compress image to pdf">
-<div class="ico">📄</div><h3>PDF Tools</h3><p>PDF जोड़ें, पेज अलग करें, फोटो से PDF बनाएँ।</p><button onclick="openPanel('pdfPanel')">PDF खोलें →</button></div>
+  <div class="grid" id="tiles">
+    <button class="tile" data-name="photo signature image resize kb jpg" onclick="openTool('photo')"><span class="emoji">📸</span><strong>Photo & Signature</strong><small>फोटो का आकार, KB और डाउनलोड</small></button>
+    <button class="tile" data-name="pdf merge split compress image" onclick="openTool('pdf')"><span class="emoji">📄</span><strong>PDF Tools</strong><small>PDF बनाएं, जोड़ें, पेज अलग करें</small></button>
+    <button class="tile" data-name="resume cv biodata" onclick="openTool('resume')"><span class="emoji">🧑‍💼</span><strong>Resume Maker</strong><small>रिज्यूमे बनाएं और PDF सेव करें</small></button>
+    <button class="tile" data-name="mock test quiz exam pet gk" onclick="openTool('mock')"><span class="emoji">📝</span><strong>Mock Test</strong><small>प्रश्न हल करें और स्कोर देखें</small></button>
+    <button class="tile" data-name="notes notebook" onclick="openTool('notes')"><span class="emoji">📒</span><strong>My Notes</strong><small>नोट्स बनाएं, बदलें और सेव करें</small></button>
+    <button class="tile" data-name="study planner timetable schedule" onclick="openTool('planner')"><span class="emoji">📅</span><strong>Study Planner</strong><small>अपना पढ़ाई का शेड्यूल बनाएं</small></button>
+    <button class="tile" data-name="jobs rojgar naukri vacancy" onclick="openTool('jobs')"><span class="emoji">💼</span><strong>Jobs</strong><small>सरकारी और निजी नौकरी के पोर्टल</small></button>
+    <button class="tile" data-name="scholarship छात्रवृत्ति" onclick="openTool('scholarship')"><span class="emoji">🎓</span><strong>Scholarships</strong><small>छात्रवृत्ति और आधिकारिक पोर्टल</small></button>
+    <button class="tile" data-name="ai helper assistant study" onclick="openTool('ai')"><span class="emoji">🤖</span><strong>BODH Helper</strong><small>पढ़ाई और टूल से जुड़े सवाल</small></button>
+    <button class="tile" data-name="store books study material" onclick="openTool('store')"><span class="emoji">🛍️</span><strong>Study Store</strong><small>किताबों और सामग्री का सेक्शन</small></button>
+  </div>
 
-<div class="card" data-key="photo signature image resize jpg size फोटो">
-<div class="ico">📷</div><h3>Photo & Signature</h3><p>फोटो का आकार, क्वालिटी बदलें और डाउनलोड करें।</p><button onclick="openPanel('photoPanel')">फोटो टूल →</button></div>
+  <!-- PHOTO TOOL -->
+  <section class="panel" id="photo">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>📸 Photo & Signature Resizer</h2>
+    <p class="sub">फोटो चुनें, चौड़ाई-ऊंचाई और लक्ष्य KB डालें। फाइल आपके ब्राउज़र में प्रोसेस होगी।</p>
+    <label>फोटो चुनें</label><input id="photoFile" type="file" accept="image/*">
+    <div class="row2">
+      <div><label>चौड़ाई (px)</label><input id="photoW" type="number" value="200" min="1" max="5000"></div>
+      <div><label>ऊंचाई (px)</label><input id="photoH" type="number" value="230" min="1" max="5000"></div>
+    </div>
+    <label>लक्ष्य फाइल साइज़ (KB, वैकल्पिक)</label><input id="photoKB" type="number" placeholder="जैसे 50">
+    <label>फॉर्मेट</label><select id="photoFormat"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select>
+    <div class="actions"><button onclick="resizePhoto()">फोटो तैयार करें</button></div>
+    <div id="photoResult" class="out">अभी कोई फोटो नहीं चुनी गई।</div>
+  </section>
 
-<div class="card" data-key="mock test quiz exam pet gk परीक्षा">
-<div class="ico">✓</div><h3>Mock Test</h3><p>सवाल हल करें और अपना स्कोर देखें।</p><button onclick="openPanel('quizPanel')">टेस्ट शुरू करें →</button></div>
+  <!-- PDF TOOL -->
+  <section class="panel" id="pdf">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>📄 PDF Tools</h2>
+    <p class="sub">फाइलें आपके ब्राउज़र में प्रोसेस होंगी। बड़े PDF में मोबाइल की मेमोरी की सीमा हो सकती है।</p>
+    <label>काम चुनें</label>
+    <select id="pdfAction" onchange="showPdfFields()">
+      <option value="images">फोटो से PDF बनाएं</option>
+      <option value="merge">कई PDF जोड़ें</option>
+      <option value="split">PDF के पेज अलग करें</option>
+      <option value="compress">PDF का आकार कम करने की कोशिश</option>
+    </select>
+    <label>फाइल चुनें</label>
+    <input id="pdfFiles" type="file" accept="image/*" multiple>
+    <div id="pdfExtra" class="hidden">
+      <label>पेज रेंज (उदाहरण: 1-3,5)</label>
+      <input id="pdfPages" placeholder="1-3,5">
+    </div>
+    <div id="pdfCompressNote" class="notice hidden">PDF को दोबारा लिखने से हमेशा साइज़ कम नहीं होता। स्कैन की गई इमेज को री-कंप्रेस करने वाला उन्नत विकल्प इसमें शामिल नहीं है।</div>
+    <div class="actions"><button onclick="processPDF()">PDF प्रोसेस करें</button></div>
+    <div id="pdfResult" class="out">PDF टूल तैयार है।</div>
+  </section>
 
-<div class="card" data-key="resume cv biodata job नौकरी">
-<div class="ico">📝</div><h3>Resume Maker</h3><p>रिज्यूमे बनाएँ और PDF में सेव करें।</p><button onclick="openPanel('resumePanel')">Resume बनाएँ →</button></div>
+  <!-- RESUME -->
+  <section class="panel" id="resume">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>🧑‍💼 Resume Maker</h2>
+    <p class="sub">जानकारी भरें, प्रीव्यू देखें और Print से Save as PDF चुनें।</p>
+    <label>पूरा नाम</label><input id="rName" placeholder="आपका नाम">
+    <label>मोबाइल</label><input id="rPhone" type="tel" placeholder="मोबाइल नंबर">
+    <label>ईमेल</label><input id="rEmail" type="email" placeholder="ईमेल">
+    <label>पता</label><textarea id="rAddress" placeholder="पूरा पता"></textarea>
+    <label>Career Objective</label><textarea id="rObjective" placeholder="आपका करियर उद्देश्य"></textarea>
+    <label>शैक्षणिक योग्यता</label><textarea id="rEducation" placeholder="10वीं, 12वीं, स्नातक आदि"></textarea>
+    <label>कौशल (Skills)</label><textarea id="rSkills" placeholder="कंप्यूटर, संचार, आदि"></textarea>
+    <label>अनुभव</label><textarea id="rExperience" placeholder="फ्रेशर हों तो लिखें: Fresher"></textarea>
+    <div class="actions"><button onclick="makeResume()">प्रीव्यू बनाएं</button><button class="secondary" onclick="printResume()">PDF / Print</button></div>
+    <div id="resumePreview"><p class="sub">तुम्हारा रिज्यूमे यहाँ दिखाई देगा।</p></div>
+  </section>
 
-<div class="card" data-key="notes नोट्स save">
-<div class="ico">✍️</div><h3>My Notes</h3><p>नोट्स लिखें और इसी ब्राउज़र में सेव रखें।</p><button onclick="openPanel('notesPanel')">नोट्स खोलें →</button></div>
+  <!-- MOCK TEST -->
+  <section class="panel" id="mock">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>📝 Mock Test</h2>
+    <p class="sub">अभ्यास के लिए सामान्य ज्ञान के नमूना प्रश्न। यह आधिकारिक परीक्षा प्रश्नपत्र नहीं है।</p>
+    <label>टेस्ट चुनें</label>
+    <select id="mockType"><option value="gk">सामान्य ज्ञान</option><option value="pet">PET अभ्यास (नमूना)</option></select>
+    <div class="actions"><button onclick="startMock()">टेस्ट शुरू करें / फिर से शुरू करें</button></div>
+    <div id="mockArea" class="out">टेस्ट शुरू करने के लिए बटन दबाएं।</div>
+  </section>
 
-<div class="card" data-key="jobs scholarship government schemes नौकरी छात्रवृत्ति">
-<div class="ico">🏛️</div><h3>Jobs & Schemes</h3><p>सरकारी नौकरी और छात्रवृत्ति के आधिकारिक लिंक।</p><button onclick="openPanel('jobsPanel')">लिंक देखें →</button></div>
+  <!-- NOTES -->
+  <section class="panel" id="notes">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>📒 My Notes</h2>
+    <label>नोट का शीर्षक</label><input id="noteTitle" placeholder="जैसे भारतीय संविधान">
+    <label>नोट</label><textarea id="noteText" placeholder="अपना नोट यहाँ लिखें"></textarea>
+    <div class="actions"><button onclick="saveNote()">नोट सेव करें</button><button class="secondary" onclick="clearNoteForm()">नया नोट</button></div>
+    <div id="notesList"></div>
+  </section>
 
-<div class="card" data-key="ai assistant chatbot सवाल पढ़ाई">
-<div class="ico">✦</div><h3>BODH AI Agent</h3><p>अभी डेमो चैट; असली AI बाद में जोड़ा जाएगा।</p><button onclick="openPanel('aiPanel')">AI खोलें →</button></div>
+  <!-- PLANNER -->
+  <section class="panel" id="planner">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>📅 Study Planner</h2>
+    <label>विषय / काम</label><input id="planTask" placeholder="जैसे भारतीय इतिहास">
+    <div class="row2">
+      <div><label>तारीख</label><input id="planDate" type="date"></div>
+      <div><label>समय</label><input id="planTime" type="time" value="18:00"></div>
+    </div>
+    <label>अवधि (मिनट)</label><input id="planDuration" type="number" value="60" min="5">
+    <div class="actions"><button onclick="savePlan()">प्लान सेव करें</button></div>
+    <div id="plannerList"></div>
+  </section>
 
-<div class="card" data-key="study resources learning पढ़ाई">
-<div class="ico">📚</div><h3>Study Resources</h3><p>पढ़ाई के संसाधनों का सेक्शन।</p><button onclick="openPanel('studyPanel')">खोलें →</button></div>
+  <!-- JOBS -->
+  <section class="panel" id="jobs">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>💼 Jobs & Recruitment</h2>
+    <p class="sub">आधिकारिक वेबसाइटों पर नोटिफिकेशन, पात्रता, आवेदन की तारीख और फीस जाँचें। हर भर्ती की जानकारी संबंधित विभाग से सत्यापित करें।</p>
+    <div class="listitem"><strong>UPSSSC</strong><p class="sub">उत्तर प्रदेश अधीनस्थ सेवा चयन आयोग</p><a href="https://upsssc.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
+    <div class="listitem"><strong>National Career Service</strong><p class="sub">रोजगार सेवाएँ और जॉब खोज</p><a href="https://www.ncs.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
+    <div class="listitem"><strong>UPPSC</strong><p class="sub">उत्तर प्रदेश लोक सेवा आयोग</p><a href="https://uppsc.up.nic.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
+    <div class="listitem"><strong>SSC</strong><p class="sub">केंद्र सरकार की विभिन्न भर्तियाँ</p><a href="https://ssc.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
+    <div class="listitem"><strong>Employment News</strong><p class="sub">रोजगार समाचार</p><a href="https://www.employmentnews.gov.in/" target="_blank" rel="noopener">वेबसाइट खोलें ↗</a></div>
+  </section>
 
-<div class="card" data-key="store books digital products किताबें">
-<div class="ico">🛍️</div><h3>BODH Store</h3><p>किताबों और डिजिटल सामग्री का सेक्शन।</p><button onclick="openPanel('storePanel')">Store खोलें →</button></div>
-</div>
-<p id="noResults" class="status" hidden>इस नाम का कोई टूल नहीं मिला।</p>
+  <!-- SCHOLARSHIPS -->
+  <section class="panel" id="scholarship">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>🎓 Scholarships</h2>
+    <p class="sub">योजना की पात्रता, अंतिम तारीख और आवेदन नियम हर साल बदल सकते हैं। आधिकारिक पोर्टल पर जाँचें।</p>
+    <div class="listitem"><strong>National Scholarship Portal</strong><p class="sub">केंद्र की कई छात्रवृत्तियों के लिए पोर्टल</p><a href="https://scholarships.gov.in/" target="_blank" rel="noopener">पोर्टल खोलें ↗</a></div>
+    <div class="listitem"><strong>UP Scholarship</strong><p class="sub">उत्तर प्रदेश की छात्रवृत्ति और शुल्क प्रतिपूर्ति</p><a href="https://scholarship.up.gov.in/" target="_blank" rel="noopener">पोर्टल खोलें ↗</a></div>
+    <div class="listitem"><strong>National Scholarship जानकारी</strong><p class="sub">योजना की पात्रता और जरूरी दस्तावेज संबंधित पोर्टल पर देखें।</p></div>
+    <div class="notice">किसी एजेंट को OTP, पासवर्ड या बैंक PIN न दें। आवेदन जमा करने से पहले अपना विवरण जाँचें।</div>
+  </section>
 
-<!-- PDF TOOLS -->
-<div class="panel" id="pdfPanel" data-color="pdf">
-<h2>📄 PDF Tools</h2>
-<p class="muted">PDF फ़ाइलें आपके ब्राउज़र में प्रोसेस होंगी। लाइब्रेरी लोड करने के लिए इंटरनेट चाहिए।</p>
+  <!-- AI HELPER -->
+  <section class="panel" id="ai">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>🤖 BODH Helper</h2>
+    <p class="sub">अभी यह शुरुआती ऑफलाइन नियम-आधारित सहायक है, वास्तविक AI API नहीं।</p>
+    <label>अपना सवाल लिखें</label><textarea id="aiQuestion" placeholder="जैसे PET की तैयारी कैसे शुरू करूँ?"></textarea>
+    <div class="actions"><button onclick="askBodh()">जवाब पाएं</button><button class="secondary" onclick="document.getElementById('aiQuestion').value='';document.getElementById('aiAnswer').innerHTML=''">साफ करें</button></div>
+    <div id="aiAnswer" class="out"></div>
+    <div class="notice">सटीक और नए उत्तरों के लिए भविष्य में सुरक्षित बैकएंड और वास्तविक AI API जोड़नी होगी।</div>
+  </section>
 
-<div class="field">
-<label>1. PDF जोड़ें (Merge PDFs)</label>
-<input type="file" id="mergeFiles" accept="application/pdf,.pdf" multiple>
-<div class="row"><button onclick="mergePDFs()">चुनी PDF जोड़ें</button></div>
-</div>
-
-<hr style="border-color:var(--line)">
-
-<div class="field">
-<label>2. PDF के पेज अलग करें (Split PDF)</label>
-<input type="file" id="splitFile" accept="application/pdf,.pdf">
-<label>पेज नंबर लिखें — जैसे 1 या 1,3,5</label>
-<input id="splitPages" placeholder="जैसे 1,3">
-<div class="row"><button onclick="splitPDF()">चुने हुए पेज डाउनलोड करें</button></div>
-<p class="muted">यह चुने हुए पेजों की एक नई PDF बनाएगा।</p>
-</div>
-
-<hr style="border-color:var(--line)">
-
-<div class="field">
-<label>3. फोटो से PDF बनाएँ</label>
-<input type="file" id="imageFiles" accept="image/*" multiple>
-<div class="row"><button onclick="imagesToPDF()">फोटो से PDF बनाएँ</button></div>
-<p class="muted">एक या कई फोटो चुन सकते हैं।</p>
-</div>
-
-<hr style="border-color:var(--line)">
-
-<div class="field">
-<label>4. PDF दोबारा सेव करें (Basic optimization)</label>
-<input type="file" id="optFile" accept="application/pdf,.pdf">
-<div class="row"><button onclick="optimizePDF()">PDF सेव करें</button></div>
-<p class="muted">यह PDF को दोबारा सेव करता है; हर फ़ाइल का साइज़ कम होने की गारंटी नहीं है।</p>
-</div>
-<div id="pdfStatus" class="status" aria-live="polite"></div>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- PHOTO -->
-<div class="panel" id="photoPanel" data-color="photo">
-<h2>📷 Photo & Signature Resizer</h2>
-<div class="field"><label>फोटो चुनें</label><input type="file" id="photoFile" accept="image/*"></div>
-<div class="row">
-<div><label>चौड़ाई (px)</label><input id="photoW" type="number" min="1" max="5000" value="300"></div>
-<div><label>ऊँचाई (px)</label><input id="photoH" type="number" min="1" max="5000" value="300"></div>
-</div>
-<div class="field"><label>JPG क्वालिटी</label><select id="photoQ"><option value=".95">बहुत अच्छी — 95%</option><option value=".8" selected>अच्छी — 80%</option><option value=".6">कम — 60%</option><option value=".4">बहुत कम — 40%</option></select></div>
-<canvas id="photoCanvas" hidden></canvas>
-<img id="photoPreview" alt="फोटो प्रीव्यू" style="max-width:100%;max-height:300px;display:block;margin-top:12px" hidden>
-<div class="row"><button onclick="resizePhoto()">Resize करें</button><button id="photoDownload" class="secondary" onclick="downloadPhoto()" disabled>डाउनलोड करें</button></div>
-<div id="photoStatus" class="status"></div>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- QUIZ -->
-<div class="panel" id="quizPanel" data-color="quiz">
-<h2>✓ Mock Test — सामान्य ज्ञान</h2>
-<p class="muted">ये अभ्यास के नमूना प्रश्न हैं, आधिकारिक परीक्षा-पत्र नहीं।</p>
-<form id="quizForm">
-<div id="quizQuestions"></div>
-<div class="row"><button>उत्तर जाँचें</button><button type="button" class="secondary" onclick="renderQuiz()">फिर से शुरू करें</button></div>
-</form>
-<div id="quizResult" class="status"></div>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- RESUME -->
-<div class="panel" id="resumePanel" data-color="resume">
-<h2>📝 Resume Maker</h2>
-<form id="resumeForm">
-<div class="field"><label>पूरा नाम</label><input id="rName" required></div>
-<div class="field"><label>मोबाइल नंबर</label><input id="rPhone" inputmode="tel"></div>
-<div class="field"><label>ईमेल</label><input id="rEmail" type="email"></div>
-<div class="field"><label>पता</label><textarea id="rAddress"></textarea></div>
-<div class="field"><label>Career Objective</label><textarea id="rObjective" placeholder="अपने करियर का उद्देश्य"></textarea></div>
-<div class="field"><label>शैक्षिक योग्यता</label><textarea id="rEducation" placeholder="10वीं, 12वीं, Graduation आदि"></textarea></div>
-<div class="field"><label>कौशल (Skills)</label><textarea id="rSkills"></textarea></div>
-<div class="field"><label>अनुभव (यदि हो)</label><textarea id="rExperience"></textarea></div>
-<div class="row"><button>Resume का प्रीव्यू बनाएँ</button></div>
-</form>
-<div id="resumePreview" class="status" style="background:white;color:#172033"></div>
-<div class="row"><button id="printResume" onclick="printResume()" hidden>Print / Save as PDF</button></div>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- NOTES -->
-<div class="panel" id="notesPanel" data-color="notes">
-<h2>✍️ My Notes</h2>
-<p class="muted">नोट्स इसी ब्राउज़र में सेव होंगे, दूसरे मोबाइल पर अपने-आप नहीं आएँगे।</p>
-<div class="field"><label>नोट्स</label><textarea id="notesText" rows="9" placeholder="यहाँ नोट्स लिखें..."></textarea></div>
-<div class="row"><button onclick="saveNotes()">नोट्स सेव करें</button><button class="secondary" onclick="clearNotes()">नोट्स मिटाएँ</button></div>
-<div id="notesStatus" class="status"></div>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- JOBS -->
-<div class="panel" id="jobsPanel" data-color="jobs">
-<h2>🏛️ Jobs & Schemes</h2>
-<p class="muted">तारीख, पात्रता और आवेदन निर्देश संबंधित आधिकारिक वेबसाइट पर जाँचें।</p>
-<div class="row"><a class="btn" href="https://upsssc.gov.in/" target="_blank" rel="noopener">UPSSSC ↗</a></div>
-<div class="row"><a class="btn" href="https://www.ncs.gov.in/" target="_blank" rel="noopener">National Career Service ↗</a></div>
-<div class="row"><a class="btn" href="https://scholarships.gov.in/" target="_blank" rel="noopener">National Scholarship Portal ↗</a></div>
-<div class="row"><a class="btn" href="https://www.india.gov.in/" target="_blank" rel="noopener">India.gov.in ↗</a></div>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- AI DEMO -->
-<div class="panel" id="aiPanel" data-color="ai">
-<h2>✦ BODH AI Agent</h2>
-<p class="muted">यह अभी असली AI नहीं है। असली AI के लिए सुरक्षित backend जोड़ना होगा।</p>
-<div id="chatMessages" class="status">BODH: नमस्ते! सवाल लिखें। यह केवल डेमो चैट है।</div>
-<form id="chatForm">
-<div class="field"><input id="chatInput" placeholder="अपना सवाल लिखें..." required></div>
-<button>भेजें</button>
-</form>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- STUDY -->
-<div class="panel" id="studyPanel">
-<h2>📚 Study Resources</h2>
-<p>इस सेक्शन में आगे विषयवार नोट्स, अध्ययन योजना और उपयोगी शैक्षिक लिंक जोड़े जाएँगे।</p>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-<!-- STORE -->
-<div class="panel" id="storePanel">
-<h2>🛍️ BODH Store</h2>
-<p>Store का ढाँचा तैयार है। किताबों की खरीद और भुगतान के लिए वास्तविक उत्पाद, कीमत और सुरक्षित भुगतान व्यवस्था जोड़नी होगी। अभी कोई खरीद बटन सक्रिय नहीं है।</p>
-<div class="row"><button class="secondary" onclick="home()">← सभी टूल्स</button></div>
-</div>
-
-</section>
+  <!-- STORE -->
+  <section class="panel" id="store">
+    <button class="back" onclick="home()">← सभी टूल</button>
+    <h2>🛍️ BODH Study Store</h2>
+    <p class="sub">किताबों और अध्ययन सामग्री के लिए शुरुआती सेक्शन।</p>
+    <div class="listitem"><strong>प्रतियोगी परीक्षा की किताबें</strong><p class="sub">अपनी परीक्षा के अनुसार सही संस्करण, लेखक और कीमत जाँचें।</p></div>
+    <div class="listitem"><strong>नोटबुक और स्टेशनरी</strong><p class="sub">पढ़ाई के लिए जरूरी सामग्री।</p></div>
+    <div class="notice">अभी यहाँ वास्तविक उत्पाद सूची, खरीद, भुगतान या Affiliate लिंक कनेक्ट नहीं हैं। वास्तविक स्टोर के लिए उत्पाद और सुरक्षित भुगतान सेवा जोड़नी होगी।</div>
+  </section>
 </main>
-<footer>BODH · पढ़ें, सीखें और आगे बढ़ें।</footer>
+
+<footer>
+  <strong>BODH</strong> — विद्यार्थियों के लिए डिजिटल सहायता<br>
+  यह स्वतंत्र शैक्षणिक टूल है। सरकारी वेबसाइटों का आधिकारिक हिस्सा नहीं है।<br>
+  अपने दस्तावेजों और आवेदन की जानकारी स्वयं सत्यापित करें।
+</footer>
 
 <script>
-"use strict";
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
+let editingNote = null;
+let mockTimer = null;
+let mockSeconds = 0;
+let mockIndex = 0;
+let mockScore = 0;
+let mockAnswers = [];
 
+function openTool(id){
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  $("tiles").classList.add("hidden");
+  $("search").classList.add("hidden");
+  $(id).classList.add("active");
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(id==="notes") renderNotes();
+  if(id==="planner") renderPlans();
+}
 function home(){
- document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
- $("home").scrollIntoView({behavior:"smooth"});
+  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+  $("tiles").classList.remove("hidden");
+  $("search").classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
 }
-function openPanel(id){
- document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));
- $(id).scrollIntoView({behavior:"smooth",block:"start"});
+function filterTiles(){
+  const q=$("search").value.toLowerCase().trim();
+  document.querySelectorAll(".tile").forEach(t=>{
+    t.style.display=t.dataset.name.toLowerCase().includes(q)?"":"none";
+  });
 }
-$("searchForm").addEventListener("submit",e=>{
- e.preventDefault();
- const q=$("searchInput").value.trim().toLowerCase();
- let count=0;
- document.querySelectorAll("#toolGrid .card").forEach(c=>{
-  const match=!q||(c.innerText+" "+c.dataset.key).toLowerCase().includes(q);
-  c.hidden=!match;if(match)count++;
- });
- $("noResults").hidden=count>0;
- $("tools").scrollIntoView({behavior:"smooth"});
-});
-
-/* PDF TOOLS */
-function pdfLib(){
- if(!window.PDFLib) throw new Error("PDF लाइब्रेरी लोड नहीं हुई। इंटरनेट जाँचकर पेज Refresh करें।");
- return window.PDFLib;
-}
-function sayPDF(msg){$("pdfStatus").textContent=msg;}
-function downloadBytes(bytes,name,type="application/pdf"){
- const blob=new Blob([bytes],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
- setTimeout(()=>URL.revokeObjectURL(url),2000);
-}
-async function mergePDFs(){
- try{
-  const files=[...$("mergeFiles").files];if(files.length<2)throw Error("जोड़ने के लिए कम से कम 2 PDF चुनें।");
-  sayPDF("PDF जोड़ी जा रही हैं...");
-  const {PDFDocument}=pdfLib(),out=await PDFDocument.create();
-  for(const f of files){
-   if(f.type!=="application/pdf"&&!f.name.toLowerCase().endsWith(".pdf"))throw Error(f.name+" PDF नहीं है।");
-   const src=await PDFDocument.load(await f.arrayBuffer());
-   const pages=await out.copyPages(src,src.getPageIndices());pages.forEach(p=>out.addPage(p));
-  }
-  downloadBytes(await out.save(), "bodh-merged.pdf");
-  sayPDF("सफल! संयुक्त PDF डाउनलोड हो गई।");
- }catch(e){sayPDF("समस्या: "+e.message);}
-}
-async function splitPDF(){
- try{
-  const f=$("splitFile").files[0];if(!f)throw Error("पहले PDF चुनें।");
-  const {PDFDocument}=pdfLib(),src=await PDFDocument.load(await f.arrayBuffer());
-  const total=src.getPageCount(),raw=$("splitPages").value.trim();
-  if(!raw)throw Error("पेज नंबर लिखें, जैसे 1,3,5");
-  const nums=[...new Set(raw.split(",").map(x=>Number(x.trim())))];
-  if(nums.some(n=>!Number.isInteger(n)||n<1||n>total))throw Error("पेज नंबर 1 से "+total+" के बीच होना चाहिए।");
-  const out=await PDFDocument.create(),pages=await out.copyPages(src,nums.map(n=>n-1));
-  pages.forEach(p=>out.addPage(p));
-  downloadBytes(await out.save(),"bodh-selected-pages.pdf");
-  sayPDF("सफल! चुने हुए "+nums.length+" पेजों की PDF डाउनलोड हो गई।");
- }catch(e){sayPDF("समस्या: "+e.message);}
-}
-async function imagesToPDF(){
- try{
-  const files=[...$("imageFiles").files];if(!files.length)throw Error("पहले एक या अधिक फोटो चुनें।");
-  const {PDFDocument}=pdfLib(),out=await PDFDocument.create();
-  for(const f of files){
-   const bytes=await f.arrayBuffer();let img;
-   if(f.type==="image/jpeg"||/\.jpe?g$/i.test(f.name))img=await out.embedJpg(bytes);
-   else if(f.type==="image/png"||/\.png$/i.test(f.name))img=await out.embedPng(bytes);
-   else{
-    const data=await readImageData(f);
-    const im=await loadImage(data),c=document.createElement("canvas");
-    c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext("2d").drawImage(im,0,0);
-    const jpg=await new Promise(resolve=>c.toBlob(resolve,"image/jpeg",.9));
-    img=await out.embedJpg(await jpg.arrayBuffer());
-   }
-   const page=out.addPage([img.width,img.height]);page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});
-  }
-  downloadBytes(await out.save(),"bodh-images.pdf");
-  sayPDF("सफल! फोटो से PDF बन गई।");
- }catch(e){sayPDF("समस्या: "+e.message);}
-}
-async function optimizePDF(){
- try{
-  const f=$("optFile").files[0];if(!f)throw Error("पहले PDF चुनें।");
-  sayPDF("PDF प्रोसेस हो रही है...");
-  const {PDFDocument}=pdfLib(),doc=await PDFDocument.load(await f.arrayBuffer());
-  const bytes=await doc.save({useObjectStreams:true});
-  downloadBytes(bytes,"bodh-resaved.pdf");
-  sayPDF("PDF दोबारा सेव हो गई। मूल फ़ाइल "+(f.size/1024).toFixed(1)+" KB, नई फ़ाइल "+(bytes.length/1024).toFixed(1)+" KB। यह तरीका हर बार साइज़ कम नहीं करता।");
- }catch(e){sayPDF("समस्या: "+e.message);}
-}
-function readImageData(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=()=>reject(Error("फोटो पढ़ नहीं सके।"));r.readAsDataURL(file);});}
-function loadImage(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(Error("फोटो खुल नहीं सकी।"));im.src=src;});}
 
 /* PHOTO RESIZER */
-let sourcePhoto=null,photoURL=null;
-$("photoFile").addEventListener("change",async()=>{
- sourcePhoto=null;$("photoPreview").hidden=true;$("photoDownload").disabled=true;
- const f=$("photoFile").files[0];if(!f)return;
- try{
-  if(!f.type.startsWith("image/"))throw Error("कृपया image फ़ाइल चुनें।");
-  sourcePhoto=await loadImage(await readImageData(f));
-  $("photoStatus").textContent="फोटो लोड हो गई: "+sourcePhoto.naturalWidth+" × "+sourcePhoto.naturalHeight+" px";
- }catch(e){$("photoStatus").textContent=e.message;}
+let sourceImage = null;
+$("photoFile").addEventListener("change",e=>{
+  const f=e.target.files[0];
+  sourceImage=null;
+  if(!f)return;
+  if(!f.type.startsWith("image/")){alert("कृपया इमेज चुनें।");return}
+  const url=URL.createObjectURL(f);
+  const img=new Image();
+  img.onload=()=>{sourceImage=img;URL.revokeObjectURL(url);$("photoResult").textContent="फोटो तैयार है। अब आकार चुनकर फोटो तैयार करें।"};
+  img.onerror=()=>{URL.revokeObjectURL(url);alert("यह इमेज पढ़ी नहीं जा सकी।")};
+  img.src=url;
 });
-function resizePhoto(){
- try{
-  if(!sourcePhoto)throw Error("पहले फोटो चुनें।");
-  const w=Number($("photoW").value),h=Number($("photoH").value);
-  if(!Number.isInteger(w)||!Number.isInteger(h)||w<1||h<1||w>5000||h>5000)throw Error("चौड़ाई और ऊँचाई 1–5000 px रखें।");
-  const c=$("photoCanvas");c.width=w;c.height=h;
-  c.getContext("2d").drawImage(sourcePhoto,0,0,w,h);
-  c.toBlob(blob=>{
-   if(!blob){$("photoStatus").textContent="फोटो तैयार नहीं हुई।";return;}
-   if(photoURL)URL.revokeObjectURL(photoURL);
-   photoURL=URL.createObjectURL(blob);$("photoPreview").src=photoURL;$("photoPreview").hidden=false;$("photoDownload").disabled=false;
-   $("photoStatus").textContent="तैयार: "+w+" × "+h+" px · "+(blob.size/1024).toFixed(1)+" KB";
-  },"image/jpeg",Number($("photoQ").value));
- }catch(e){$("photoStatus").textContent=e.message;}
+async function resizePhoto(){
+  if(!sourceImage){alert("पहले फोटो चुनें।");return}
+  const w=+$("photoW").value,h=+$("photoH").value,kb=+$("photoKB").value;
+  const type=$("photoFormat").value;
+  if(!Number.isInteger(w)||!Number.isInteger(h)||w<1||h<1||w>5000||h>5000){alert("चौड़ाई और ऊंचाई 1 से 5000 px के बीच दें।");return}
+  if(kb && (kb<1||kb>10000)){alert("KB 1 से 10000 के बीच दें।");return}
+  const c=document.createElement("canvas");c.width=w;c.height=h;
+  const ctx=c.getContext("2d");
+  ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);
+  ctx.drawImage(sourceImage,0,0,w,h);
+  let quality=0.92,blob;
+  const getBlob=q=>new Promise(resolve=>c.toBlob(resolve,type,q));
+  blob=await getBlob(quality);
+  if(type==="image/jpeg"&&kb){
+    for(let i=0;i<12&&blob&&blob.size>kb*1024;i++){
+      quality-=0.07;if(quality<0.12)break;
+      blob=await getBlob(quality);
+    }
+  }
+  if(!blob){alert("इमेज तैयार नहीं हो सकी।");return}
+  const url=URL.createObjectURL(blob);
+  $("photoResult").innerHTML="";
+  const img=document.createElement("img");img.src=url;img.className="preview";img.alt="तैयार फोटो";
+  const info=document.createElement("p");
+  info.textContent=`${w} × ${h} px • ${(blob.size/1024).toFixed(1)} KB`+(kb&&blob.size>kb*1024?" • लक्ष्य KB प्राप्त नहीं हुआ":"");
+  const a=document.createElement("a");a.href=url;a.download="bodh-photo."+(type==="image/png"?"png":"jpg");a.textContent="फोटो डाउनलोड करें";
+  a.style.display="inline-block";a.style.marginTop="12px";
+  $("photoResult").append(img,info,a);
 }
-function downloadPhoto(){
- if(!photoURL)return;
- const a=document.createElement("a");a.href=photoURL;a.
+
+/* PDF TOOLS */
+function showPdfFields(){
+  const a=$("pdfAction").value;
+  $("pdfFiles").accept=a==="images"?"image/*":".pdf,application/pdf";
+  $("pdfFiles").multiple=a==="images"||a==="merge";
+  $("pdfExtra").classList.toggle("hidden",a!=="split");
+  $("pdfCompressNote").classList.toggle("hidden",a!=="compress");
+}
+showPdfFields();
+
+function downloadBlob(blob,name){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");a.href=url;a.download=name;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+async function processPDF(){
+  const files=[...$("pdfFiles").files],action=$("pdfAction").value;
+  if(!files.length){alert("पहले फाइल चुनें।");return}
+  if(!window.PDFLib){alert("PDF लाइब्रेरी लोड नहीं हुई। इंटरनेट चालू करके पेज दोबारा खोलें।");return}
+  const {PDFDocument}=PDFLib;
+  const out=$("pdfResult");out.textContent="प्रोसेस हो रहा है…";
+  try{
+    let result,name="bodh.pdf";
+    if(action==="images"){
+      const pdf=await PDFDocument.create();
+      for(const f of files){
+        if(!f.type.startsWith("image/"))throw Error("फोटो से PDF बनाने के लिए सिर्फ इमेज चुनें।");
+        const bytes=await f.arrayBuffer();
+        let img;
+        if(f.type==="image/png")img=await pdf.embedPng(bytes);
+        else if(["image/jpeg","image/jpg"].includes(f.type))img=await pdf.embedJpg(bytes);
+        else{
+          const dataURL=await new Promise((resolve,reject)=>{
+            const r=new FileReader();r.onl
