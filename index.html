@@ -4,15 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=5.0">
 <meta name="theme-color" content="#667eea">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <title>BODH — स्टडी साथी</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f7fb;color:#1a1a2e;line-height:1.6;min-height:100vh}
-
-/* AUTH */
 .auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:linear-gradient(135deg,#667eea,#764ba2)}
 .auth-box{background:#fff;padding:2rem 1.5rem;border-radius:16px;width:100%;max-width:380px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
 .auth-logo{font-size:2rem;font-weight:bold;text-align:center;color:#4a3f8f;margin-bottom:.3rem}
@@ -22,14 +19,12 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f7f
 .auth-tabs button.active{background:#667eea;color:#fff}
 .auth-box input{margin-bottom:.7rem}
 .primary-btn{width:100%;padding:.8rem;font-size:1rem;margin:0}
-
-/* HEADER */
+.reset-link{display:block;text-align:center;color:#888;font-size:.8rem;margin-top:1rem;text-decoration:underline;cursor:pointer;background:none;border:none;width:auto;margin-left:auto;margin-right:auto}
 header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.15)}
 .logo{font-size:1.2rem;font-weight:bold;cursor:pointer}
 .hdr-right{display:flex;align-items:center;gap:.5rem}
 .user-name{font-size:.8rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.9}
 .logout-btn{background:rgba(255,255,255,.2);color:#fff;border:none;padding:.4rem .7rem;border-radius:6px;font-size:.8rem;cursor:pointer;margin:0}
-
 main{padding:1rem;max-width:900px;margin:auto;padding-bottom:70px}
 .page{display:none}
 .page.active{display:block;animation:fadeIn .25s}
@@ -37,64 +32,47 @@ main{padding:1rem;max-width:900px;margin:auto;padding-bottom:70px}
 h1{margin-bottom:1.2rem;font-size:1.5rem}
 h2{margin-bottom:1rem;color:#4a3f8f;font-size:1.3rem}
 h3{margin-bottom:.6rem;color:#4a3f8f;font-size:1.05rem}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem;margin-top:1rem}
 .card{background:#fff;padding:1.2rem .9rem;border-radius:12px;text-align:center;cursor:pointer;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:all .2s;font-size:1.6rem}
 .card:hover,.card:active{transform:translateY(-3px);box-shadow:0 8px 20px rgba(102,126,234,.25);border-color:#667eea}
 .card h3{margin:.5rem 0 .2rem;font-size:.95rem;color:#1a1a2e}
 .card p{color:#666;font-size:.8rem}
 .card a{color:#667eea;text-decoration:none;font-weight:600;font-size:.9rem;display:inline-block;margin-top:.4rem}
-
 .back{background:none;border:none;color:#667eea;cursor:pointer;font-size:1rem;margin-bottom:1rem;padding:.3rem 0;font-weight:600}
 .tool-box,.form{background:#fff;padding:1.2rem;border-radius:12px;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-
 input,textarea,select{width:100%;padding:.7rem;border:1px solid #ddd;border-radius:8px;font-size:1rem;margin-bottom:.75rem;font-family:inherit;background:#fff;color:#1a1a2e}
 input:focus,textarea:focus,select:focus{outline:none;border-color:#667eea;box-shadow:0 0 0 3px rgba(102,126,234,.15)}
 textarea{min-height:80px;resize:vertical}
-
 button{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:.7rem 1.3rem;border-radius:8px;cursor:pointer;font-size:.95rem;font-weight:600;transition:opacity .2s;margin-right:.4rem;margin-bottom:.4rem}
 button:hover{opacity:.9}
 button:active{transform:scale(.98)}
-
+button:disabled{opacity:.5;cursor:not-allowed}
 .msg-text{color:#27ae60;font-weight:600;margin-top:.5rem;font-size:.9rem}
 .msg-err{color:#e74c3c;font-weight:600;margin-top:.5rem;font-size:.9rem;min-height:1.2em}
-
-/* RESUME TEMPLATES */
 .resume-paper{background:#fff;padding:1.5rem;margin:1rem 0;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);overflow-wrap:break-word;color:#1a1a2e}
 .tpl-classic h2{color:#1a1a2e;border-bottom:2px solid #667eea;padding-bottom:.5rem;font-size:1.4rem;margin-bottom:.3rem}
 .tpl-classic h3{margin-top:1rem;font-size:1rem;color:#4a3f8f;text-transform:uppercase;letter-spacing:.5px}
-
-.tpl-modern{background:linear-gradient(to right,#667eea 0%,#667eea 4px,transparent 4px);padding-left:1.5rem!important}
+.tpl-modern{padding-left:1.5rem!important;border-left:4px solid #667eea}
 .tpl-modern h2{color:#667eea;font-size:1.5rem;margin-bottom:.2rem}
 .tpl-modern h3{margin-top:1rem;font-size:1rem;color:#1a1a2e;border-bottom:1px dashed #ccc;padding-bottom:.2rem}
-
-.tpl-minimal h2{color:#1a1a2e;font-size:1.4rem;margin-bottom:.1rem;letter-spacing:-.5px}
+.tpl-minimal h2{color:#1a1a2e;font-size:1.4rem;margin-bottom:.1rem}
 .tpl-minimal h3{margin-top:1rem;font-size:.85rem;color:#888;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
-.tpl-minimal p{font-size:.95rem}
-
-/* MOCK TEST */
 .q-block{background:#fff;padding:1rem;border-radius:8px;margin-bottom:.75rem;box-shadow:0 2px 6px rgba(0,0,0,.05)}
 .q-block label{display:block;padding:.5rem;cursor:pointer;border-radius:6px;margin:.2rem 0;font-size:.95rem}
 .q-block label:active{background:#f0f2ff}
 .q-block input[type=radio]{width:auto;margin-right:.5rem;vertical-align:middle;margin-bottom:0}
 #timerDisplay{position:sticky;top:60px;background:#4a3f8f;color:#fff;padding:.5rem;border-radius:6px;text-align:center;font-weight:700;margin-bottom:1rem;font-size:1.1rem;z-index:50}
-
-/* NOTES */
 .note-item{background:#fff;padding:1rem;border-radius:8px;margin:.6rem 0;box-shadow:0 2px 6px rgba(0,0,0,.05)}
 .note-item h4{margin-bottom:.3rem;color:#4a3f8f}
 .note-item p{color:#555;font-size:.9rem;margin-bottom:.5rem}
 .note-item button{padding:.35rem .7rem;font-size:.8rem;margin-right:.4rem;margin-bottom:0}
 .note-item button.del{background:#e74c3c}
-
-/* PLANNER */
 #taskList{list-style:none}
 #taskList li{background:#fff;padding:.7rem .9rem;border-radius:8px;margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 2px 6px rgba(0,0,0,.05);font-size:.9rem;flex-wrap:wrap}
 #taskList li.done span{text-decoration:line-through;color:#999}
 #taskList li small{color:#888;margin-left:auto;font-size:.8rem}
 #taskList li input[type=checkbox]{width:auto;margin:0;transform:scale(1.3)}
 #taskList li button{padding:.25rem .55rem;font-size:.75rem;background:#e74c3c;margin:0}
-
-/* AI */
 #chatBox{background:#fff;padding:1rem;border-radius:12px;height:50vh;overflow-y:auto;margin-bottom:.75rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .msg{padding:.7rem 1rem;border-radius:12px;margin-bottom:.6rem;max-width:88%;word-wrap:break-word;white-space:pre-wrap;font-size:.95rem}
 .msg.user{background:#667eea;color:#fff;margin-left:auto}
@@ -105,12 +83,8 @@ button:active{transform:scale(.98)}
 .mic-btn{background:#764ba2}
 .mic-btn.recording{background:#e74c3c;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-
-/* FOOTER */
 footer{position:fixed;bottom:0;left:0;right:0;background:#fff;text-align:center;padding:.5rem;font-size:.8rem;color:#888;border-top:1px solid #eee;z-index:99;display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
 footer a{color:#667eea;text-decoration:none}
-
-/* ADMIN */
 .admin-tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem}
 .admin-tabs button{padding:.45rem .8rem;font-size:.8rem;margin:0;background:#ccc}
 .admin-tabs button.active{background:#1a1a2e}
@@ -121,14 +95,14 @@ footer a{color:#667eea;text-decoration:none}
 .stat-card{display:inline-block;background:#fff;padding:.9rem;border-radius:8px;margin:.25rem;box-shadow:0 2px 6px rgba(0,0,0,.05);min-width:90px;text-align:center}
 .stat-card b{font-size:1.5rem;color:#667eea;display:block}
 .stat-card span{font-size:.75rem;color:#666}
-
+.loading-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;z-index:9999;font-size:1.1rem;color:#4a3f8f;font-weight:600}
+.loading-overlay.hidden{display:none}
 @media print{
   body.print-resume>header,body.print-resume>footer,body.print-resume>main>.page:not(#resume){display:none!important}
   body.print-resume #resume>*:not(#resumePreview){display:none!important}
   body.print-resume .resume-paper{box-shadow:none!important;padding:0;margin:0}
   body.print-resume{padding:0}
 }
-
 @media(max-width:600px){
   main{padding:.9rem;padding-bottom:70px}
   .grid{grid-template-columns:repeat(2,1fr)}
@@ -141,8 +115,18 @@ footer a{color:#667eea;text-decoration:none}
 </head>
 <body>
 
-<!-- ============ AUTH SCREEN ============ -->
-<div id="authScreen" class="auth-screen">
+<noscript>
+<div style="padding:2rem;text-align:center;background:#fff;min-height:100vh">
+  <h2 style="color:#e74c3c">⚠️ JavaScript बंद है</h2>
+  <p>यह app चलाने के लिए JavaScript ज़रूरी है।</p>
+  <p>Chrome में खोलें और Settings → Site settings → JavaScript → Allow करें।</p>
+</div>
+</noscript>
+
+<div id="loadingOverlay" class="loading-overlay">⏳ Load हो रहा है...</div>
+
+<!-- AUTH SCREEN -->
+<div id="authScreen" class="auth-screen" style="display:none">
   <div class="auth-box">
     <div class="auth-logo">📚 BODH</div>
     <div class="auth-tag">आपका स्टडी साथी</div>
@@ -151,23 +135,24 @@ footer a{color:#667eea;text-decoration:none}
       <button id="signupTab" onclick="showAuthTab('signup')">Signup</button>
     </div>
     <div id="loginForm">
-      <input id="loginEmail" placeholder="Email" type="email" autocomplete="email">
+      <input id="loginEmail" placeholder="Email" type="email" autocomplete="email" autocapitalize="off">
       <input id="loginPass" placeholder="Password" type="password" autocomplete="current-password" onkeypress="if(event.key==='Enter')doLogin()">
       <button class="primary-btn" onclick="doLogin()">Login करें</button>
       <p id="loginMsg" class="msg-err"></p>
     </div>
     <div id="signupForm" style="display:none">
       <input id="signupName" placeholder="आपका नाम">
-      <input id="signupEmail" placeholder="Email" type="email" autocomplete="email">
+      <input id="signupEmail" placeholder="Email" type="email" autocomplete="email" autocapitalize="off">
       <input id="signupPass" placeholder="Password (कम से कम 4 अक्षर)" type="password" autocomplete="new-password">
       <input id="signupPass2" placeholder="Password दोबारा" type="password" autocomplete="new-password" onkeypress="if(event.key==='Enter')doSignup()">
       <button class="primary-btn" onclick="doSignup()">Account बनाएं</button>
       <p id="signupMsg" class="msg-err"></p>
     </div>
+    <button class="reset-link" onclick="emergencyReset()">सारा data reset करें</button>
   </div>
 </div>
 
-<!-- ============ MAIN APP ============ -->
+<!-- MAIN APP -->
 <div id="appScreen" style="display:none">
 <header>
   <div class="logo" onclick="showPage('home')">📚 BODH</div>
@@ -178,7 +163,6 @@ footer a{color:#667eea;text-decoration:none}
 </header>
 
 <main>
-<!-- HOME -->
 <section id="home" class="page active">
   <h1>नमस्ते, <span id="greetName">दोस्त</span> 👋</h1>
   <div class="grid">
@@ -193,32 +177,30 @@ footer a{color:#667eea;text-decoration:none}
   </div>
 </section>
 
-<!-- PDF -->
 <section id="pdf" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>PDF टूल्स</h2>
   <div class="tool-box">
     <h3>🔗 PDF Merge</h3>
     <input type="file" id="pdfFiles" accept=".pdf" multiple>
-    <button onclick="mergePDFs()">Merge करें</button>
+    <button onclick="mergePDFs()" id="mergeBtn">Merge करें</button>
     <p id="pdfMsg"></p>
   </div>
   <div class="tool-box">
     <h3>✂️ पेज निकालें</h3>
     <input type="file" id="splitPdf" accept=".pdf">
     <input id="pageRange" placeholder="जैसे: 1-3,5,7 (खाली = पूरा)">
-    <button onclick="extractPages()">निकालें</button>
+    <button onclick="extractPages()" id="splitBtn">निकालें</button>
     <p id="splitMsg"></p>
   </div>
   <div class="tool-box">
     <h3>🖼️ Image → PDF</h3>
     <input type="file" id="imgFiles" accept="image/*" multiple>
-    <button onclick="imagesToPDF()">PDF बनाएं</button>
+    <button onclick="imagesToPDF()" id="imgBtn">PDF बनाएं</button>
     <p id="imgMsg"></p>
   </div>
 </section>
 
-<!-- RESUME -->
 <section id="resume" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>Resume Builder</h2>
@@ -240,7 +222,6 @@ footer a{color:#667eea;text-decoration:none}
   <div id="resumePreview"></div>
 </section>
 
-<!-- MOCK TEST -->
 <section id="mocktest" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>Mock Test</h2>
@@ -256,7 +237,6 @@ footer a{color:#667eea;text-decoration:none}
   <div id="testResult" style="display:none" class="tool-box"></div>
 </section>
 
-<!-- NOTES -->
 <section id="notes" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>My Notes</h2>
@@ -270,7 +250,6 @@ footer a{color:#667eea;text-decoration:none}
   <div id="notesList"></div>
 </section>
 
-<!-- PLANNER -->
 <section id="planner" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>Study Planner</h2>
@@ -282,14 +261,12 @@ footer a{color:#667eea;text-decoration:none}
   <ul id="taskList"></ul>
 </section>
 
-<!-- JOBS -->
 <section id="jobs" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>Jobs / Scholarships</h2>
   <div id="jobsList" class="grid"></div>
 </section>
 
-<!-- AI -->
 <section id="ai" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>🤖 BODH AI</h2>
@@ -297,18 +274,16 @@ footer a{color:#667eea;text-decoration:none}
   <div class="chat-input">
     <input id="chatInput" placeholder="सवाल लिखें या 🎤 दबाएं..." onkeypress="if(event.key==='Enter')askAI()">
     <button class="mic-btn" id="micBtn" onclick="toggleVoice()">🎤</button>
-    <button onclick="askAI()">भेजें</button>
+    <button onclick="askAI()" id="sendAI">भेजें</button>
   </div>
 </section>
 
-<!-- STORE -->
 <section id="store" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <h2>Study Store</h2>
   <div id="storeList" class="grid"></div>
 </section>
 
-<!-- ADMIN -->
 <section id="admin" class="page">
   <button class="back" onclick="showPage('home')">← वापस</button>
   <div id="adminLogin">
@@ -343,19 +318,27 @@ footer a{color:#667eea;text-decoration:none}
 </footer>
 </div>
 
-<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-<script src="https://js.puter.com/v2/"></script>
 <script>
+/* ============ STARTUP (runs immediately) ============ */
+(function(){
+  try {
+    localStorage.setItem('__bodh_test', '1');
+    localStorage.removeItem('__bodh_test');
+  } catch(e) {
+    document.getElementById('loadingOverlay').innerHTML = '<div style="padding:1rem;text-align:center;color:#e74c3c">⚠️ Browser storage block है। Chrome में खोलें या Incognito बंद करें।</div>';
+    return;
+  }
+  setTimeout(() => document.getElementById('loadingOverlay').classList.add('hidden'), 400);
+})();
 
 /* ============ DATABASE ============ */
 const DB = {
   get(k, def) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch { return def; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) { alert('Storage full या error: ' + e.message); } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e) { alert('Storage error: ' + e.message); return false; } },
   del(k) { localStorage.removeItem(k); }
 };
 
 let currentUser = null;
-
 function ukey(suffix) { return 'bodh_u' + currentUser.id + '_' + suffix; }
 function uget(suffix, def) { return DB.get(ukey(suffix), def); }
 function uset(suffix, val) { DB.set(ukey(suffix), val); }
@@ -366,804 +349,15 @@ const DEFAULT_JOBS = [
   { id: 3, title: 'National Scholarship Portal', desc: 'सभी सरकारी स्कॉलरशिप', link: 'https://scholarships.gov.in' },
   { id: 4, title: 'RRB NTPC 2026', desc: 'Railway भर्ती — 12वीं/स्नातक', link: 'https://indianrailways.gov.in' }
 ];
-
 const DEFAULT_STORE = [
   { id: 1, name: 'Complete GK Notes PDF', price: '₹99', desc: 'सभी विषय — हस्तलिखित' },
   { id: 2, name: 'Math Practice Set', price: '₹149', desc: '500+ प्रश्न हल सहित' },
   { id: 3, name: 'English Grammar Book', price: '₹79', desc: 'बेसिक से एडवांस' },
   { id: 4, name: 'Reasoning Puzzle Pack', price: '₹129', desc: 'Puzzle + Solutions' }
 ];
-
 const DEFAULT_QUESTIONS = {
   gk: [
     { q: 'भारत की राजधानी?', options: ['दिल्ली', 'मुंबई', 'कोलकाता', 'चेन्नई'], ans: 0 },
     { q: 'भारत का राष्ट्रीय पशु?', options: ['शेर', 'हाथी', 'बाघ', 'गाय'], ans: 2 },
     { q: 'ताजमहल किस शहर में है?', options: ['आगरा', 'जयपुर', 'दिल्ली', 'लखनऊ'], ans: 0 },
-    { q: 'भारत में कितने राज्य?', options: ['28', '29', '27', '30'], ans: 0 },
-    { q: 'ISRO का पूरा नाम?', options: ['Indian Space Research Organisation', 'International Space Research Org', 'Indian Science Research Org', 'Indian Space Rocket Org'], ans: 0 }
-  ],
-  math: [
-    { q: '5 + 7 = ?', options: ['12', '11', '13', '10'], ans: 0 },
-    { q: '15 × 4 = ?', options: ['60', '55', '65', '50'], ans: 0 },
-    { q: '√144 = ?', options: ['12', '14', '11', '13'], ans: 0 },
-    { q: '100 ÷ 5 = ?', options: ['20', '25', '15', '30'], ans: 0 },
-    { q: '2⁵ = ?', options: ['32', '16', '64', '8'], ans: 0 }
-  ],
-  reasoning: [
-    { q: '1, 3, 5, 7, ?', options: ['9', '8', '10', '11'], ans: 0 },
-    { q: '2, 4, 8, 16, ?', options: ['32', '24', '20', '18'], ans: 0 },
-    { q: 'A, B, D, G, ?', options: ['K', 'J', 'L', 'M'], ans: 0 },
-    { q: 'MONDAY का तीसरा अक्षर?', options: ['N', 'O', 'D', 'A'], ans: 0 },
-    { q: '5 : 25 :: 7 : ?', options: ['49', '35', '56', '42'], ans: 0 }
-  ]
-};
- const ADMIN_DEFAULT_PASS = 'bodh123';
-
-/* ============ HELPERS ============ */
-function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
-function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-function simpleHash(str) {
-  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
-  for (let i = 0; i < str.length; i++) {
-    const ch = str.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
-  }
-  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-  return ((h2 >>> 0).toString(16)) + ((h1 >>> 0).toString(16));
-}
-
-function downloadBlob(blob, name) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = name;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-/* ============ AUTH ============ */
-function showAuthTab(tab) {
-  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
-  document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
-  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
-}
-
-function doSignup() {
-  const name = val('signupName'), email = val('signupEmail').toLowerCase(), pass = val('signupPass'), pass2 = val('signupPass2');
-  const msg = document.getElementById('signupMsg');
-  msg.textContent = '';
-  if (!name || !email || !pass) { msg.textContent = 'सभी fields भरें'; return; }
-  if (!email.includes('@')) { msg.textContent = 'सही Email डालें'; return; }
-  if (pass.length < 4) { msg.textContent = 'Password कम से कम 4 अक्षर'; return; }
-  if (pass !== pass2) { msg.textContent = 'Passwords मेल नहीं खा रहे'; return; }
-  const users = DB.get('users', []);
-  if (users.find(u => u.email === email)) { msg.textContent = 'यह Email पहले से registered है'; return; }
-  const user = { id: Date.now(), name, email, passHash: simpleHash(pass), created: new Date().toISOString() };
-  users.push(user);
-  DB.set('users', users);
-  sessionStorage.setItem('bodh_uid', user.id);
-  currentUser = user;
-  enterApp();
- }
- function doLogin() {
-  const email = val('loginEmail').toLowerCase(), pass = val('loginPass');
-  const msg = document.getElementById('loginMsg');
-  msg.textContent = '';
-  if (!email || !pass) { msg.textContent = 'Email और Password भरें'; return; }
-  const users = DB.get('users', []);
-  const user = users.find(u => u.email === email);
-  if (!user) { msg.textContent = 'यह Email registered नहीं है'; return; }
-  if (user.passHash !== simpleHash(pass)) { msg.textContent = 'गलत Password'; return; }
-  sessionStorage.setItem('bodh_uid', user.id);
-  currentUser = user;
-  enterApp();
-}
-
-function doLogout() {
-  if (!confirm('Logout करें?')) return;
-  sessionStorage.removeItem('bodh_uid');
-  sessionStorage.removeItem('bodh_admin');
-  currentUser = null;
-  document.getElementById('appScreen').style.display = 'none';
-  document.getElementById('authScreen').style.display = 'flex';
-  document.getElementById('loginEmail').value = '';
-  document.getElementById('loginPass').value = '';
-}
-
-function enterApp() {
-  document.getElementById('authScreen').style.display = 'none';
-  document.getElementById('appScreen').style.display = 'block';
-  document.getElementById('userName').textContent = currentUser.name;
-  document.getElementById('greetName').textContent = currentUser.name;
-  showPage('home');
-  loadNotes(); loadTasks(); loadJobs(); loadStore();
-}
-
-function tryAutoLogin() {
-  const uid = parseInt(sessionStorage.getItem('bodh_uid'));
-  if (!uid) return false;
-  const users = DB.get('users', []);
-  const user = users.find(u => u.id === uid);
-  if (!user) return false;
-  currentUser = user;
-  enterApp();
-  return true;
-}
-
-/* ============ NAV ============ */
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
-  if (id === 'notes') loadNotes();
-  if (id === 'planner') loadTasks();
-  if (id === 'jobs') loadJobs();
-  if (id === 'store') loadStore();
-  if (id === 'admin') checkAdminSession();
-}
-
-
-/* ============ PDF ============ */
-async function mergePDFs() {
-  const files = document.getElementById('pdfFiles').files;
-  const msg = document.getElementById('pdfMsg');
-  msg.textContent = ''; msg.className = '';
-  if (files.length < 2) { msg.textContent = '⚠️ कम से कम 2 PDF चुनें'; msg.className = 'msg-err'; return; }
-  try {
-    const { PDFDocument } = PDFLib;
-    const merged = await PDFDocument.create();
-    for (const f of files) {
-      const pdf = await PDFDocument.load(await f.arrayBuffer());
-      const pages = await merged.copyPages(pdf, pdf.getPageIndices());
-      pages.forEach(p => merged.addPage(p));
-    }
-    downloadBlob(new Blob([await merged.save()], { type: 'application/pdf' }), 'merged.pdf');
-    msg.textContent = '✅ Merge हो गया! डाउनलोड शुरू।'; msg.className = 'msg-text';
-  } catch (e) { msg.textContent = '❌ ' + e.message; msg.className = 'msg-err'; }
-}
-
-function parseRange(str, total) {
-  if (!str.trim()) return [...Array(total).keys()];
-  const pages = new Set();
-  str.split(',').forEach(part => {
-    part = part.trim();
-    if (part.includes('-')) {
-      const [a, b] = part.split('-').map(Number);
-      for (let i = a; i <= b; i++) if (i >= 1 && i <= total) pages.add(i - 1);
-    } else {
-      const n = Number(part);
-      if (n >= 1 && n <= total) pages.add(n - 1);
-    }
-  });
-  return [...pages].sort((a, b) => a - b);
-}
-
-async function extractPages() {
-  const file = document.getElementById('splitPdf').files[0];
-  const msg = document.getElementById('splitMsg');
-  msg.textContent = ''; msg.className = '';
-  if (!file) { msg.textContent = '⚠️ PDF चुनें'; msg.className = 'msg-err'; return; }
-  try {
-    const { PDFDocument } = PDFLib;
-    const src = await PDFDocument.load(await file.arrayBuffer());
-    const pages = parseRange(document.getElementById('pageRange').value, src.getPageCount());
-    if (!pages.length) { msg.textContent = '⚠️ सही रेंज दें (1–' + src.getPageCount() + ')'; msg.className = 'msg-err'; return; }
-    const out = await PDFDocument.create();
-    const copied = await out.copyPages(src, pages);
-    copied.forEach(p => out.addPage(p));
-    downloadBlob(new Blob([await out.save()], { type: 'application/pdf' }), 'extracted.pdf');
-    msg.textContent = '✅ PDF तैयार!'; msg.className = 'msg-text';
-  } catch (e) { msg.textContent = '❌ ' + e.message; msg.className = 'msg-err'; }
- }
- async function imagesToPDF() {
-  const files = document.getElementById('imgFiles').files;
-  const msg = document.getElementById('imgMsg');
-  msg.textContent = ''; msg.className = '';
-  if (!files.length) { msg.textContent = '⚠️ इमेज चुनें'; msg.className = 'msg-err'; return; }
-  try {
-    const { PDFDocument } = PDFLib;
-    const pdf = await PDFDocument.create();
-    for (const f of files) {
-      const bytes = await f.arrayBuffer();
-      let img;
-      if (f.type === 'image/png') img = await pdf.embedPng(bytes);
-      else if (f.type === 'image/jpeg' || f.type === 'image/jpg') img = await pdf.embedJpg(bytes);
-      else throw new Error('सिर्फ JPG/PNG चलेगा');
-      const page = pdf.addPage([img.width, img.height]);
-      page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
-    }
-    downloadBlob(new Blob([await pdf.save()], { type: 'application/pdf' }), 'images.pdf');
-    msg.textContent = '✅ PDF तैयार!'; msg.className = 'msg-text';
-  } catch (e) { msg.textContent = '❌ ' + e.message; msg.className = 'msg-err'; }
-}
-
-/* ============ RESUME ============ */
-function previewResume() {
-  const d = {
-    name: val('rName'), email: val('rEmail'), phone: val('rPhone'),
-    skills: val('rSkills'),
-    edu: val('rEdu').replace(/\n/g, '<br>'),
-    exp: val('rExp').replace(/\n/g, '<br>')
-  };
-  if (!d.name) return alert('नाम ज़रूर भरें');
-  const tpl = document.getElementById('rTemplate').value;
-  document.getElementById('resumePreview').innerHTML = `
-    <div class="resume-paper ${tpl}">
-      <h2>${esc(d.name)}</h2>
-      <p>${esc(d.email)}${d.phone ? ' | ' + esc(d.phone) : ''}</p>
-      ${d.skills ? `<h3>Skills</h3><p>${esc(d.skills)}</p>` : ''}
-      ${d.edu ? `<h3>Education</h3><p>${d.edu}</p>` : ''}
-      ${d.exp ? `<h3>Experience</h3><p>${d.exp}</p>` : ''}
-    </div>`;
-  document.getElementById('saveResumeBtn').style.display = 'inline-block';
-  document.getElementById('resumePreview').scrollIntoView({ behavior: 'smooth' });
-}
-
-function saveResumePDF() {
-  if (!document.getElementById('resumePreview').innerHTML.trim()) return alert('पहले Preview बनाएं');
-  document.body.classList.add('print-resume');
-  setTimeout(() => {
-    window.print();
-    setTimeout(() => document.body.classList.remove('print-resume'), 800);
-  }, 100);
-}
-
-/* ============ MOCK TEST ============ */
-let currentTest = [];
-let testTimer = null;
-let testTimeLeft = 0;
-
-function startTest() {
-  const type = document.getElementById('testSelect').value;
-  const qs = DB.get('questions', DEFAULT_QUESTIONS)[type] || [];
-  if (!qs.length) return alert('इस विषय में प्रश्न नहीं हैं');
-  currentTest = qs.map(q => ({ ...q, selected: null }));
-  document.getElementById('testStart').style.display = 'none';
-  document.getElementById('testResult').style.display = 'none';
-  const area = document.getElementById('testArea');
-  area.style.display = 'block';
-  area.innerHTML = '<div id="timerDisplay">⏱️ 05:00</div>' +
-    currentTest.map((q, i) => `
-    <div class="q-block">
-      <p><b>Q${i+1}.</b> ${esc(q.q)}</p>
-      ${q.options.map((o, j) =>
-        `<label><input type="radio" name="q${i}" value="${j}" onchange="currentTest[${i}].selected=${j}"> ${esc(o)}</label>`
-      ).join('')}
-    </div>`).join('') +
-    `<button onclick="submitTest()" style="width:100%;margin-top:.5rem">✅ Submit करें</button>`;
-  testTimeLeft = 300;
-  clearInterval(testTimer);
-  testTimer = setInterval(() => {
-    testTimeLeft--;
-    const el = document.getElementById('timerDisplay');
-    if (el) el.textContent = `⏱️ ${String(Math.floor(testTimeLeft/60)).padStart(2,'0')}:${String(testTimeLeft%60).padStart(2,'0')}`;
-    if (testTimeLeft <= 0) { clearInterval(testTimer); submitTest(); }
-  }, 1000);
-}
-
-function submitTest() {
-  clearInterval(testTimer);
-  const unanswered = currentTest.filter(q => q.selected === null).length;
-  if (unanswered > 0 && !confirm(`${unanswered} प्रश्न बाकी हैं। Submit करें?`)) return;
-  let score = 0;
-  const review = currentTest.map((q, i) => {
-    const correct = q.selected === q.ans;
-    if (correct) score++;
-    const chosen = q.selected === null ? '—' : esc(q.options[q.selected]);
-    const right = esc(q.options[q.ans]);
-    return `<div class="admin-item"><p><b>Q${i+1}.</b> ${esc(q.q)}</p>
-      <p>आपका: <b style="color:${correct?'#27ae60':'#e74c3c'}">${chosen}</b> ${correct ? '✅' : '❌ (सही: ' + right + ')'}</p></div>`;
-  }).join('');
-  document.getElementById('testArea').style.display = 'none';
-  const res = document.getElementById('testResult');
-  res.style.display = 'block';
-  res.innerHTML = `<h3>🎯 स्कोर: ${score} / ${currentTest.length}</h3>
-    <p style="margin:.5rem 0 1rem">सही: ${score} · गलत: ${currentTest.length - score}</p>
-    <button onclick="resetTest()">🔄 फिर से लें</button>
-    <hr style="margin:1rem 0;border:none;border-top:1px solid #eee">
-    <h3>📋 Review</h3>${review}`;
-}
-
-function resetTest() {
-  document.getElementById('testStart').style.display = 'block';
-  document.getElementById('testResult').style.display = 'none';
-  document.getElementById('testResult').innerHTML = '';
-  document.getElementById('testArea').innerHTML = '';
-  currentTest = [];
-}
-
-/* ============ NOTES ============ */
-let editingNoteId = null;
-
-function loadNotes() {
-  if (!currentUser) return;
-  const notes = uget('notes', []);
-  const search = (document.getElementById('searchNote')?.value || '').toLowerCase();
-  const filtered = search ? notes.filter(n => n.title.toLowerCase().includes(search) || n.body.toLowerCase().includes(search)) : notes;
-  document.getElementById('notesList').innerHTML = filtered.length ? filtered.map(n => `
-    <div class="note-item">
-      <h4>${esc(n.title)}</h4>
-      <p>${esc(n.body.substring(0, 100))}${n.body.length > 100 ? '...' : ''}</p>
-      <button onclick="editNote(${n.id})">✏️ Edit</button>
-      <button class="del" onclick="deleteNote(${n.id})">🗑️ Delete</button>
-    </div>`).join('') : '<p style="color:#888;padding:1rem">कोई नोट नहीं।</p>';
-}
-
-function saveNote() {
-  const title = val('noteTitle'), body = val('noteBody');
-  if (!title || !body) return alert('शीर्षक और नोट दोनों भरें');
-  const notes = uget('notes', []);
-  if (editingNoteId) {
-    const idx = notes.findIndex(n => n.id === editingNoteId);
-    if (idx >= 0) notes[idx] = { id: editingNoteId, title, body };
-    editingNoteId = null;
-    document.getElementById('cancelEditBtn').style.display = 'none';
-  } else {
-    notes.push({ id: Date.now(), title, body });
-  }
-  uset('notes', notes);
-  document.getElementById('noteTitle').value = '';
-  document.getElementById('noteBody').value = '';
-  loadNotes();
-}
-
-function editNote(id) {
-  const n = uget('notes', []).find(x => x.id === id);
-  if (!n) return;
-  document.getElementById('noteTitle').value = n.title;
-  document.getElementById('noteBody').value = n.body;
-  editingNoteId = id;
-  document.getElementById('cancelEditBtn').style.display = 'inline-block';
-  window.scrollTo(0, 0);
-}
-
-function cancelEditNote() {
-  editingNoteId = null;
-  document.getElementById('noteTitle').value = '';
-  document.getElementById('noteBody').value = '';
-  document.getElementById('cancelEditBtn').style.display = 'none';
-}
-
-function deleteNote(id) {
-  if (!confirm('Delete करें?')) return;
-  uset('notes', uget('notes', []).filter(n => n.id !== id));
-  loadNotes();
-}
-/* ============ PLANNER ============ */
-function loadTasks() {
-  if (!currentUser) return;
-  const tasks = uget('tasks', []).sort((a, b) => (a.date || '9999') < (b.date || '9999') ? -1 : 1);
-  document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t => `
-    <li class="${t.done ? 'done' : ''}">
-      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
-      <span>${esc(t.text)}</span>
-      <small>${esc(t.date || '')}</small>
-      <button onclick="deleteTask(${t.id})">✕</button>
-    </li>`).join('') : '<p style="color:#888;padding:1rem">कोई टास्क नहीं।</p>';
-}
-
-function addTask() {
-  const text = val('taskText'), date = val('taskDate');
-  if (!text) return alert('कार्य लिखें');
-  const tasks = uget('tasks', []);
-  tasks.push({ id: Date.now(), text, date, done: false });
-  uset('tasks', tasks);
-  document.getElementById('taskText').value = '';
-  document.getElementById('taskDate').value = '';
-  loadTasks();
-}
-
-function toggleTask(id) {
-  const tasks = uget('tasks', []);
-  const t = tasks.find(x => x.id === id);
-  if (t) { t.done = !t.done; uset('tasks', tasks); loadTasks(); }
-}
-
-function deleteTask(id) {
-  uset('tasks', uget('tasks', []).filter(t => t.id !== id));
-  loadTasks();
-}
-
-/* ============ JOBS ============ */
-function loadJobs() {
-  const jobs = DB.get('jobs', DEFAULT_JOBS);
-  document.getElementById('jobsList').innerHTML = jobs.length ? jobs.map(j => `
-    <div class="card" style="font-size:1rem;text-align:left;cursor:default">
-      <h3>${esc(j.title)}</h3>
-      <p style="margin-bottom:.5rem">${esc(j.desc)}</p>
-      <a href="${esc(j.link)}" target="_blank" rel="noopener">आधिकारिक साइट →</a>
-    </div>`).join('') : '<p style="padding:1rem">अभी कोई जॉब नहीं।</p>';
-}
-
-/* ============ STORE ============ */
-function loadStore() {
-  const items = DB.get('store', DEFAULT_STORE);
-  document.getElementById('storeList').innerHTML = items.length ? items.map(s => `
-    <div class="card" style="font-size:1rem;cursor:default">
-      <h3>${esc(s.name)}</h3>
-      <p>${esc(s.desc)}</p>
-      <p style="color:#667eea;font-weight:700;font-size:1.15rem;margin:.5rem 0">${esc(s.price)}</p>
-      <button onclick="alert('भुगतान सुविधा जल्द आएगी!')" style="margin:0">🛒 खरीदें</button>
-    </div>`).join('') : '<p style="padding:1rem">अभी कोई आइटम नहीं।</p>';
-}
-
-/* ============ AI + VOICE ============ */
-async function askAI() {
-  const input = document.getElementById('chatInput');
-  const q = input.value.trim();
-  if (!q) return;
-  const box = document.getElementById('chatBox');
-  box.innerHTML += `<div class="msg user">${esc(q)}</div>`;
-  input.value = '';
-  box.innerHTML += `<div class="msg ai" id="loading">🤔 सोच रहा हूँ...</div>`;
-  box.scrollTop = box.scrollHeight;
-  try {
-    const res = await puter.ai.chat(
-      "You are BODH, a helpful study assistant for Indian students. Answer briefly and clearly. Respond in the same language as the question (Hindi/Hinglish/English). Question: " + q
-    );
-    const text = typeof res === 'string' ? res : (res.text || res.message?.content || JSON.stringify(res));
-    document.getElementById('loading')?.remove();
-    box.innerHTML += `<div class="msg ai">${esc(text)}</div>`;
-  } catch (e) {
-    document.getElementById('loading')?.remove();
-    box.innerHTML += `<div class="msg ai">⚠️ AI उपलब्ध नहीं। पहली बार Puter login माँग सकता है (free Google login) — popup allow करें।</div>`;
-  }
-  box.scrollTop = box.scrollHeight;
-}
-
-let recognition = null;
-let isRecording = false;
-
-function toggleVoice() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return alert('आपका ब्राउज़र voice support नहीं करता। Chrome आज़माएं।');
-  const btn = document.getElementById('micBtn');
-  if (isRecording) {
-    recognition.stop();
-    isRecording = false;
-    btn.classList.remove('recording');
-    return;
-  }
-  recognition = new SR();
-  recognition.lang = 'hi-IN';
-  recognition.interimResults = false;
-  recognition.continuous = false;
-  recognition.onresult = (e) => {
-    const text = e.results[0][0].transcript;
-    document.getElementById('chatInput').value = text;
-  };
-  recognition.onerror = (e) => {
-    isRecording = false;
-    btn.classList.remove('recording');
-    if (e.error !== 'no-speech') alert('Voice error: ' + e.error);
-  };
-  recognition.onend = () => {
-    isRecording = false;
-    btn.classList.remove('recording');
-  };
-  recognition.start();
-  isRecording = true;
-  btn.classList.add('recording');
-}
-
-/* ============ SHARE ============ */
-function shareWhatsApp() {
-  const text = '📚 BODH — मेरा स्टडी साथी! PDF टूल्स, Resume, Mock Test, Notes, AI — सब एक जगह।';
-  const url = window.location.href;
-  window.open('https://wa.me/?text=' + encodeURIComponent(text + '\n' + url), '_blank');
-}
-
-/* ============ ADMIN ============ */
-function checkAdminSession() {
-  const logged = sessionStorage.getItem('bodh_admin') === '1';
-  document.getElementById('adminLogin').style.display = logged ? 'none' : 'block';
-  document.getElementById('adminPanel').style.display = logged ? 'block' : 'none';
-  if (logged) adminTab('stats');
-}
-
-function loginAdmin() {
-  const pass = val('adminPass');
-  const saved = DB.get('adminPass', ADMIN_DEFAULT_PASS);
-  const msg = document.getElementById('adminMsg');
-  if (pass === saved) {
-    sessionStorage.setItem('bodh_admin', '1');
-    document.getElementById('adminPass').value = '';
-    msg.textContent = '';
-    checkAdminSession();
-  } else {
-    msg.textContent = '❌ गलत Password';
-  }
-}
-
-function logoutAdmin() {
-  sessionStorage.removeItem('bodh_admin');
-  checkAdminSession();
-}
-
-function adminTab(name) {
-  document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-  const c = document.getElementById('adminContent');
-
-  if (name === 'stats') {
-    const users = DB.get('users', []).length;
-    const jobs = DB.get('jobs', DEFAULT_JOBS).length;
-    const store = DB.get('store', DEFAULT_STORE).length;
-    const qs = Object.values(DB.get('questions', DEFAULT_QUESTIONS)).reduce((a, b) => a + b.length, 0);
-    const noteCount = DB.get('users', []).reduce((sum, u) => {
-      const n = DB.get('bodh_u' + u.id + '_notes', []);
-      return sum + n.length;
-    }, 0);
-    c.innerHTML = `<div>
-      <div class="stat-card"><b>${users}</b><span>Users</span></div>
-      <div class="stat-card"><b>${jobs}</b><span>Jobs</span></div>
-      <div class="stat-card"><b>${store}</b><span>Store</span></div>
-      <div class="stat-card"><b>${qs}</b><span>Questions</span></div>
-      <div class="stat-card"><b>${noteCount}</b><span>Notes</span></div>
-    </div>`;
-  }
-  else if (name === 'jobs') {
-    const jobs = DB.get('jobs', DEFAULT_JOBS);
-    c.innerHTML = `<h3>💼 Jobs Manage</h3>
-      <div class="form" style="margin-bottom:1rem">
-        <input id="jobTitle" placeholder="Title">
-        <input id="jobDesc" placeholder="Description / पात्रता">
-        <input id="jobLink" placeholder="आधिकारिक URL (https://...)">
-        <button onclick="adminAddJob()">➕ जोड़ें</button>
-      </div>
-      ${jobs.map(j => `<div class="admin-item">
-        <p><b>${esc(j.title)}</b></p>
-        <p>${esc(j.desc)}</p>
-        <p style="font-size:.75rem;color:#888;word-break:break-all">${esc(j.link)}</p>
-        <button class="del" onclick="adminDelJob(${j.id})">🗑️ Delete</button>
-      </div>`).join('')}`;
-  }
-  else if (name === 'store') {
-    const items = DB.get('store', DEFAULT_STORE);
-    c.innerHTML = `<h3>🛒 Store Manage</h3>
-      <div class="form" style="margin-bottom:1rem">
-        <input id="sName" placeholder="Product Name">
-        <input id="sDesc" placeholder="Description">
-        <input id="sPrice" placeholder="Price (₹99)">
-        <button onclick="adminAddStore()">➕ जोड़ें</button>
-      </div>
-      ${items.map(s => `<div class="admin-item">
-        <p><b>${esc(s.name)}</b> — ${esc(s.price)}</p>
-        <p>${esc(s.desc)}</p>
-        <button class="del" onclick="adminDelStore(${s.id})">🗑️ Delete</button>
-      </div>`).join('')}`;
-  }
-  else if (name === 'questions') {
-    c.innerHTML = `<h3>✏️ Questions Manage</h3>
-      <div class="form" style="margin-bottom:1rem">
-        <select id="qSubject">
-          <option value="gk">सामान्य ज्ञान</option>
-          <option value="math">गणित</option>
-          <option value="reasoning">रीज़निंग</option>
-        </select>
-        <input id="qText" placeholder="प्रश्न">
-        <input id="qOpt0" placeholder="Option A">
-        <input id="qOpt1" placeholder="Option B">
-        <input id="qOpt2" placeholder="Option C">
-        <input id="qOpt3" placeholder="Option D">
-        <select id="qAns">
-          <option value="0">सही उत्तर: A</option>
-          <option value="1">सही उत्तर: B</option>
-          <option value="2">सही उत्तर: C</option>
-          <option value="3">सही उत्तर: D</option>
-        </select>
-        <button onclick="adminAddQuestion()">➕ जोड़ें</button>
-      </div>
-      <div id="qList">${renderQuestionList()}</div>`;
-  }
-  else if (name === 'users') {
-    const users = DB.get('users', []);
-    c.innerHTML = `<h3>👥 Registered Users (${users.length})</h3>
-      ${users.map(u => `<div class="admin-item">
-        <p><b>${esc(u.name)}</b></p>
-        <p style="font-size:.8rem">${esc(u.email)}</p>
-        <p style="font-size:.75rem;color:#888">Joined: ${new Date(u.created).toLocaleDateString('hi-IN')}</p>
-        <button class="del" onclick="adminDelUser(${u.id})">🗑️ Delete User</button>
-      </div>`).join('')}`;
-  }
-  else if (name === 'backup') {
-    c.innerHTML = `<h3>💾 Backup / Restore</h3>
-      <p style="margin-bottom:.75rem;color:#666;font-size:.9rem">सारा data (users, notes, tasks, jobs, store, questions) एक JSON file में export करें।</p>
-      <button onclick="adminExport()">⬇️ Export Full Backup</button>
-      <br><br>
-      <p style="margin-bottom:.75rem;color:#666;font-size:.9rem">Import से पुराना data बदल जाएगा। सावधानी से करें।</p>
-      <input type="file" id="importFile" accept=".json">
-      <button onclick="adminImport()">⬆️ Import करें</button>
-      <br><br>
-      <button onclick="adminResetAll()" style="background:#e74c3c">🗑️ सारा Data Reset</button>`;
-  }
-  else if (name === 'settings') {
-    c.innerHTML = `<h3>🔧 Settings</h3>
-      <div class="form">
-        <p style="font-size:.9rem;color:#666;margin-bottom:.75rem">Admin Password बदलें</p>
-        <input type="password" id="newPass" placeholder="नया Password">
-        <input type="password" id="newPass2" placeholder="दोबारा डालें">
-        <button onclick="adminChangePass()">💾 Password बदलें</button>
-      </div>`;
-  }
-}
-
-function renderQuestionList() {
-  const all = DB.get('questions', DEFAULT_QUESTIONS);
-  const labels = { gk: 'GK', math: 'गणित', reasoning: 'रीज़निंग' };
-  let html = '';
-  for (const subj in all) {
-    html += `<h3 style="margin-top:1rem">${labels[subj] || subj}</h3>`;
-    all[subj].forEach((q, i) => {
-      html += `<div class="admin-item">
-        <p><b>${esc(q.q)}</b></p>
-        <p>✅ सही: ${esc(q.options[q.ans])}</p>
-        <button class="del" onclick="adminDelQuestion('${subj}',${i})">🗑️ Delete</button>
-      </div>`;
-    });
-  }
-  return html;
-}
-
-function adminAddJob() {
-  const t = val('jobTitle'), d = val('jobDesc'), l = val('jobLink');
-  if (!t || !l) return alert('Title और Link ज़रूरी');
-  const jobs = DB.get('jobs', DEFAULT_JOBS);
-  jobs.push({ id: Date.now(), title: t, desc: d, link: l });
-  DB.set('jobs', jobs);
-  adminTab('jobs');
-}
-
-function adminDelJob(id) {
-  if (!confirm('Delete?')) return;
-  DB.set('jobs', DB.get('jobs', DEFAULT_JOBS).filter(j => j.id !== id));
-  adminTab('jobs');
-}
-
-function adminAddStore() {
-  const n = val('sName'), d = val('sDesc'), p = val('sPrice');
-  if (!n || !p) return alert('Name और Price ज़रूरी');
-  const items = DB.get('store', DEFAULT_STORE);
-  items.push({ id: Date.now(), name: n, desc: d, price: p });
-  DB.set('store', items);
-  adminTab('store');
-}
-
-function adminDelStore(id) {
-  if (!confirm('Delete?')) return;
-  DB.set('store', DB.get('store', DEFAULT_STORE).filter(s => s.id !== id));
-  adminTab('store');
-}
-
-function adminAddQuestion() {
-  const subj = document.getElementById('qSubject').value;
-  const q = val('qText');
-  const opts = [val('qOpt0'), val('qOpt1'), val('qOpt2'), val('qOpt3')];
-  const ans = parseInt(document.getElementById('qAns').value);
-  if (!q || opts.some(o => !o)) return alert('सभी fields भरें');
-  const all = DB.get('questions', DEFAULT_QUESTIONS);
-  all[subj].push({ q, options: opts, ans });
-  DB.set('questions', all);
-  adminTab('questions');
-}
-
-function adminDelQuestion(subj, idx) {
-  if (!confirm('Delete?')) return;
-  const all = DB.get('questions', DEFAULT_QUESTIONS);
-  all[subj].splice(idx, 1);
-  DB.set('questions', all);
-  document.getElementById('qList').innerHTML = renderQuestionList();
-}
-
-function adminDelUser(id) {
-  if (!confirm('इस user और उसका सारा data delete करें?')) return;
-  DB.set('users', DB.get('users', []).filter(u => u.id !== id));
-  localStorage.removeItem('bodh_u' + id + '_notes');
-  localStorage.removeItem('bodh_u' + id + '_tasks');
-  adminTab('users');
-}
-
-function adminExport() {
-  const data = {
-    users: DB.get('users', []),
-    jobs: DB.get('jobs', DEFAULT_JOBS),
-    store: DB.get('store', DEFAULT_STORE),
-    questions: DB.get('questions', DEFAULT_QUESTIONS),
-    exportedAt: new Date().toISOString()
-  };
-  // include all user data
-  DB.get('users', []).forEach(u => {
-    data['u' + u.id + '_notes'] = DB.get('bodh_u' + u.id + '_notes', []);
-    data['u' + u.id + '_tasks'] = DB.get('bodh_u' + u.id + '_tasks', []);
-  });
-  downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), 'bodh-backup-' + Date.now() + '.json');
-  alert('✅ Backup डाउनलोड हो गया');
-}
-
-function adminImport() {
-  const file = document.getElementById('importFile').files[0];
-  if (!file) return alert('File चुनें');
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!confirm('मौजूदा data बदल जाएगा। जारी रखें?')) return;
-      if (data.users) DB.set('users', data.users);
-      if (data.jobs) DB.set('jobs', data.jobs);
-      if (data.store) DB.set('store', data.store);
-      if (data.questions) DB.set('questions', data.questions);
-      // restore user data
-      for (const key in data) {
-        if (key.startsWith('u') && (key.endsWith('_notes') || key.endsWith('_tasks'))) {
-          const uid = key.substring(1, key.indexOf('_'));
-          const suffix = key.endsWith('_notes') ? 'notes' : 'tasks';
-          DB.set('bodh_u' + uid + '_' + suffix, data[key]);
-        }
-      }
-      alert('✅ Import सफल');
-      adminTab('stats');
-    } catch (err) { alert('❌ गलत file: ' + err.message); }
-  };
-  reader.readAsText(file);
-}
-
-function adminResetAll() {
-  if (!confirm('⚠️ सारा data (users, notes, tasks, jobs, store, questions) मिट जाएगा। पक्का?')) return;
-  if (!confirm('आखिरी बार पूछ रहे हैं — Delete?')) return;
-  const keys = Object.keys(localStorage).filter(k => k.startsWith('bodh_'));
-  keys.forEach(k => localStorage.removeItem(k));
-  alert('✅ Reset हो गया। Page reload होगा।');
-  location.reload();
-}
-
-function adminChangePass() {
-  const p1 = val('newPass'), p2 = val('newPass2');
-  if (!p1 || p1 !== p2) return alert('Passwords मेल नहीं खा रहे');
-  if (p1.length < 4) return alert('कम से कम 4 अक्षर');
-  DB.set('adminPass', p1);
-  alert('✅ Admin Password बदल गया');
-  document.getElementById('newPass').value = '';
-  document.getElementById('newPass2').value = '';
-}
-
-/* ============ PWA MANIFEST ============ */
-(function setupPWA() {
-  try {
-    const icon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23667eea'/><text y='.9em' font-size='70' x='15'>📚</text></svg>";
-    const manifest = {
-      name: 'BODH — स्टडी साथी',
-      short_name: 'BODH',
-      description: 'PDF, Resume, Mock Test, Notes, AI — सब एक जगह',
-      start_url: '.',
-      display: 'standalone',
-      orientation: 'portrait',
-      background_color: '#f5f7fb',
-      theme_color: '#667eea',
-      icons: [
-        { src: icon, sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable' },
-        { src: icon, sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' }
-      ]
-    };
-    const link = document.createElement('link');
-    link.rel = 'manifest';
-    link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' }));
-    document.head.appendChild(link);
-  } catch(e) {}
-})();
-
-/* ============ INIT ============ */
-window.addEventListener('DOMContentLoaded', () => {
-  // First time = no users → show signup by default
-  if (!DB.get('users', []).length) showAuthTab('signup');
-  // Auto-login if session exists
-  tryAutoLogin();
-});
-</script>
-</body>
-</html>
-```
-
----
- 
+    
