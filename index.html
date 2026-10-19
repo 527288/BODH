@@ -397,4 +397,55 @@ const DEFAULT_QUESTIONS = {
     { q: '5 : 25 :: 7 : ?', options: ['49', '35', '56', '42'], ans: 0 }
   ]
 };
+ const ADMIN_DEFAULT_PASS = 'bodh123';
+
+/* ============ HELPERS ============ */
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+function simpleHash(str) {
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return ((h2 >>> 0).toString(16)) + ((h1 >>> 0).toString(16));
+}
+
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ============ AUTH ============ */
+function showAuthTab(tab) {
+  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+  document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+}
+
+function doSignup() {
+  const name = val('signupName'), email = val('signupEmail').toLowerCase(), pass = val('signupPass'), pass2 = val('signupPass2');
+  const msg = document.getElementById('signupMsg');
+  msg.textContent = '';
+  if (!name || !email || !pass) { msg.textContent = 'सभी fields भरें'; return; }
+  if (!email.includes('@')) { msg.textContent = 'सही Email डालें'; return; }
+  if (pass.length < 4) { msg.textContent = 'Password कम से कम 4 अक्षर'; return; }
+  if (pass !== pass2) { msg.textContent = 'Passwords मेल नहीं खा रहे'; return; }
+  const users = DB.get('users', []);
+  if (users.find(u => u.email === email)) { msg.textContent = 'यह Email पहले से registered है'; return; }
+  const user = { id: Date.now(), name, email, passHash: simpleHash(pass), created: new Date().toISOString() };
+  users.push(user);
+  DB.set('users', users);
+  sessionStorage.setItem('bodh_uid', user.id);
+  currentUser = user;
+  enterApp();
+ }
  
