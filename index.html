@@ -732,5 +732,438 @@ function deleteNote(id) {
   uset('notes', uget('notes', []).filter(n => n.id !== id));
   loadNotes();
 }
+/* ============ PLANNER ============ */
+function loadTasks() {
+  if (!currentUser) return;
+  const tasks = uget('tasks', []).sort((a, b) => (a.date || '9999') < (b.date || '9999') ? -1 : 1);
+  document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t => `
+    <li class="${t.done ? 'done' : ''}">
+      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
+      <span>${esc(t.text)}</span>
+      <small>${esc(t.date || '')}</small>
+      <button onclick="deleteTask(${t.id})">✕</button>
+    </li>`).join('') : '<p style="color:#888;padding:1rem">कोई टास्क नहीं।</p>';
+}
 
+function addTask() {
+  const text = val('taskText'), date = val('taskDate');
+  if (!text) return alert('कार्य लिखें');
+  const tasks = uget('tasks', []);
+  tasks.push({ id: Date.now(), text, date, done: false });
+  uset('tasks', tasks);
+  document.getElementById('taskText').value = '';
+  document.getElementById('taskDate').value = '';
+  loadTasks();
+}
+
+function toggleTask(id) {
+  const tasks = uget('tasks', []);
+  const t = tasks.find(x => x.id === id);
+  if (t) { t.done = !t.done; uset('tasks', tasks); loadTasks(); }
+}
+
+function deleteTask(id) {
+  uset('tasks', uget('tasks', []).filter(t => t.id !== id));
+  loadTasks();
+}
+
+/* ============ JOBS ============ */
+function loadJobs() {
+  const jobs = DB.get('jobs', DEFAULT_JOBS);
+  document.getElementById('jobsList').innerHTML = jobs.length ? jobs.map(j => `
+    <div class="card" style="font-size:1rem;text-align:left;cursor:default">
+      <h3>${esc(j.title)}</h3>
+      <p style="margin-bottom:.5rem">${esc(j.desc)}</p>
+      <a href="${esc(j.link)}" target="_blank" rel="noopener">आधिकारिक साइट →</a>
+    </div>`).join('') : '<p style="padding:1rem">अभी कोई जॉब नहीं।</p>';
+}
+
+/* ============ STORE ============ */
+function loadStore() {
+  const items = DB.get('store', DEFAULT_STORE);
+  document.getElementById('storeList').innerHTML = items.length ? items.map(s => `
+    <div class="card" style="font-size:1rem;cursor:default">
+      <h3>${esc(s.name)}</h3>
+      <p>${esc(s.desc)}</p>
+      <p style="color:#667eea;font-weight:700;font-size:1.15rem;margin:.5rem 0">${esc(s.price)}</p>
+      <button onclick="alert('भुगतान सुविधा जल्द आएगी!')" style="margin:0">🛒 खरीदें</button>
+    </div>`).join('') : '<p style="padding:1rem">अभी कोई आइटम नहीं।</p>';
+}
+
+/* ============ AI + VOICE ============ */
+async function askAI() {
+  const input = document.getElementById('chatInput');
+  const q = input.value.trim();
+  if (!q) return;
+  const box = document.getElementById('chatBox');
+  box.innerHTML += `<div class="msg user">${esc(q)}</div>`;
+  input.value = '';
+  box.innerHTML += `<div class="msg ai" id="loading">🤔 सोच रहा हूँ...</div>`;
+  box.scrollTop = box.scrollHeight;
+  try {
+    const res = await puter.ai.chat(
+      "You are BODH, a helpful study assistant for Indian students. Answer briefly and clearly. Respond in the same language as the question (Hindi/Hinglish/English). Question: " + q
+    );
+    const text = typeof res === 'string' ? res : (res.text || res.message?.content || JSON.stringify(res));
+    document.getElementById('loading')?.remove();
+    box.innerHTML += `<div class="msg ai">${esc(text)}</div>`;
+  } catch (e) {
+    document.getElementById('loading')?.remove();
+    box.innerHTML += `<div class="msg ai">⚠️ AI उपलब्ध नहीं। पहली बार Puter login माँग सकता है (free Google login) — popup allow करें।</div>`;
+  }
+  box.scrollTop = box.scrollHeight;
+}
+
+let recognition = null;
+let isRecording = false;
+
+function toggleVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return alert('आपका ब्राउज़र voice support नहीं करता। Chrome आज़माएं।');
+  const btn = document.getElementById('micBtn');
+  if (isRecording) {
+    recognition.stop();
+    isRecording = false;
+    btn.classList.remove('recording');
+    return;
+  }
+  recognition = new SR();
+  recognition.lang = 'hi-IN';
+  recognition.interimResults = false;
+  recognition.continuous = false;
+  recognition.onresult = (e) => {
+    const text = e.results[0][0].transcript;
+    document.getElementById('chatInput').value = text;
+  };
+  recognition.onerror = (e) => {
+    isRecording = false;
+    btn.classList.remove('recording');
+    if (e.error !== 'no-speech') alert('Voice error: ' + e.error);
+  };
+  recognition.onend = () => {
+    isRecording = false;
+    btn.classList.remove('recording');
+  };
+  recognition.start();
+  isRecording = true;
+  btn.classList.add('recording');
+}
+
+/* ============ SHARE ============ */
+function shareWhatsApp() {
+  const text = '📚 BODH — मेरा स्टडी साथी! PDF टूल्स, Resume, Mock Test, Notes, AI — सब एक जगह।';
+  const url = window.location.href;
+  window.open('https://wa.me/?text=' + encodeURIComponent(text + '\n' + url), '_blank');
+}
+
+/* ============ ADMIN ============ */
+function checkAdminSession() {
+  const logged = sessionStorage.getItem('bodh_admin') === '1';
+  document.getElementById('adminLogin').style.display = logged ? 'none' : 'block';
+  document.getElementById('adminPanel').style.display = logged ? 'block' : 'none';
+  if (logged) adminTab('stats');
+}
+
+function loginAdmin() {
+  const pass = val('adminPass');
+  const saved = DB.get('adminPass', ADMIN_DEFAULT_PASS);
+  const msg = document.getElementById('adminMsg');
+  if (pass === saved) {
+    sessionStorage.setItem('bodh_admin', '1');
+    document.getElementById('adminPass').value = '';
+    msg.textContent = '';
+    checkAdminSession();
+  } else {
+    msg.textContent = '❌ गलत Password';
+  }
+}
+
+function logoutAdmin() {
+  sessionStorage.removeItem('bodh_admin');
+  checkAdminSession();
+}
+
+function adminTab(name) {
+  document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  const c = document.getElementById('adminContent');
+
+  if (name === 'stats') {
+    const users = DB.get('users', []).length;
+    const jobs = DB.get('jobs', DEFAULT_JOBS).length;
+    const store = DB.get('store', DEFAULT_STORE).length;
+    const qs = Object.values(DB.get('questions', DEFAULT_QUESTIONS)).reduce((a, b) => a + b.length, 0);
+    const noteCount = DB.get('users', []).reduce((sum, u) => {
+      const n = DB.get('bodh_u' + u.id + '_notes', []);
+      return sum + n.length;
+    }, 0);
+    c.innerHTML = `<div>
+      <div class="stat-card"><b>${users}</b><span>Users</span></div>
+      <div class="stat-card"><b>${jobs}</b><span>Jobs</span></div>
+      <div class="stat-card"><b>${store}</b><span>Store</span></div>
+      <div class="stat-card"><b>${qs}</b><span>Questions</span></div>
+      <div class="stat-card"><b>${noteCount}</b><span>Notes</span></div>
+    </div>`;
+  }
+  else if (name === 'jobs') {
+    const jobs = DB.get('jobs', DEFAULT_JOBS);
+    c.innerHTML = `<h3>💼 Jobs Manage</h3>
+      <div class="form" style="margin-bottom:1rem">
+        <input id="jobTitle" placeholder="Title">
+        <input id="jobDesc" placeholder="Description / पात्रता">
+        <input id="jobLink" placeholder="आधिकारिक URL (https://...)">
+        <button onclick="adminAddJob()">➕ जोड़ें</button>
+      </div>
+      ${jobs.map(j => `<div class="admin-item">
+        <p><b>${esc(j.title)}</b></p>
+        <p>${esc(j.desc)}</p>
+        <p style="font-size:.75rem;color:#888;word-break:break-all">${esc(j.link)}</p>
+        <button class="del" onclick="adminDelJob(${j.id})">🗑️ Delete</button>
+      </div>`).join('')}`;
+  }
+  else if (name === 'store') {
+    const items = DB.get('store', DEFAULT_STORE);
+    c.innerHTML = `<h3>🛒 Store Manage</h3>
+      <div class="form" style="margin-bottom:1rem">
+        <input id="sName" placeholder="Product Name">
+        <input id="sDesc" placeholder="Description">
+        <input id="sPrice" placeholder="Price (₹99)">
+        <button onclick="adminAddStore()">➕ जोड़ें</button>
+      </div>
+      ${items.map(s => `<div class="admin-item">
+        <p><b>${esc(s.name)}</b> — ${esc(s.price)}</p>
+        <p>${esc(s.desc)}</p>
+        <button class="del" onclick="adminDelStore(${s.id})">🗑️ Delete</button>
+      </div>`).join('')}`;
+  }
+  else if (name === 'questions') {
+    c.innerHTML = `<h3>✏️ Questions Manage</h3>
+      <div class="form" style="margin-bottom:1rem">
+        <select id="qSubject">
+          <option value="gk">सामान्य ज्ञान</option>
+          <option value="math">गणित</option>
+          <option value="reasoning">रीज़निंग</option>
+        </select>
+        <input id="qText" placeholder="प्रश्न">
+        <input id="qOpt0" placeholder="Option A">
+        <input id="qOpt1" placeholder="Option B">
+        <input id="qOpt2" placeholder="Option C">
+        <input id="qOpt3" placeholder="Option D">
+        <select id="qAns">
+          <option value="0">सही उत्तर: A</option>
+          <option value="1">सही उत्तर: B</option>
+          <option value="2">सही उत्तर: C</option>
+          <option value="3">सही उत्तर: D</option>
+        </select>
+        <button onclick="adminAddQuestion()">➕ जोड़ें</button>
+      </div>
+      <div id="qList">${renderQuestionList()}</div>`;
+  }
+  else if (name === 'users') {
+    const users = DB.get('users', []);
+    c.innerHTML = `<h3>👥 Registered Users (${users.length})</h3>
+      ${users.map(u => `<div class="admin-item">
+        <p><b>${esc(u.name)}</b></p>
+        <p style="font-size:.8rem">${esc(u.email)}</p>
+        <p style="font-size:.75rem;color:#888">Joined: ${new Date(u.created).toLocaleDateString('hi-IN')}</p>
+        <button class="del" onclick="adminDelUser(${u.id})">🗑️ Delete User</button>
+      </div>`).join('')}`;
+  }
+  else if (name === 'backup') {
+    c.innerHTML = `<h3>💾 Backup / Restore</h3>
+      <p style="margin-bottom:.75rem;color:#666;font-size:.9rem">सारा data (users, notes, tasks, jobs, store, questions) एक JSON file में export करें।</p>
+      <button onclick="adminExport()">⬇️ Export Full Backup</button>
+      <br><br>
+      <p style="margin-bottom:.75rem;color:#666;font-size:.9rem">Import से पुराना data बदल जाएगा। सावधानी से करें।</p>
+      <input type="file" id="importFile" accept=".json">
+      <button onclick="adminImport()">⬆️ Import करें</button>
+      <br><br>
+      <button onclick="adminResetAll()" style="background:#e74c3c">🗑️ सारा Data Reset</button>`;
+  }
+  else if (name === 'settings') {
+    c.innerHTML = `<h3>🔧 Settings</h3>
+      <div class="form">
+        <p style="font-size:.9rem;color:#666;margin-bottom:.75rem">Admin Password बदलें</p>
+        <input type="password" id="newPass" placeholder="नया Password">
+        <input type="password" id="newPass2" placeholder="दोबारा डालें">
+        <button onclick="adminChangePass()">💾 Password बदलें</button>
+      </div>`;
+  }
+}
+
+function renderQuestionList() {
+  const all = DB.get('questions', DEFAULT_QUESTIONS);
+  const labels = { gk: 'GK', math: 'गणित', reasoning: 'रीज़निंग' };
+  let html = '';
+  for (const subj in all) {
+    html += `<h3 style="margin-top:1rem">${labels[subj] || subj}</h3>`;
+    all[subj].forEach((q, i) => {
+      html += `<div class="admin-item">
+        <p><b>${esc(q.q)}</b></p>
+        <p>✅ सही: ${esc(q.options[q.ans])}</p>
+        <button class="del" onclick="adminDelQuestion('${subj}',${i})">🗑️ Delete</button>
+      </div>`;
+    });
+  }
+  return html;
+}
+
+function adminAddJob() {
+  const t = val('jobTitle'), d = val('jobDesc'), l = val('jobLink');
+  if (!t || !l) return alert('Title और Link ज़रूरी');
+  const jobs = DB.get('jobs', DEFAULT_JOBS);
+  jobs.push({ id: Date.now(), title: t, desc: d, link: l });
+  DB.set('jobs', jobs);
+  adminTab('jobs');
+}
+
+function adminDelJob(id) {
+  if (!confirm('Delete?')) return;
+  DB.set('jobs', DB.get('jobs', DEFAULT_JOBS).filter(j => j.id !== id));
+  adminTab('jobs');
+}
+
+function adminAddStore() {
+  const n = val('sName'), d = val('sDesc'), p = val('sPrice');
+  if (!n || !p) return alert('Name और Price ज़रूरी');
+  const items = DB.get('store', DEFAULT_STORE);
+  items.push({ id: Date.now(), name: n, desc: d, price: p });
+  DB.set('store', items);
+  adminTab('store');
+}
+
+function adminDelStore(id) {
+  if (!confirm('Delete?')) return;
+  DB.set('store', DB.get('store', DEFAULT_STORE).filter(s => s.id !== id));
+  adminTab('store');
+}
+
+function adminAddQuestion() {
+  const subj = document.getElementById('qSubject').value;
+  const q = val('qText');
+  const opts = [val('qOpt0'), val('qOpt1'), val('qOpt2'), val('qOpt3')];
+  const ans = parseInt(document.getElementById('qAns').value);
+  if (!q || opts.some(o => !o)) return alert('सभी fields भरें');
+  const all = DB.get('questions', DEFAULT_QUESTIONS);
+  all[subj].push({ q, options: opts, ans });
+  DB.set('questions', all);
+  adminTab('questions');
+}
+
+function adminDelQuestion(subj, idx) {
+  if (!confirm('Delete?')) return;
+  const all = DB.get('questions', DEFAULT_QUESTIONS);
+  all[subj].splice(idx, 1);
+  DB.set('questions', all);
+  document.getElementById('qList').innerHTML = renderQuestionList();
+}
+
+function adminDelUser(id) {
+  if (!confirm('इस user और उसका सारा data delete करें?')) return;
+  DB.set('users', DB.get('users', []).filter(u => u.id !== id));
+  localStorage.removeItem('bodh_u' + id + '_notes');
+  localStorage.removeItem('bodh_u' + id + '_tasks');
+  adminTab('users');
+}
+
+function adminExport() {
+  const data = {
+    users: DB.get('users', []),
+    jobs: DB.get('jobs', DEFAULT_JOBS),
+    store: DB.get('store', DEFAULT_STORE),
+    questions: DB.get('questions', DEFAULT_QUESTIONS),
+    exportedAt: new Date().toISOString()
+  };
+  // include all user data
+  DB.get('users', []).forEach(u => {
+    data['u' + u.id + '_notes'] = DB.get('bodh_u' + u.id + '_notes', []);
+    data['u' + u.id + '_tasks'] = DB.get('bodh_u' + u.id + '_tasks', []);
+  });
+  downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), 'bodh-backup-' + Date.now() + '.json');
+  alert('✅ Backup डाउनलोड हो गया');
+}
+
+function adminImport() {
+  const file = document.getElementById('importFile').files[0];
+  if (!file) return alert('File चुनें');
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!confirm('मौजूदा data बदल जाएगा। जारी रखें?')) return;
+      if (data.users) DB.set('users', data.users);
+      if (data.jobs) DB.set('jobs', data.jobs);
+      if (data.store) DB.set('store', data.store);
+      if (data.questions) DB.set('questions', data.questions);
+      // restore user data
+      for (const key in data) {
+        if (key.startsWith('u') && (key.endsWith('_notes') || key.endsWith('_tasks'))) {
+          const uid = key.substring(1, key.indexOf('_'));
+          const suffix = key.endsWith('_notes') ? 'notes' : 'tasks';
+          DB.set('bodh_u' + uid + '_' + suffix, data[key]);
+        }
+      }
+      alert('✅ Import सफल');
+      adminTab('stats');
+    } catch (err) { alert('❌ गलत file: ' + err.message); }
+  };
+  reader.readAsText(file);
+}
+
+function adminResetAll() {
+  if (!confirm('⚠️ सारा data (users, notes, tasks, jobs, store, questions) मिट जाएगा। पक्का?')) return;
+  if (!confirm('आखिरी बार पूछ रहे हैं — Delete?')) return;
+  const keys = Object.keys(localStorage).filter(k => k.startsWith('bodh_'));
+  keys.forEach(k => localStorage.removeItem(k));
+  alert('✅ Reset हो गया। Page reload होगा।');
+  location.reload();
+}
+
+function adminChangePass() {
+  const p1 = val('newPass'), p2 = val('newPass2');
+  if (!p1 || p1 !== p2) return alert('Passwords मेल नहीं खा रहे');
+  if (p1.length < 4) return alert('कम से कम 4 अक्षर');
+  DB.set('adminPass', p1);
+  alert('✅ Admin Password बदल गया');
+  document.getElementById('newPass').value = '';
+  document.getElementById('newPass2').value = '';
+}
+
+/* ============ PWA MANIFEST ============ */
+(function setupPWA() {
+  try {
+    const icon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23667eea'/><text y='.9em' font-size='70' x='15'>📚</text></svg>";
+    const manifest = {
+      name: 'BODH — स्टडी साथी',
+      short_name: 'BODH',
+      description: 'PDF, Resume, Mock Test, Notes, AI — सब एक जगह',
+      start_url: '.',
+      display: 'standalone',
+      orientation: 'portrait',
+      background_color: '#f5f7fb',
+      theme_color: '#667eea',
+      icons: [
+        { src: icon, sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable' },
+        { src: icon, sizes: '512x512', type: 'image/svg+xml', purpose: 'any maskable' }
+      ]
+    };
+    const link = document.createElement('link');
+    link.rel = 'manifest';
+    link.href = URL.createObjectURL(new Blob([JSON.stringify(manifest)], { type: 'application/json' }));
+    document.head.appendChild(link);
+  } catch(e) {}
+})();
+
+/* ============ INIT ============ */
+window.addEventListener('DOMContentLoaded', () => {
+  // First time = no users → show signup by default
+  if (!DB.get('users', []).length) showAuthTab('signup');
+  // Auto-login if session exists
+  tryAutoLogin();
+});
+</script>
+</body>
+</html>
+```
+
+---
  
