@@ -3,342 +3,466 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#1747a6">
+<meta name="theme-color" content="#173f91">
 <title>BODH — Student Help Hub</title>
+
+<!-- PDF tools need internet to load this library -->
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 
 <style>
-:root{--blue:#1747a6;--ink:#172033;--muted:#667085;--bg:#f4f7fc;--card:#fff}
+:root{--blue:#173f91;--ink:#172033;--muted:#667085;--bg:#f3f6fc}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,"Noto Sans Devanagari",sans-serif}
-button,input,select,textarea{font:inherit}
-button{cursor:pointer;border:0;border-radius:10px;padding:11px 14px;background:var(--blue);color:white;font-weight:700}
-button:disabled{opacity:.5;cursor:not-allowed}
-input,select,textarea{width:100%;padding:12px;border:1px solid #d8dfeb;border-radius:10px;background:#fff;color:#172033}
-textarea{min-height:95px;resize:vertical}
-label{display:block;font-size:14px;font-weight:700;margin:12px 0 6px}
-a{color:#1747a6;overflow-wrap:anywhere}
-header{background:linear-gradient(120deg,#132f73,#2874db);color:#fff;padding:20px 16px 24px}
-.top{display:flex;align-items:center;gap:12px;max-width:1050px;margin:auto}
-.logo{height:48px;width:48px;border-radius:15px;background:#fff;color:#1747a6;display:grid;place-items:center;font-size:23px;font-weight:900}
-.brand{font-size:25px;font-weight:900;letter-spacing:2px}
-.tag{font-size:12px;opacity:.9;margin-top:4px}
-.hero{max-width:1050px;margin:25px auto 0}
-.hero h1{font-size:27px;line-height:1.3;margin:0 0 9px}
-.hero p{line-height:1.6;margin:0;color:#e8efff}
-.wrap{max-width:1050px;margin:auto;padding:17px}
-.search{margin-bottom:16px}
+button,input,textarea,select{font:inherit}
+button{border:0;border-radius:11px;padding:12px 14px;background:var(--blue);color:white;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5}
+input,textarea,select{width:100%;padding:12px;border:1px solid #d7deea;border-radius:10px;background:white;color:var(--ink)}
+textarea{min-height:90px}
+label{display:block;margin:13px 0 6px;font-size:14px;font-weight:bold}
+header{padding:20px 17px 27px;color:white;background:linear-gradient(125deg,#132d68,#2876dd)}
+.top{display:flex;align-items:center;gap:12px;max-width:1000px;margin:auto}
+.logo{width:48px;height:48px;border-radius:15px;background:white;color:#173f91;display:grid;place-items:center;font-size:25px;font-weight:900}
+.brand{font-size:27px;font-weight:900;letter-spacing:2px}
+.tag{font-size:12px;margin-top:4px}
+.hero{max-width:1000px;margin:25px auto 0}
+.hero h1{font-size:27px;line-height:1.35;margin:0 0 9px}
+.hero p{line-height:1.7;margin:0;color:#e7efff}
+.wrap{max-width:1000px;margin:auto;padding:17px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.tile{background:#fff;border:1px solid #e5eaf3;border-radius:16px;padding:16px 12px;text-align:left;color:var(--ink);min-height:125px;box-shadow:0 3px 12px #17203308}
-.tile .emoji{font-size:27px;display:block;margin-bottom:10px}
-.tile strong{display:block;font-size:15px;margin-bottom:6px}
-.tile small{font-weight:400;color:var(--muted);line-height:1.45}
-.tile:active{transform:scale(.98)}
-.panel{display:none;background:#fff;border-radius:16px;border:1px solid #e1e7f0;padding:17px;margin-top:15px}
+.tile{min-height:126px;background:white;color:var(--ink);text-align:left;border:1px solid #e1e7f0;border-radius:16px;padding:15px 12px;box-shadow:0 4px 13px #17203309}
+.tile .emoji{display:block;font-size:28px;margin-bottom:9px}
+.tile strong{display:block;margin-bottom:6px}
+.tile small{display:block;color:var(--muted);font-weight:normal;line-height:1.5}
+.panel{display:none;background:white;border:1px solid #e0e6f0;border-radius:16px;padding:17px;margin-top:15px}
 .panel.active{display:block}
-.panel h2{font-size:22px;margin:4px 0 8px}
-.panel h3{margin:18px 0 8px}
+.panel h2{font-size:22px;margin:5px 0 9px}
 .sub{color:var(--muted);font-size:14px;line-height:1.6}
-.back{background:#edf2fb;color:#1747a6;margin-bottom:12px}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.back{background:#eaf0fb;color:var(--blue);margin-bottom:12px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
 .actions button{flex:1}
-.secondary{background:#eaf0fa;color:#1747a6}
+.secondary{background:#e8eef9;color:var(--blue)}
 .danger{background:#b42318}
-.out{background:#f6f8fc;border-radius:12px;padding:13px;margin-top:12px;overflow-wrap:anywhere}
+.out{background:#f5f7fb;border-radius:12px;padding:13px;margin-top:13px;overflow-wrap:anywhere;line-height:1.6}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-hr{border:0;border-top:1px solid #e5eaf3;margin:18px 0}
 .hidden{display:none!important}
-.notice{font-size:13px;color:#7a4b00;background:#fff4d6;padding:11px;border-radius:10px;line-height:1.6;margin:12px 0}
-.good{background:#e7f8ef;color:#17663c;padding:11px;border-radius:10px;margin-top:10px}
-.bad{background:#fff0ee;color:#a12b20;padding:11px;border-radius:10px;margin-top:10px}
+.notice{background:#fff4d6;color:#754b00;padding:11px;border-radius:10px;font-size:13px;line-height:1.6;margin-top:12px}
+.listitem{padding:13px 0;border-bottom:1px solid #e5eaf3;overflow-wrap:anywhere}
+.listitem button{margin:5px 5px 0 0}
+a{overflow-wrap:anywhere}
+.preview{display:block;max-width:100%;max-height:280px;object-fit:contain;margin-top:12px}
+.qoption{display:block;width:100%;text-align:left;background:#eef3fb;color:#172033;margin:8px 0;font-weight:normal}
+#resumePreview{background:white;color:#111;border:1px solid #ddd;padding:20px;margin-top:15px;line-height:1.6;overflow-wrap:anywhere}
+#resumePreview h2{border-bottom:2px solid #173f91;padding-bottom:9px}
 footer{text-align:center;padding:25px 15px;color:var(--muted);font-size:12px;line-height:1.8}
-.preview{max-width:100%;max-height:260px;object-fit:contain;margin-top:12px;border-radius:8px}
-.qoption{display:block;width:100%;text-align:left;background:#f1f5fb;color:#172033;margin:8px 0;font-weight:500}
-.qoption.chosen{background:#d8e8ff;border:2px solid #1747a6}
-#resumePreview{background:#fff;color:#111;padding:20px;margin-top:16px;border:1px solid #ddd}
-#resumePreview h2{margin-top:0}
-.listitem{padding:12px 0;border-bottom:1px solid #e5eaf3}
-.listitem button{margin:5px 4px 0 0}
 @media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.wrap{padding:24px}.hero h1{font-size:34px}}
 </style>
 </head>
-
 <body>
+
 <header>
-  <div class="top">
-    <div class="logo">ब</div>
-    <div><div class="brand">BODH</div><div class="tag">सीखें • तैयारी करें • आगे बढ़ें</div></div>
-  </div>
-  <div class="hero">
-    <h1>छात्रों और नौकरी की तैयारी करने वालों का साथी</h1>
-    <p>फोटो, PDF, रिज्यूमे, मॉक टेस्ट, पढ़ाई और सरकारी योजनाओं के लिए एक ही जगह।</p>
-  </div>
+  <div class="top">
+    <div class="logo">ब</div>
+    <div><div class="brand">BODH</div><div class="tag">सीखें • तैयारी करें • आगे बढ़ें</div></div>
+  </div>
+  <div class="hero">
+    <h1>आपकी पढ़ाई और नौकरी की तैयारी का साथी</h1>
+    <p>फोटो, PDF, रिज्यूमे, मॉक टेस्ट, नोट्स और सरकारी योजनाएँ — एक ही जगह।</p>
+  </div>
 </header>
 
 <main class="wrap">
-  <input id="search" class="search" placeholder="🔎 अपना टूल खोजें..." oninput="filterTiles()">
+<input id="search" placeholder="🔎 अपना टूल खोजें..." oninput="filterTiles()">
 
-  <div class="grid" id="tiles">
-    <button class="tile" data-name="photo signature image resize kb jpg" onclick="openTool('photo')"><span class="emoji">📸</span><strong>Photo & Signature</strong><small>फोटो का आकार, KB और डाउनलोड</small></button>
-    <button class="tile" data-name="pdf merge split compress image" onclick="openTool('pdf')"><span class="emoji">📄</span><strong>PDF Tools</strong><small>PDF बनाएं, जोड़ें, पेज अलग करें</small></button>
-    <button class="tile" data-name="resume cv biodata" onclick="openTool('resume')"><span class="emoji">🧑‍💼</span><strong>Resume Maker</strong><small>रिज्यूमे बनाएं और PDF सेव करें</small></button>
-    <button class="tile" data-name="mock test quiz exam pet gk" onclick="openTool('mock')"><span class="emoji">📝</span><strong>Mock Test</strong><small>प्रश्न हल करें और स्कोर देखें</small></button>
-    <button class="tile" data-name="notes notebook" onclick="openTool('notes')"><span class="emoji">📒</span><strong>My Notes</strong><small>नोट्स बनाएं, बदलें और सेव करें</small></button>
-    <button class="tile" data-name="study planner timetable schedule" onclick="openTool('planner')"><span class="emoji">📅</span><strong>Study Planner</strong><small>अपना पढ़ाई का शेड्यूल बनाएं</small></button>
-    <button class="tile" data-name="jobs rojgar naukri vacancy" onclick="openTool('jobs')"><span class="emoji">💼</span><strong>Jobs</strong><small>सरकारी और निजी नौकरी के पोर्टल</small></button>
-    <button class="tile" data-name="scholarship छात्रवृत्ति" onclick="openTool('scholarship')"><span class="emoji">🎓</span><strong>Scholarships</strong><small>छात्रवृत्ति और आधिकारिक पोर्टल</small></button>
-    <button class="tile" data-name="ai helper assistant study" onclick="openTool('ai')"><span class="emoji">🤖</span><strong>BODH Helper</strong><small>पढ़ाई और टूल से जुड़े सवाल</small></button>
-    <button class="tile" data-name="store books study material" onclick="openTool('store')"><span class="emoji">🛍️</span><strong>Study Store</strong><small>किताबों और सामग्री का सेक्शन</small></button>
-  </div>
+<div class="grid" id="tiles">
+  <button class="tile" data-name="photo signature image resize" onclick="openTool('photo')"><span class="emoji">📸</span><strong>Photo & Signature</strong><small>फोटो का आकार और KB बदलें</small></button>
+  <button class="tile" data-name="pdf merge split compress" onclick="openTool('pdf')"><span class="emoji">📄</span><strong>PDF Tools</strong><small>PDF बनाएं, जोड़ें और पेज अलग करें</small></button>
+  <button class="tile" data-name="resume cv biodata" onclick="openTool('resume')"><span class="emoji">🧑‍💼</span><strong>Resume Maker</strong><small>रिज्यूमे बनाएं और सेव करें</small></button>
+  <button class="tile" data-name="mock test quiz exam pet gk" onclick="openTool('mock')"><span class="emoji">📝</span><strong>Mock Test</strong><small>प्रश्न हल करें और स्कोर देखें</small></button>
+  <button class="tile" data-name="notes notebook" onclick="openTool('notes')"><span class="emoji">📒</span><strong>My Notes</strong><small>नोट्स सेव करें और बदलें</small></button>
+  <button class="tile" data-name="study planner timetable" onclick="openTool('planner')"><span class="emoji">📅</span><strong>Study Planner</strong><small>पढ़ाई का शेड्यूल बनाएं</small></button>
+  <button class="tile" data-name="jobs rojgar naukri" onclick="openTool('jobs')"><span class="emoji">💼</span><strong>Jobs</strong><small>सरकारी भर्ती के पोर्टल</small></button>
+  <button class="tile" data-name="scholarship छात्रवृत्ति" onclick="openTool('scholarship')"><span class="emoji">🎓</span><strong>Scholarships</strong><small>छात्रवृत्ति के पोर्टल</small></button>
+  <button class="tile" data-name="ai helper assistant" onclick="openTool('ai')"><span class="emoji">🤖</span><strong>BODH Helper</strong><small>पढ़ाई से जुड़े सवाल पूछें</small></button>
+  <button class="tile" data-name="store books study material" onclick="openTool('store')"><span class="emoji">🛍️</span><strong>Study Store</strong><small>किताबों और सामग्री का सेक्शन</small></button>
+</div>
 
-  <!-- PHOTO TOOL -->
-  <section class="panel" id="photo">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>📸 Photo & Signature Resizer</h2>
-    <p class="sub">फोटो चुनें, चौड़ाई-ऊंचाई और लक्ष्य KB डालें। फाइल आपके ब्राउज़र में प्रोसेस होगी।</p>
-    <label>फोटो चुनें</label><input id="photoFile" type="file" accept="image/*">
-    <div class="row2">
-      <div><label>चौड़ाई (px)</label><input id="photoW" type="number" value="200" min="1" max="5000"></div>
-      <div><label>ऊंचाई (px)</label><input id="photoH" type="number" value="230" min="1" max="5000"></div>
-    </div>
-    <label>लक्ष्य फाइल साइज़ (KB, वैकल्पिक)</label><input id="photoKB" type="number" placeholder="जैसे 50">
-    <label>फॉर्मेट</label><select id="photoFormat"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select>
-    <div class="actions"><button onclick="resizePhoto()">फोटो तैयार करें</button></div>
-    <div id="photoResult" class="out">अभी कोई फोटो नहीं चुनी गई।</div>
-  </section>
+<!-- PHOTO -->
+<section class="panel" id="photo">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>📸 Photo & Signature Resizer</h2>
+<p class="sub">फोटो ब्राउज़र में ही प्रोसेस होती है।</p>
+<label>फोटो चुनें</label><input id="photoFile" type="file" accept="image/*">
+<div class="row2">
+<div><label>चौड़ाई (px)</label><input id="photoW" type="number" min="1" max="5000" value="200"></div>
+<div><label>ऊंचाई (px)</label><input id="photoH" type="number" min="1" max="5000" value="230"></div>
+</div>
+<label>लक्ष्य साइज़ (KB, वैकल्पिक)</label><input id="photoKB" type="number" min="1" placeholder="जैसे 50">
+<label>फॉर्मेट</label><select id="photoFormat"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select>
+<div class="actions"><button onclick="resizePhoto()">फोटो तैयार करें</button></div>
+<div id="photoResult" class="out">पहले फोटो चुनें।</div>
+</section>
 
-  <!-- PDF TOOL -->
-  <section class="panel" id="pdf">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>📄 PDF Tools</h2>
-    <p class="sub">फाइलें आपके ब्राउज़र में प्रोसेस होंगी। बड़े PDF में मोबाइल की मेमोरी की सीमा हो सकती है।</p>
-    <label>काम चुनें</label>
-    <select id="pdfAction" onchange="showPdfFields()">
-      <option value="images">फोटो से PDF बनाएं</option>
-      <option value="merge">कई PDF जोड़ें</option>
-      <option value="split">PDF के पेज अलग करें</option>
-      <option value="compress">PDF का आकार कम करने की कोशिश</option>
-    </select>
-    <label>फाइल चुनें</label>
-    <input id="pdfFiles" type="file" accept="image/*" multiple>
-    <div id="pdfExtra" class="hidden">
-      <label>पेज रेंज (उदाहरण: 1-3,5)</label>
-      <input id="pdfPages" placeholder="1-3,5">
-    </div>
-    <div id="pdfCompressNote" class="notice hidden">PDF को दोबारा लिखने से हमेशा साइज़ कम नहीं होता। स्कैन की गई इमेज को री-कंप्रेस करने वाला उन्नत विकल्प इसमें शामिल नहीं है।</div>
-    <div class="actions"><button onclick="processPDF()">PDF प्रोसेस करें</button></div>
-    <div id="pdfResult" class="out">PDF टूल तैयार है।</div>
-  </section>
+<!-- PDF -->
+<section class="panel" id="pdf">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>📄 PDF Tools</h2>
+<label>काम चुनें</label>
+<select id="pdfAction" onchange="showPdfFields()">
+<option value="images">फोटो से PDF बनाएं</option>
+<option value="merge">कई PDF जोड़ें</option>
+<option value="split">PDF के पेज अलग करें</option>
+<option value="compress">PDF दोबारा सेव करें</option>
+</select>
+<label>फाइल चुनें</label><input id="pdfFiles" type="file" accept="image/*" multiple>
+<div id="pdfExtra" class="hidden"><label>पेज रेंज (जैसे 1-3,5)</label><input id="pdfPages" placeholder="1-3,5"></div>
+<div class="notice">PDF टूल के लिए इंटरनेट और PDF लाइब्रेरी लोड होना जरूरी है। दोबारा सेव करने से PDF का आकार कम होने की गारंटी नहीं है।</div>
+<div class="actions"><button onclick="processPDF()">PDF प्रोसेस करें</button></div>
+<div id="pdfResult" class="out">काम चुनें और फाइल चुनें।</div>
+</section>
 
-  <!-- RESUME -->
-  <section class="panel" id="resume">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>🧑‍💼 Resume Maker</h2>
-    <p class="sub">जानकारी भरें, प्रीव्यू देखें और Print से Save as PDF चुनें।</p>
-    <label>पूरा नाम</label><input id="rName" placeholder="आपका नाम">
-    <label>मोबाइल</label><input id="rPhone" type="tel" placeholder="मोबाइल नंबर">
-    <label>ईमेल</label><input id="rEmail" type="email" placeholder="ईमेल">
-    <label>पता</label><textarea id="rAddress" placeholder="पूरा पता"></textarea>
-    <label>Career Objective</label><textarea id="rObjective" placeholder="आपका करियर उद्देश्य"></textarea>
-    <label>शैक्षणिक योग्यता</label><textarea id="rEducation" placeholder="10वीं, 12वीं, स्नातक आदि"></textarea>
-    <label>कौशल (Skills)</label><textarea id="rSkills" placeholder="कंप्यूटर, संचार, आदि"></textarea>
-    <label>अनुभव</label><textarea id="rExperience" placeholder="फ्रेशर हों तो लिखें: Fresher"></textarea>
-    <div class="actions"><button onclick="makeResume()">प्रीव्यू बनाएं</button><button class="secondary" onclick="printResume()">PDF / Print</button></div>
-    <div id="resumePreview"><p class="sub">तुम्हारा रिज्यूमे यहाँ दिखाई देगा।</p></div>
-  </section>
+<!-- RESUME -->
+<section class="panel" id="resume">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>🧑‍💼 Resume Maker</h2>
+<label>पूरा नाम</label><input id="rName" placeholder="आपका नाम">
+<label>मोबाइल</label><input id="rPhone" type="tel" placeholder="मोबाइल नंबर">
+<label>ईमेल</label><input id="rEmail" type="email" placeholder="ईमेल">
+<label>पता</label><textarea id="rAddress"></textarea>
+<label>Career Objective</label><textarea id="rObjective"></textarea>
+<label>शैक्षणिक योग्यता</label><textarea id="rEducation" placeholder="10वीं, 12वीं, स्नातक"></textarea>
+<label>Skills</label><textarea id="rSkills"></textarea>
+<label>अनुभव</label><textarea id="rExperience" placeholder="फ्रेशर हों तो Fresher लिखें"></textarea>
+<div class="actions"><button onclick="makeResume()">प्रीव्यू बनाएं</button><button class="secondary" onclick="printResume()">PDF / Print</button></div>
+<div id="resumePreview">रिज्यूमे का प्रीव्यू यहाँ दिखेगा।</div>
+</section>
 
-  <!-- MOCK TEST -->
-  <section class="panel" id="mock">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>📝 Mock Test</h2>
-    <p class="sub">अभ्यास के लिए सामान्य ज्ञान के नमूना प्रश्न। यह आधिकारिक परीक्षा प्रश्नपत्र नहीं है।</p>
-    <label>टेस्ट चुनें</label>
-    <select id="mockType"><option value="gk">सामान्य ज्ञान</option><option value="pet">PET अभ्यास (नमूना)</option></select>
-    <div class="actions"><button onclick="startMock()">टेस्ट शुरू करें / फिर से शुरू करें</button></div>
-    <div id="mockArea" class="out">टेस्ट शुरू करने के लिए बटन दबाएं।</div>
-  </section>
+<!-- MOCK TEST -->
+<section class="panel" id="mock">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>📝 Mock Test</h2>
+<p class="sub">अभ्यास के लिए सामान्य ज्ञान के नमूना प्रश्न।</p>
+<label>टेस्ट चुनें</label><select id="mockType"><option value="gk">सामान्य ज्ञान</option><option value="pet">PET अभ्यास</option></select>
+<div class="actions"><button onclick="startMock()">टेस्ट शुरू करें / दोबारा दें</button></div>
+<div id="mockArea" class="out">टेस्ट शुरू करने के लिए बटन दबाएं।</div>
+</section>
 
-  <!-- NOTES -->
-  <section class="panel" id="notes">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>📒 My Notes</h2>
-    <label>नोट का शीर्षक</label><input id="noteTitle" placeholder="जैसे भारतीय संविधान">
-    <label>नोट</label><textarea id="noteText" placeholder="अपना नोट यहाँ लिखें"></textarea>
-    <div class="actions"><button onclick="saveNote()">नोट सेव करें</button><button class="secondary" onclick="clearNoteForm()">नया नोट</button></div>
-    <div id="notesList"></div>
-  </section>
+<!-- NOTES -->
+<section class="panel" id="notes">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>📒 My Notes</h2>
+<label>नोट का शीर्षक</label><input id="noteTitle" placeholder="जैसे भारतीय संविधान">
+<label>नोट</label><textarea id="noteText"></textarea>
+<div class="actions"><button onclick="saveNote()">नोट सेव करें</button><button class="secondary" onclick="clearNoteForm()">नया नोट</button></div>
+<div id="notesList"></div>
+</section>
 
-  <!-- PLANNER -->
-  <section class="panel" id="planner">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>📅 Study Planner</h2>
-    <label>विषय / काम</label><input id="planTask" placeholder="जैसे भारतीय इतिहास">
-    <div class="row2">
-      <div><label>तारीख</label><input id="planDate" type="date"></div>
-      <div><label>समय</label><input id="planTime" type="time" value="18:00"></div>
-    </div>
-    <label>अवधि (मिनट)</label><input id="planDuration" type="number" value="60" min="5">
-    <div class="actions"><button onclick="savePlan()">प्लान सेव करें</button></div>
-    <div id="plannerList"></div>
-  </section>
+<!-- PLANNER -->
+<section class="panel" id="planner">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>📅 Study Planner</h2>
+<label>विषय / काम</label><input id="planTask" placeholder="जैसे भारतीय इतिहास">
+<div class="row2">
+<div><label>तारीख</label><input id="planDate" type="date"></div>
+<div><label>समय</label><input id="planTime" type="time" value="18:00"></div>
+</div>
+<label>अवधि (मिनट)</label><input id="planDuration" type="number" min="5" value="60">
+<div class="actions"><button onclick="savePlan()">प्लान सेव करें</button></div>
+<div id="plannerList"></div>
+</section>
 
-  <!-- JOBS -->
-  <section class="panel" id="jobs">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>💼 Jobs & Recruitment</h2>
-    <p class="sub">आधिकारिक वेबसाइटों पर नोटिफिकेशन, पात्रता, आवेदन की तारीख और फीस जाँचें। हर भर्ती की जानकारी संबंधित विभाग से सत्यापित करें।</p>
-    <div class="listitem"><strong>UPSSSC</strong><p class="sub">उत्तर प्रदेश अधीनस्थ सेवा चयन आयोग</p><a href="https://upsssc.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
-    <div class="listitem"><strong>National Career Service</strong><p class="sub">रोजगार सेवाएँ और जॉब खोज</p><a href="https://www.ncs.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
-    <div class="listitem"><strong>UPPSC</strong><p class="sub">उत्तर प्रदेश लोक सेवा आयोग</p><a href="https://uppsc.up.nic.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
-    <div class="listitem"><strong>SSC</strong><p class="sub">केंद्र सरकार की विभिन्न भर्तियाँ</p><a href="https://ssc.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
-    <div class="listitem"><strong>Employment News</strong><p class="sub">रोजगार समाचार</p><a href="https://www.employmentnews.gov.in/" target="_blank" rel="noopener">वेबसाइट खोलें ↗</a></div>
-  </section>
+<!-- JOBS -->
+<section class="panel" id="jobs">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>💼 Jobs & Recruitment</h2>
+<p class="sub">भर्ती की तारीख, पात्रता और फीस आधिकारिक नोटिफिकेशन में जाँचें।</p>
+<div class="listitem"><strong>UPSSSC</strong><p>उत्तर प्रदेश अधीनस्थ सेवा चयन आयोग</p><a href="https://upsssc.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
+<div class="listitem"><strong>UPPSC</strong><p>उत्तर प्रदेश लोक सेवा आयोग</p><a href="https://uppsc.up.nic.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
+<div class="listitem"><strong>SSC</strong><p>केंद्र सरकार की भर्तियाँ</p><a href="https://ssc.gov.in/" target="_blank" rel="noopener">आधिकारिक वेबसाइट खोलें ↗</a></div>
+<div class="listitem"><strong>National Career Service</strong><p>रोजगार सेवाएँ</p><a href="https://www.ncs.gov.in/" target="_blank" rel="noopener">वेबसाइट खोलें ↗</a></div>
+<div class="listitem"><strong>Employment News</strong><p>रोजगार समाचार</p><a href="https://www.employmentnews.gov.in/" target="_blank" rel="noopener">वेबसाइट खोलें ↗</a></div>
+</section>
 
-  <!-- SCHOLARSHIPS -->
-  <section class="panel" id="scholarship">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>🎓 Scholarships</h2>
-    <p class="sub">योजना की पात्रता, अंतिम तारीख और आवेदन नियम हर साल बदल सकते हैं। आधिकारिक पोर्टल पर जाँचें।</p>
-    <div class="listitem"><strong>National Scholarship Portal</strong><p class="sub">केंद्र की कई छात्रवृत्तियों के लिए पोर्टल</p><a href="https://scholarships.gov.in/" target="_blank" rel="noopener">पोर्टल खोलें ↗</a></div>
-    <div class="listitem"><strong>UP Scholarship</strong><p class="sub">उत्तर प्रदेश की छात्रवृत्ति और शुल्क प्रतिपूर्ति</p><a href="https://scholarship.up.gov.in/" target="_blank" rel="noopener">पोर्टल खोलें ↗</a></div>
-    <div class="listitem"><strong>National Scholarship जानकारी</strong><p class="sub">योजना की पात्रता और जरूरी दस्तावेज संबंधित पोर्टल पर देखें।</p></div>
-    <div class="notice">किसी एजेंट को OTP, पासवर्ड या बैंक PIN न दें। आवेदन जमा करने से पहले अपना विवरण जाँचें।</div>
-  </section>
+<!-- SCHOLARSHIPS -->
+<section class="panel" id="scholarship">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>🎓 Scholarships</h2>
+<div class="listitem"><strong>National Scholarship Portal</strong><p>केंद्र की छात्रवृत्तियाँ</p><a href="https://scholarships.gov.in/" target="_blank" rel="noopener">पोर्टल खोलें ↗</a></div>
+<div class="listitem"><strong>UP Scholarship</strong><p>उत्तर प्रदेश छात्रवृत्ति और शुल्क प्रतिपूर्ति</p><a href="https://scholarship.up.gov.in/" target="_blank" rel="noopener">पोर्टल खोलें ↗</a></div>
+<div class="notice">अंतिम तारीख, पात्रता और दस्तावेज आधिकारिक पोर्टल पर जाँचें। किसी को OTP या पासवर्ड न दें।</div>
+</section>
 
-  <!-- AI HELPER -->
-  <section class="panel" id="ai">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>🤖 BODH Helper</h2>
-    <p class="sub">अभी यह शुरुआती ऑफलाइन नियम-आधारित सहायक है, वास्तविक AI API नहीं।</p>
-    <label>अपना सवाल लिखें</label><textarea id="aiQuestion" placeholder="जैसे PET की तैयारी कैसे शुरू करूँ?"></textarea>
-    <div class="actions"><button onclick="askBodh()">जवाब पाएं</button><button class="secondary" onclick="document.getElementById('aiQuestion').value='';document.getElementById('aiAnswer').innerHTML=''">साफ करें</button></div>
-    <div id="aiAnswer" class="out"></div>
-    <div class="notice">सटीक और नए उत्तरों के लिए भविष्य में सुरक्षित बैकएंड और वास्तविक AI API जोड़नी होगी।</div>
-  </section>
+<!-- AI HELPER -->
+<section class="panel" id="ai">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>🤖 BODH Helper</h2>
+<p class="sub">यह शुरुआती नियम-आधारित ऑफलाइन सहायक है, वास्तविक AI सेवा नहीं।</p>
+<label>अपना सवाल लिखें</label><textarea id="aiQuestion" placeholder="जैसे PET की तैयारी कैसे करूँ?"></textarea>
+<div class="actions"><button onclick="askBodh()">जवाब पाएं</button><button class="secondary" onclick="clearAI()">साफ करें</button></div>
+<div id="aiAnswer" class="out"></div>
+</section>
 
-  <!-- STORE -->
-  <section class="panel" id="store">
-    <button class="back" onclick="home()">← सभी टूल</button>
-    <h2>🛍️ BODH Study Store</h2>
-    <p class="sub">किताबों और अध्ययन सामग्री के लिए शुरुआती सेक्शन।</p>
-    <div class="listitem"><strong>प्रतियोगी परीक्षा की किताबें</strong><p class="sub">अपनी परीक्षा के अनुसार सही संस्करण, लेखक और कीमत जाँचें।</p></div>
-    <div class="listitem"><strong>नोटबुक और स्टेशनरी</strong><p class="sub">पढ़ाई के लिए जरूरी सामग्री।</p></div>
-    <div class="notice">अभी यहाँ वास्तविक उत्पाद सूची, खरीद, भुगतान या Affiliate लिंक कनेक्ट नहीं हैं। वास्तविक स्टोर के लिए उत्पाद और सुरक्षित भुगतान सेवा जोड़नी होगी।</div>
-  </section>
+<!-- STORE -->
+<section class="panel" id="store">
+<button class="back" onclick="home()">← सभी टूल</button>
+<h2>🛍️ BODH Study Store</h2>
+<div class="listitem"><strong>प्रतियोगी परीक्षा की किताबें</strong><p class="sub">अपनी परीक्षा के अनुसार सही संस्करण और कीमत जाँचें।</p></div>
+<div class="listitem"><strong>नोटबुक और स्टेशनरी</strong><p class="sub">पढ़ाई के लिए जरूरी सामग्री।</p></div>
+<div class="notice">यह शुरुआती सेक्शन है। वास्तविक उत्पाद, खरीद और भुगतान अभी जुड़े नहीं हैं।</div>
+</section>
 </main>
 
-<footer>
-  <strong>BODH</strong> — विद्यार्थियों के लिए डिजिटल सहायता<br>
-  यह स्वतंत्र शैक्षणिक टूल है। सरकारी वेबसाइटों का आधिकारिक हिस्सा नहीं है।<br>
-  अपने दस्तावेजों और आवेदन की जानकारी स्वयं सत्यापित करें।
-</footer>
+<footer><strong>BODH</strong> — विद्यार्थियों के लिए डिजिटल सहायता<br>यह स्वतंत्र शैक्षणिक टूल है, सरकारी वेबसाइट नहीं।</footer>
 
 <script>
-const $ = id => document.getElementById(id);
-let editingNote = null;
-let mockTimer = null;
-let mockSeconds = 0;
-let mockIndex = 0;
-let mockScore = 0;
-let mockAnswers = [];
+"use strict";
+const $=id=>document.getElementById(id);
+let sourceImage=null, editingNote=null, mockTimer=null, mockIndex=0, mockScore=0, mockAnswers=[];
 
 function openTool(id){
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  $("tiles").classList.add("hidden");
-  $("search").classList.add("hidden");
-  $(id).classList.add("active");
-  window.scrollTo({top:0,behavior:"smooth"});
-  if(id==="notes") renderNotes();
-  if(id==="planner") renderPlans();
+ document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+ $("tiles").classList.add("hidden");$("search").classList.add("hidden");
+ $(id).classList.add("active");
+ window.scrollTo({top:0,behavior:"smooth"});
+ if(id==="notes")renderNotes();
+ if(id==="planner")renderPlans();
 }
 function home(){
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  $("tiles").classList.remove("hidden");
-  $("search").classList.remove("hidden");
-  window.scrollTo({top:0,behavior:"smooth"});
+ clearInterval(mockTimer);
+ document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+ $("tiles").classList.remove("hidden");$("search").classList.remove("hidden");
+ window.scrollTo({top:0,behavior:"smooth"});
 }
 function filterTiles(){
-  const q=$("search").value.toLowerCase().trim();
-  document.querySelectorAll(".tile").forEach(t=>{
-    t.style.display=t.dataset.name.toLowerCase().includes(q)?"":"none";
-  });
+ const q=$("search").value.toLowerCase().trim();
+ document.querySelectorAll(".tile").forEach(t=>{
+ t.style.display=t.dataset.name.toLowerCase().includes(q)?"":"none";
+ });
 }
 
-/* PHOTO RESIZER */
-let sourceImage = null;
+/* PHOTO */
 $("photoFile").addEventListener("change",e=>{
-  const f=e.target.files[0];
-  sourceImage=null;
-  if(!f)return;
-  if(!f.type.startsWith("image/")){alert("कृपया इमेज चुनें।");return}
-  const url=URL.createObjectURL(f);
-  const img=new Image();
-  img.onload=()=>{sourceImage=img;URL.revokeObjectURL(url);$("photoResult").textContent="फोटो तैयार है। अब आकार चुनकर फोटो तैयार करें।"};
-  img.onerror=()=>{URL.revokeObjectURL(url);alert("यह इमेज पढ़ी नहीं जा सकी।")};
-  img.src=url;
+ sourceImage=null;
+ const f=e.target.files[0];
+ if(!f)return;
+ if(!f.type.startsWith("image/")){alert("इमेज चुनें।");return}
+ const url=URL.createObjectURL(f),img=new Image();
+ img.onload=()=>{sourceImage=img;URL.revokeObjectURL(url);$("photoResult").textContent="फोटो तैयार है। अब आकार चुनें।"};
+ img.onerror=()=>{URL.revokeObjectURL(url);alert("इमेज पढ़ी नहीं जा सकी।")};
+ img.src=url;
 });
 async function resizePhoto(){
-  if(!sourceImage){alert("पहले फोटो चुनें।");return}
-  const w=+$("photoW").value,h=+$("photoH").value,kb=+$("photoKB").value;
-  const type=$("photoFormat").value;
-  if(!Number.isInteger(w)||!Number.isInteger(h)||w<1||h<1||w>5000||h>5000){alert("चौड़ाई और ऊंचाई 1 से 5000 px के बीच दें।");return}
-  if(kb && (kb<1||kb>10000)){alert("KB 1 से 10000 के बीच दें।");return}
-  const c=document.createElement("canvas");c.width=w;c.height=h;
-  const ctx=c.getContext("2d");
-  ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);
-  ctx.drawImage(sourceImage,0,0,w,h);
-  let quality=0.92,blob;
-  const getBlob=q=>new Promise(resolve=>c.toBlob(resolve,type,q));
-  blob=await getBlob(quality);
-  if(type==="image/jpeg"&&kb){
-    for(let i=0;i<12&&blob&&blob.size>kb*1024;i++){
-      quality-=0.07;if(quality<0.12)break;
-      blob=await getBlob(quality);
-    }
-  }
-  if(!blob){alert("इमेज तैयार नहीं हो सकी।");return}
-  const url=URL.createObjectURL(blob);
-  $("photoResult").innerHTML="";
-  const img=document.createElement("img");img.src=url;img.className="preview";img.alt="तैयार फोटो";
-  const info=document.createElement("p");
-  info.textContent=`${w} × ${h} px • ${(blob.size/1024).toFixed(1)} KB`+(kb&&blob.size>kb*1024?" • लक्ष्य KB प्राप्त नहीं हुआ":"");
-  const a=document.createElement("a");a.href=url;a.download="bodh-photo."+(type==="image/png"?"png":"jpg");a.textContent="फोटो डाउनलोड करें";
-  a.style.display="inline-block";a.style.marginTop="12px";
-  $("photoResult").append(img,info,a);
+ if(!sourceImage){alert("पहले फोटो चुनें।");return}
+ const w=Number($("photoW").value),h=Number($("photoH").value);
+ const kb=Number($("photoKB").value),type=$("photoFormat").value;
+ if(!Number.isInteger(w)||!Number.isInteger(h)||w<1||h<1||w>5000||h>5000){alert("चौड़ाई और ऊंचाई 1–5000 के बीच रखें।");return}
+ if($("photoKB").value&&(kb<1||kb>10000)){alert("KB 1–10000 के बीच रखें।");return}
+ const c=document.createElement("canvas");c.width=w;c.height=h;
+ const ctx=c.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);ctx.drawImage(sourceImage,0,0,w,h);
+ const getBlob=q=>new Promise(resolve=>c.toBlob(resolve,type,q));
+ let quality=.92,blob=await getBlob(quality);
+ if(type==="image/jpeg"&&kb){
+  for(let i=0;i<15&&blob&&blob.size>kb*1024&&quality>.15;i++){quality=Math.max(.15,quality-.06);blob=await getBlob(quality)}
+ }
+ if(!blob){alert("फोटो तैयार नहीं हुई।");return}
+ const url=URL.createObjectURL(blob);
+ $("photoResult").replaceChildren();
+ const img=document.createElement("img");img.src=url;img.className="preview";img.alt="तैयार फोटो";
+ const info=document.createElement("p");info.textContent=`${w} × ${h} px • ${(blob.size/1024).toFixed(1)} KB`+(kb&&blob.size>kb*1024?" • लक्ष्य KB प्राप्त नहीं हुआ":"");
+ const a=document.createElement("a");a.href=url;a.download="bodh-photo."+(type==="image/png"?"png":"jpg");a.textContent="फोटो डाउनलोड करें";a.style.display="inline-block";a.style.marginTop="12px";
+ $("photoResult").append(img,info,a);
 }
 
-/* PDF TOOLS */
+/* PDF */
 function showPdfFields(){
-  const a=$("pdfAction").value;
-  $("pdfFiles").accept=a==="images"?"image/*":".pdf,application/pdf";
-  $("pdfFiles").multiple=a==="images"||a==="merge";
-  $("pdfExtra").classList.toggle("hidden",a!=="split");
-  $("pdfCompressNote").classList.toggle("hidden",a!=="compress");
+ const action=$("pdfAction").value;
+ $("pdfFiles").accept=action==="images"?"image/*":".pdf,application/pdf";
+ $("pdfFiles").multiple=action==="images"||action==="merge";
+ $("pdfExtra").classList.toggle("hidden",action!=="split");
 }
 showPdfFields();
 
 function downloadBlob(blob,name){
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");a.href=url;a.download=name;
-  document.body.appendChild(a);a.click();a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url),60000);
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 async function processPDF(){
-  const files=[...$("pdfFiles").files],action=$("pdfAction").value;
-  if(!files.length){alert("पहले फाइल चुनें।");return}
-  if(!window.PDFLib){alert("PDF लाइब्रेरी लोड नहीं हुई। इंटरनेट चालू करके पेज दोबारा खोलें।");return}
-  const {PDFDocument}=PDFLib;
-  const out=$("pdfResult");out.textContent="प्रोसेस हो रहा है…";
-  try{
-    let result,name="bodh.pdf";
-    if(action==="images"){
-      const pdf=await PDFDocument.create();
-      for(const f of files){
-        if(!f.type.startsWith("image/"))throw Error("फोटो से PDF बनाने के लिए सिर्फ इमेज चुनें।");
-        const bytes=await f.arrayBuffer();
-        let img;
-        if(f.type==="image/png")img=await pdf.embedPng(bytes);
-        else if(["image/jpeg","image/jpg"].includes(f.type))img=await pdf.embedJpg(bytes);
-        else{
-          const dataURL=await new Promise((resolve,reject)=>{
-            const r=new FileReader();r.onl
+ const files=[...$("pdfFiles").files],action=$("pdfAction").value,out=$("pdfResult");
+ if(!files.length){alert("पहले फाइल चुनें।");return}
+ if(!window.PDFLib){alert("PDF लाइब्रेरी लोड नहीं हुई। इंटरनेट चालू करके पेज दोबारा खोलें।");return}
+ out.textContent="प्रोसेस हो रहा है…";
+ try{
+  const {PDFDocument}=PDFLib;
+  let pdf,name="bodh.pdf";
+  if(action==="images"){
+   pdf=await PDFDocument.create();
+   for(const f of files){
+    if(!f.type.startsWith("image/"))throw Error("इमेज फाइल चुनें।");
+    let img,bytes=await f.arrayBuffer();
+    if(f.type==="image/png")img=await pdf.embedPng(bytes);
+    else if(["image/jpeg","image/jpg"].includes(f.type))img=await pdf.embedJpg(bytes);
+    else{
+     const bitmap=await createImageBitmap(f),c=document.createElement("canvas");
+     c.width=bitmap.width;c.height=bitmap.height;c.getContext("2d").drawImage(bitmap,0,0);bitmap.close();
+     const b=await new Promise(resolve=>c.toBlob(resolve,"image/jpeg",.9));
+     if(!b)throw Error("इमेज कन्वर्ट नहीं हो सकी।");
+     img=await pdf.embedJpg(await b.arrayBuffer());
+    }
+    const page=pdf.addPage([img.width,img.height]);
+    page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});
+   }
+  }else if(action==="merge"){
+   pdf=await PDFDocument.create();
+   for(const f of files){
+    if(!f.name.toLowerCase().endsWith(".pdf"))throw Error("सिर्फ PDF फाइलें चुनें।");
+    const source=await PDFDocument.load(await f.arrayBuffer());
+    const pages=await pdf.copyPages(source,source.getPageIndices());pages.forEach(p=>pdf.addPage(p));
+   }
+  }else{
+   if(!files[0].name.toLowerCase().endsWith(".pdf"))throw Error("PDF फाइल चुनें।");
+   pdf=await PDFDocument.load(await files[0].arrayBuffer());
+   if(action==="split"){
+    const total=pdf.getPageCount(),text=$("pdfPages").value.trim();
+    if(!text)throw Error("पेज रेंज लिखें, जैसे 1-3,5");
+    const selected=new Set();
+    for(const part of text.split(",")){
+     const m=part.trim().match(/^(\d+)(?:\s*-\s*(\d+))?$/);
+     if(!m)throw Error("पेज रेंज गलत है।");
+     const start=+m[1],end=+(m[2]||m[1]);
+     if(start<1||end<start||end>total)throw Error(`पेज 1 से ${total} के बीच रखें।`);
+     for(let i=start;i<=end;i++)selected.add(i-1);
+    }
+    const result=await PDFDocument.create();
+    const pages=await result.copyPages(pdf,[...selected].sort((a,b)=>a-b));
+    pages.forEach(p=>result.addPage(p));pdf=result;name="bodh-pages.pdf";
+   }else name="bodh-resaved.pdf";
+  }
+  const bytes=await pdf.save({useObjectStreams:true});
+  downloadBlob(new Blob([bytes],{type:"application/pdf"}),name);
+  out.textContent=`काम पूरा हुआ। ${pdf.getPageCount()} पेज की PDF डाउनलोड शुरू हो गई।`+(action==="compress"?" ध्यान दें: साइज़ कम होने की गारंटी नहीं है।":"");
+ }catch(e){console.error(e);out.textContent="त्रुटि: "+(e.message||"फाइल प्रोसेस नहीं हो सकी।")}
+}
+
+/* RESUME */
+function makeResume(){
+ const val=id=>$(id).value.trim();
+ const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const name=val("rName");
+ if(!name){alert("अपना नाम लिखें।");return}
+ const fields=[["संपर्क",[val("rPhone"),val("rEmail")].filter(Boolean).join(" • ")],["पता",val("rAddress")],["Career Objective",val("rObjective")],["शैक्षणिक योग्यता",val("rEducation")],["Skills",val("rSkills")],["अनुभव",val("rExperience")]];
+ $("resumePreview").innerHTML=`<h2>${esc(name)}</h2>`+fields.filter(x=>x[1]).map(x=>`<h3>${esc(x[0])}</h3><p>${esc(x[1]).replace(/\n/g,"<br>")}</p>`).join("");
+}
+function printResume(){
+ makeResume();
+ if(!$("rName").value.trim())return;
+ const w=window.open("","_blank");
+ if(!w){alert("ब्राउज़र में पॉप-अप की अनुमति दें।");return}
+ w.document.write('<!DOCTYPE html><html lang="hi"><meta charset="UTF-8"><title>Resume</title><style>body{font-family:Arial,sans-serif;padding:25px;line-height:1.6}h2{border-bottom:2px solid #173f91;padding-bottom:8px}h3{margin-bottom:3px}</style><body>'+ $("resumePreview").innerHTML +'</body></html>');
+ w.document.close();w.focus();setTimeout(()=>w.print(),500);
+  }
+  /* MOCK TEST */
+const questions=[
+ {q:"भारत का संविधान कब लागू हुआ?",o:["15 अगस्त 1947","26 जनवरी 1950","26 नवंबर 1949","2 अक्टूबर 1950"],a:1},
+ {q:"भारत की राजधानी क्या है?",o:["मुंबई","लखनऊ","नई दिल्ली","जयपुर"],a:2},
+ {q:"संविधान की प्रारूप समिति के अध्यक्ष कौन थे?",o:["डॉ. बी. आर. आंबेडकर","डॉ. राजेंद्र प्रसाद","जवाहरलाल नेहरू","सरदार पटेल"],a:0},
+ {q:"उत्तर प्रदेश की राजधानी क्या है?",o:["कानपुर","लखनऊ","आगरा","प्रयागराज"],a:1},
+ {q:"भारत का राष्ट्रीय पशु कौन है?",o:["हाथी","शेर","बाघ","हिरण"],a:2},
+ {q:"पृथ्वी सूर्य की परिक्रमा लगभग कितने समय में करती है?",o:["24 घंटे","30 दिन","365 दिन","12 घंटे"],a:2},
+ {q:"भारत में मतदान की न्यूनतम आयु कितनी है?",o:["16 वर्ष","18 वर्ष","21 वर्ष","25 वर्ष"],a:1},
+ {q:"पानी का रासायनिक सूत्र क्या है?",o:["CO₂","O₂","H₂O","NaCl"],a:2},
+ {q:"भारत का राष्ट्रीय गान किसने लिखा?",o:["प्रेमचंद","रवींद्रनाथ टैगोर","महात्मा गांधी","बंकिमचंद्र"],a:1},
+ {q:"एक किलोमीटर में कितने मीटर होते हैं?",o:["100","500","1000","10000"],a:2}
+];
+function startMock(){
+ clearInterval(mockTimer);mockIndex=0;mockScore=0;mockAnswers=[];renderQuestion();
+}
+function renderQuestion(){
+ const q=questions[mockIndex];
+ $("mockArea").innerHTML=`<p>प्रश्न ${mockIndex+1}/${questions.length}</p><h3>${q.q}</h3><div id="mockOptions"></div><button id="nextQuestion" disabled>अगला प्रश्न</button>`;
+ q.o.forEach((option,i)=>{
+  const b=document.createElement("button");b.className="qoption";b.textContent=option;
+  b.onclick=()=>{
+   if(mockAnswers[mockIndex]!==undefined)return;
+   mockAnswers[mockIndex]=i;if(i===q.a)mockScore++;
+   document.querySelectorAll("#mockOptions button").forEach((x,j)=>{x.disabled=true;if(j===q.a)x.style.background="#d7f5e3";if(j===i&&i!==q.a)x.style.background="#ffd9d5"});
+   $("nextQuestion").disabled=false;
+  };
+  $("mockOptions").appendChild(b);
+ });
+ $("nextQuestion").onclick=()=>{
+  mockIndex++;
+  if(mockIndex===questions.length){
+   $("mockArea").innerHTML=`<h3>टेस्ट पूरा हुआ!</h3><p>स्कोर: ${mockScore}/${questions.length}</p><button onclick="startMock()">दोबारा टेस्ट दें</button>`;
+  }else renderQuestion();
+ };
+}
+/* NOTES */
+function getNotes(){try{return JSON.parse(localStorage.getItem("bodhNotes")||"[]")}catch(e){return []}}
+function saveNote(){
+ const title=$("noteTitle").value.trim(),text=$("noteText").value.trim();
+ if(!title||!text){alert("शीर्षक और नोट लिखें।");return}
+ const notes=getNotes();
+ if(editingNote!==null){const n=notes.find(x=>x.id===editingNote);if(n){n.title=title;n.text=text}}
+ else notes.push({id:Date.now(),title,text});
+ localStorage.setItem("bodhNotes",JSON.stringify(notes));clearNoteForm();renderNotes();
+}
+function clearNoteForm(){editingNote=null;$("noteTitle").value="";$("noteText").value=""}
+function renderNotes(){
+ const list=$("notesList");list.replaceChildren();
+ getNotes().slice().reverse().forEach(n=>{
+  const item=document.createElement("div");item.className="listitem";
+  const title=document.createElement("strong");title.textContent=n.title;
+  const body=document.createElement("p");body.textContent=n.text;
+  const edit=document.createElement("button");edit.textContent="बदलें";edit.onclick=()=>{editingNote=n.id;$("noteTitle").value=n.title;$("noteText").value=n.text;$("noteTitle").scrollIntoView({behavior:"smooth"})};
+  const del=document.createElement("button");del.className="danger";del.textContent="हटाएं";del.onclick=()=>{if(confirm("नोट हटाएं?")){localStorage.setItem("bodhNotes",JSON.stringify(getNotes().filter(x=>x.id!==n.id)));renderNotes()}};
+  item.append(title,body,edit,del);list.appendChild(item);
+ });
+  }
+  /* PLANNER */
+function getPlans(){try{return JSON.parse(localStorage.getItem("bodhPlans")||"[]")}catch(e){return []}}
+function savePlan(){
+ const task=$("planTask").value.trim();
+ if(!task){alert("विषय या काम लिखें।");return}
+ const plans=getPlans();
+ plans.push({id:Date.now(),task,date:$("planDate").value,time:$("planTime").value,duration:$("planDuration").value||60,done:false});
+ localStorage.setItem("bodhPlans",JSON.stringify(plans));$("planTask").value="";renderPlans();
+}
+function renderPlans(){
+ const list=$("plannerList");list.replaceChildren();
+ getPlans().forEach(p=>{
+  const item=document.createElement("div");item.className="listitem";
+  const title=document.createElement("strong");title.textContent=(p.done?"✅ ":"")+p.task;
+  const details=document.createElement("p");details.textContent=`${p.date||"तारीख नहीं"} • ${p.time||"समय नहीं"} • ${p.duration} मिनट`;
+  const done=document.createElement("button");done.textContent=p.done?"अधूरा करें":"पूरा हुआ";done.onclick=()=>{const all=getPlans(),x=all.find(y=>y.id===p.id);if(x)x.done=!x.done;localStorage.setItem("bodhPlans",JSON.stringify(all));renderPlans()};
+  const del=document.createElement("button");del.className="danger";del.textContent="हटाएं";del.onclick=()=>{localStorage.setItem("bodhPlans",JSON.stringify(getPlans().filter(x=>x.id!==p.id)));renderPlans()};
+  item.append(title,details,done,del);list.appendChild(item);
+ });
+}
+  /* HELPER */
+function askBodh(){
+ const q=$("aiQuestion").value.trim().toLowerCase(),out=$("aiAnswer");
+ if(!q){out.textContent="पहले सवाल लिखें।";return}
+ let answer="मैं अभी सीमित ऑफलाइन सहायक हूँ। PET, पढ़ाई, रिज्यूमे, PDF, फोटो, नौकरी या छात्रवृत्ति के बारे में पूछें।";
+ if(q.includes("pet"))answer="PET के लिए आधिकारिक पाठ्यक्रम देखें, विषयवार पढ़ें, रोज MCQ हल करें और गलत उत्तरों का पुनरावलोकन करें।";
+ else if(q.includes("resume")||q.includes("रिज्यूमे"))answer="Resume Maker में अपनी जानकारी भरें, प्रीव्यू बनाएं और PDF / Print दबाएं। फिर Save as PDF चुनें।";
+ else if(q.includes("pdf"))answer="PDF Tools में काम चुनें, फाइल चुनें और PDF प्रोसेस करें। PDF लाइब्रेरी के लिए इंटरनेट चाहिए।";
+ else if(q.includes("photo")||q.includes("फोटो"))answer="Photo & Signature में फोटो चुनें, चौड़ाई-ऊंचाई और वैकल्पिक KB डालकर फोटो तैयार करें।";
+ else if(q.includes("scholarship")||q.includes("छात्रवृत्ति"))answer="छात्रवृत्ति की पात्रता और तारीख आधिकारिक NSP या UP Scholarship पोर्टल पर जाँचें।";
+ else if(q.includes("job")||q.includes("नौकरी"))answer="Jobs सेक्शन में UPSSSC, UPPSC, SSC और NCS के लिंक हैं। अंतिम तारीख आधिकारिक नोटिफिकेशन में जाँचें।";
+ else if(q.includes("note")||q.includes("नोट"))answer="My Notes में शीर्षक और नोट लिखकर सेव करें। नोट इसी ब्राउज़र में सुरक्षित होते हैं।";
+ else if(q.includes("planner")||q.includes("पढ़ाई"))answer="Study Planner में विषय, तारीख, समय और अवधि डालकर प्लान सेव करें।";
+ out.textContent=answer;
+}
+function clearAI(){$("aiQuestion").value="";$("aiAnswer").textContent=""}
+ /* INITIAL SETUP */
+(function(){
+ const now=new Date();
+ $("planDate").value=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}`;
+})();
+</script>
+</body>
+</html>
+
+
+
+
