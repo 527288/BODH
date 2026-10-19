@@ -360,4 +360,460 @@ const DEFAULT_QUESTIONS = {
     { q: 'भारत की राजधानी?', options: ['दिल्ली', 'मुंबई', 'कोलकाता', 'चेन्नई'], ans: 0 },
     { q: 'भारत का राष्ट्रीय पशु?', options: ['शेर', 'हाथी', 'बाघ', 'गाय'], ans: 2 },
     { q: 'ताजमहल किस शहर में है?', options: ['आगरा', 'जयपुर', 'दिल्ली', 'लखनऊ'], ans: 0 },
-    
+    
+Q{ q: 'भारत में कितने राज्य?', options: ['28', '29', '27', '30'], ans: 0 },
+    { q: 'ISRO का पूरा नाम?', options: ['Indian Space Research Organisation', 'International Space Research Org', 'Indian Science Research Org', 'Indian Space Rocket Org'], ans: 0 }
+  ],
+  math: [
+    { q: '5 + 7 = ?', options: ['12', '11', '13', '10'], ans: 0 },
+    { q: '15 × 4 = ?', options: ['60', '55', '65', '50'], ans: 0 },
+    { q: '√144 = ?', options: ['12', '14', '11', '13'], ans: 0 },
+    { q: '100 ÷ 5 = ?', options: ['20', '25', '15', '30'], ans: 0 },
+    { q: '2⁵ = ?', options: ['32', '16', '64', '8'], ans: 0 }
+  ],
+  reasoning: [
+    { q: '1, 3, 5, 7, ?', options: ['9', '8', '10', '11'], ans: 0 },
+    { q: '2, 4, 8, 16, ?', options: ['32', '24', '20', '18'], ans: 0 },
+    { q: 'A, B, D, G, ?', options: ['K', 'J', 'L', 'M'], ans: 0 },
+    { q: 'MONDAY का तीसरा अक्षर?', options: ['N', 'O', 'D', 'A'], ans: 0 },
+    { q: '5 : 25 :: 7 : ?', options: ['49', '35', '56', '42'], ans: 0 }
+  ]
+};
+const ADMIN_DEFAULT_PASS = 'bodh123';
+
+/* ============ HELPERS ============ */
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function esc(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function simpleHash(str) {
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return ((h2 >>> 0).toString(16)) + ((h1 >>> 0).toString(16));
+}
+function downloadBlob(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ============ LAZY CDN LOADER ============ */
+const loadedScripts = {};
+function loadScript(url) {
+  return new Promise((resolve, reject) => {
+    if (loadedScripts[url]) return resolve();
+    if (document.querySelector(`script[src="${url}"]`)) {
+      loadedScripts[url] = true; return resolve();
+    }
+    const s = document.createElement('script');
+    s.src = url;
+    s.onload = () => { loadedScripts[url] = true; resolve(); };
+    s.onerror = () => reject(new Error('Load fail: ' + url));
+    document.head.appendChild(s);
+  });
+}
+function loadPdfLib() { return loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js'); }
+function loadPuter() { return loadScript('https://js.puter.com/v2/'); }
+
+/* ============ AUTH ============ */
+function showAuthTab(tab) {
+  document.getElementById('loginTab').classList.toggle('active', tab === 'login');
+  document.getElementById('signupTab').classList.toggle('active', tab === 'signup');
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+}
+
+function doSignup() {
+  const name = val('signupName'), email = val('signupEmail').toLowerCase(), pass = val('signupPass'), pass2 = val('signupPass2');
+  const msg = document.getElementById('signupMsg');
+  msg.textContent = '';
+  if (!name) { msg.textContent = 'नाम भरें'; return; }
+  if (!email || !email.includes('@') || !email.includes('.')) { msg.textContent = 'सही Email डालें (जैसे: a@b.com)'; return; }
+  if (pass.length < 4) { msg.textContent = 'Password कम से कम 4 अक्षर'; return; }
+  if (pass !== pass2) { msg.textContent = 'Passwords मेल नहीं खा रहे'; return; }
+  try {
+    const users = DB.get('users', []);
+    if (users.find(u => u.email === email)) { msg.textContent = 'यह Email पहले से registered है। Login करें।'; return; }
+    const user = { id: Date.now(), name, email, passHash: simpleHash(pass), created: new Date().toISOString() };
+    users.push(user);
+    if (!DB.set('users', users)) { msg.textContent = 'Storage में save नहीं हुआ'; return; }
+    localStorage.setItem('bodh_active_uid', user.id);
+    currentUser = user;
+    enterApp();
+  } catch(e) { msg.textContent = 'Error: ' + e.message; }
+}
+
+function doLogin() {
+  const email = val('loginEmail').toLowerCase(), pass = val('loginPass');
+  const msg = document.getElementById('loginMsg');
+  msg.textContent = '';
+  if (!email || !pass) { msg.textContent = 'Email और Password भरें'; return; }
+  try {
+    const users = DB.get('users', []);
+    if (!users.length) { msg.textContent = 'कोई account नहीं है। पहले Signup करें।'; return; }
+    const user = users.find(u => u.email === email);
+    if (!user) { msg.textContent = 'यह Email registered नहीं। Signup करें या spelling जाँचें।'; return; }
+    if (user.passHash !== simpleHash(pass)) { msg.textContent = 'गलत Password। फिर कोशिश करें।'; return; }
+    localStorage.setItem('bodh_active_uid', user.id);
+    currentUser = user;
+    enterApp();
+  } catch(e) { msg.textContent = 'Error: ' + e.message; }
+}
+
+function doLogout() {
+  if (!confirm('Logout करें?')) return;
+  localStorage.removeItem('bodh_active_uid');
+  sessionStorage.removeItem('bodh_admin');
+  currentUser = null;
+  document.getElementById('appScreen').style.display = 'none';
+  document.getElementById('authScreen').style.display = 'flex';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginMsg').textContent = '';
+}
+
+function enterApp() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'block';
+  document.getElementById('userName').textContent = currentUser.name;
+  document.getElementById('greetName').textContent = currentUser.name;
+  showPage('home');
+  loadNotes(); loadTasks(); loadJobs(); loadStore();
+}
+
+function tryAutoLogin() {
+  const uid = parseInt(localStorage.getItem('bodh_active_uid'));
+  if (!uid) return false;
+  const users = DB.get('users', []);
+  const user = users.find(u => u.id === uid);
+  if (!user) { localStorage.removeItem('bodh_active_uid'); return false; }
+  currentUser = user;
+  enterApp();
+  return true;
+}
+
+function emergencyReset() {
+  if (!confirm('⚠️ सारा data (users, notes, tasks, jobs) मिट जाएगा। पक्का?')) return;
+  if (!confirm('आखिरी बार — Delete करें?')) return;
+  Object.keys(localStorage).filter(k => k.startsWith('bodh_') || k === 'users' || k === 'jobs' || k === 'store' || k === 'questions' || k === 'adminPass').forEach(k => localStorage.removeItem(k));
+  alert('✅ Reset हो गया। Reload होगा।');
+  location.reload();
+}
+
+/* ============ NAV ============ */
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  if (id === 'notes') loadNotes();
+  if (id === 'planner') loadTasks();
+  if (id === 'jobs') loadJobs();
+  if (id === 'store') loadStore();
+  if (id === 'admin') checkAdminSession();
+}
+
+/* ============ PDF ============ */
+async function ensurePdfLib() {
+  if (typeof PDFLib !== 'undefined') return;
+  try { await loadPdfLib(); }
+  catch(e) { throw new Error('PDF library load नहीं हुई (internet जाँचें)'); }
+}
+
+async function mergePDFs() {
+  const files = document.getElementById('pdfFiles').files;
+  const msg = document.getElementById('pdfMsg');
+  const btn = document.getElementById('mergeBtn');
+  msg.textContent = ''; msg.className = '';
+  if (files.length < 2) { msg.textContent = '⚠️ कम से कम 2 PDF चुनें'; msg.className = 'msg-err'; return; }
+  btn.disabled = true; btn.textContent = '⏳ Merge हो रहा...';
+  try {
+    await ensurePdfLib();
+    const { PDFDocument } = PDFLib;
+    const merged = await PDFDocument.create();
+    for (const f of files) {
+      const pdf = await PDFDocument.load(await f.arrayBuffer());
+      const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+      pages.forEach(p => merged.addPage(p));
+    }
+    downloadBlob(new Blob([await merged.save()], { type: 'application/pdf' }), 'merged.pdf');
+    msg.textContent = '✅ Merge हो गया! डाउनलोड शुरू।'; msg.className = 'msg-text';
+  } catch (e) { msg.textContent = '❌ ' + e.message; msg.className = 'msg-err'; }
+  finally { btn.disabled = false; btn.textContent = 'Merge करें'; }
+}
+
+function parseRange(str, total) {
+  if (!str.trim()) return [...Array(total).keys()];
+  const pages = new Set();
+  str.split(',').forEach(part => {
+    part = part.trim();
+    if (part.includes('-')) {
+      const [a, b] = part.split('-').map(Number);
+      for (let i = a; i <= b; i++) if (i >= 1 && i <= total) pages.add(i - 1);
+    } else { const n = Number(part); if (n >= 1 && n <= total) pages.add(n - 1); }
+  });
+  return [...pages].sort((a, b) => a - b);
+}
+
+async function extractPages() {
+  const file = document.getElementById('splitPdf').files[0];
+  const msg = document.getElementById('splitMsg');
+  const btn = document.getElementById('splitBtn');
+  msg.textContent = ''; msg.className = '';
+  if (!file) { msg.textContent = '⚠️ PDF चुनें'; msg.className = 'msg-err'; return; }
+  btn.disabled = true; btn.textContent = '⏳...';
+  try {
+    await ensurePdfLib();
+    const { PDFDocument } = PDFLib;
+    const src = await PDFDocument.load(await file.arrayBuffer());
+    const pages = parseRange(document.getElementById('pageRange').value, src.getPageCount());
+    if (!pages.length) { msg.textContent = '⚠️ सही रेंज (1–' + src.getPageCount() + ')'; msg.className = 'msg-err'; return; }
+    const out = await PDFDocument.create();
+    const copied = await out.copyPages(src, pages);
+    copied.forEach(p => out.addPage(p));
+    downloadBlob(new Blob([await out.save()], { type: 'application/pdf' }), 'extracted.pdf');
+    msg.textContent = '✅ PDF तैयार!'; msg.className = 'msg-text';
+  } catch (e) { msg.textContent = '❌ ' + e.message; msg.className = 'msg-err'; }
+  finally { btn.disabled = false; btn.textContent = 'निकालें'; }
+}
+
+async function imagesToPDF() {
+  const files = document.getElementById('imgFiles').files;
+  const msg = document.getElementById('imgMsg');
+  const btn = document.getElementById('imgBtn');
+  msg.textContent = ''; msg.className = '';
+  if (!files.length) { msg.textContent = '⚠️ इमेज चुनें'; msg.className = 'msg-err'; return; }
+  btn.disabled = true; btn.textContent = '⏳...';
+  try {
+    await ensurePdfLib();
+    const { PDFDocument } = PDFLib;
+    const pdf = await PDFDocument.create();
+    for (const f of files) {
+      const bytes = await f.arrayBuffer();
+      let img;
+      if (f.type === 'image/png') img = await pdf.embedPng(bytes);
+      else if (f.type === 'image/jpeg' || f.type === 'image/jpg') img = await pdf.embedJpg(bytes);
+      else throw new Error('सिर्फ JPG/PNG चलेगा');
+      const page = pdf.addPage([img.width, img.height]);
+      page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+    }
+    downloadBlob(new Blob([await pdf.save()], { type: 'application/pdf' }), 'images.pdf');
+    msg.textContent = '✅ PDF तैयार!'; msg.className = 'msg-text';
+  } catch (e) { msg.textContent = '❌ ' + e.message; msg.className = 'msg-err'; }
+  finally { btn.disabled = false; btn.textContent = 'PDF बनाएं'; }
+}
+
+/* ============ RESUME ============ */
+function previewResume() {
+  const d = {
+    name: val('rName'), email: val('rEmail'), phone: val('rPhone'),
+    skills: val('rSkills'),
+    edu: val('rEdu').replace(/\n/g, '<br>'),
+    exp: val('rExp').replace(/\n/g, '<br>')
+  };
+  if (!d.name) return alert('नाम ज़रूर भरें');
+  const tpl = document.getElementById('rTemplate').value;
+  document.getElementById('resumePreview').innerHTML = `
+    <div class="resume-paper ${tpl}">
+      <h2>${esc(d.name)}</h2>
+      <p>${esc(d.email)}${d.phone ? ' | ' + esc(d.phone) : ''}</p>
+      ${d.skills ? `<h3>Skills</h3><p>${esc(d.skills)}</p>` : ''}
+      ${d.edu ? `<h3>Education</h3><p>${d.edu}</p>` : ''}
+      ${d.exp ? `<h3>Experience</h3><p>${d.exp}</p>` : ''}
+    </div>`;
+  document.getElementById('saveResumeBtn').style.display = 'inline-block';
+  document.getElementById('resumePreview').scrollIntoView({ behavior: 'smooth' });
+}
+
+function saveResumePDF() {
+  if (!document.getElementById('resumePreview').innerHTML.trim()) return alert('पहले Preview बनाएं');
+  document.body.classList.add('print-resume');
+  setTimeout(() => {
+    window.print();
+    setTimeout(() => document.body.classList.remove('print-resume'), 800);
+  }, 100);
+}
+
+/* ============ MOCK TEST ============ */
+let currentTest = [];
+let testTimer = null;
+let testTimeLeft = 0;
+
+function startTest() {
+  const type = document.getElementById('testSelect').value;
+  const qs = DB.get('questions', DEFAULT_QUESTIONS)[type] || [];
+  if (!qs.length) return alert('इस विषय में प्रश्न नहीं हैं');
+  currentTest = qs.map(q => ({ ...q, selected: null }));
+  document.getElementById('testStart').style.display = 'none';
+  document.getElementById('testResult').style.display = 'none';
+  const area = document.getElementById('testArea');
+  area.style.display = 'block';
+  area.innerHTML = '<div id="timerDisplay">⏱️ 05:00</div>' +
+    currentTest.map((q, i) => `
+    <div class="q-block">
+      <p><b>Q${i+1}.</b> ${esc(q.q)}</p>
+      ${q.options.map((o, j) =>
+        `<label><input type="radio" name="q${i}" value="${j}" onchange="currentTest[${i}].selected=${j}"> ${esc(o)}</label>`
+      ).join('')}
+    </div>`).join('') +
+    `<button onclick="submitTest()" style="width:100%;margin-top:.5rem">✅ Submit करें</button>`;
+  testTimeLeft = 300;
+  clearInterval(testTimer);
+  testTimer = setInterval(() => {
+    testTimeLeft--;
+    const el = document.getElementById('timerDisplay');
+    if (el) el.textContent = `⏱️ ${String(Math.floor(testTimeLeft/60)).padStart(2,'0')}:${String(testTimeLeft%60).padStart(2,'0')}`;
+    if (testTimeLeft <= 0) { clearInterval(testTimer); submitTest(); }
+  }, 1000);
+}
+
+function submitTest() {
+  clearInterval(testTimer);
+  const unanswered = currentTest.filter(q => q.selected === null).length;
+  if (unanswered > 0 && !confirm(`${unanswered} प्रश्न बाकी हैं। Submit?`)) return;
+  let score = 0;
+  const review = currentTest.map((q, i) => {
+    const correct = q.selected === q.ans;
+    if (correct) score++;
+    const chosen = q.selected === null ? '—' : esc(q.options[q.selected]);
+    const right = esc(q.options[q.ans]);
+    return `<div class="admin-item"><p><b>Q${i+1}.</b> ${esc(q.q)}</p>
+      <p>आपका: <b style="color:${correct?'#27ae60':'#e74c3c'}">${chosen}</b> ${correct ? '✅' : '❌ (सही: ' + right + ')'}</p></div>`;
+  }).join('');
+  document.getElementById('testArea').style.display = 'none';
+  const res = document.getElementById('testResult');
+  res.style.display = 'block';
+  res.innerHTML = `<h3>🎯 स्कोर: ${score} / ${currentTest.length}</h3>
+    <p style="margin:.5rem 0 1rem">सही: ${score} · गलत: ${currentTest.length - score}</p>
+    <button onclick="resetTest()">🔄 फिर से लें</button>
+    <hr style="margin:1rem 0;border:none;border-top:1px solid #eee">
+    <h3>📋 Review</h3>${review}`;
+}
+
+function resetTest() {
+  document.getElementById('testStart').style.display = 'block';
+  document.getElementById('testResult').style.display = 'none';
+  document.getElementById('testResult').innerHTML = '';
+  document.getElementById('testArea').innerHTML = '';
+  currentTest = [];
+}
+
+/* ============ NOTES ============ */
+let editingNoteId = null;
+
+function loadNotes() {
+  if (!currentUser) return;
+  const notes = uget('notes', []);
+  const search = (document.getElementById('searchNote')?.value || '').toLowerCase();
+  const filtered = search ? notes.filter(n => n.title.toLowerCase().includes(search) || n.body.toLowerCase().includes(search)) : notes;
+  document.getElementById('notesList').innerHTML = filtered.length ? filtered.map(n => `
+    <div class="note-item">
+      <h4>${esc(n.title)}</h4>
+      <p>${esc(n.body.substring(0, 100))}${n.body.length > 100 ? '...' : ''}</p>
+      <button onclick="editNote(${n.id})">✏️ Edit</button>
+      <button class="del" onclick="deleteNote(${n.id})">🗑️ Delete</button>
+    </div>`).join('') : '<p style="color:#888;padding:1rem">कोई नोट नहीं।</p>';
+}
+
+function saveNote() {
+  const title = val('noteTitle'), body = val('noteBody');
+  if (!title || !body) return alert('शीर्षक और नोट दोनों भरें');
+  const notes = uget('notes', []);
+  if (editingNoteId) {
+    const idx = notes.findIndex(n => n.id === editingNoteId);
+    if (idx >= 0) notes[idx] = { id: editingNoteId, title, body };
+    editingNoteId = null;
+    document.getElementById('cancelEditBtn').style.display = 'none';
+  } else { notes.push({ id: Date.now(), title, body }); }
+  uset('notes', notes);
+  document.getElementById('noteTitle').value = '';
+  document.getElementById('noteBody').value = '';
+  loadNotes();
+}
+
+function editNote(id) {
+  const n = uget('notes', []).find(x => x.id === id);
+  if (!n) return;
+  document.getElementById('noteTitle').value = n.title;
+  document.getElementById('noteBody').value = n.body;
+  editingNoteId = id;
+  document.getElementById('cancelEditBtn').style.display = 'inline-block';
+  window.scrollTo(0, 0);
+}
+
+function cancelEditNote() {
+  editingNoteId = null;
+  document.getElementById('noteTitle').value = '';
+  document.getElementById('noteBody').value = '';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+}
+
+function deleteNote(id) {
+  if (!confirm('Delete करें?')) return;
+  uset('notes', uget('notes', []).filter(n => n.id !== id));
+  loadNotes();
+}
+
+/* ============ PLANNER ============ */
+function loadTasks() {
+  if (!currentUser) return;
+  const tasks = uget('tasks', []).sort((a, b) => (a.date || '9999') < (b.date || '9999') ? -1 : 1);
+  document.getElementById('taskList').innerHTML = tasks.length ? tasks.map(t => `
+    <li class="${t.done ? 'done' : ''}">
+      <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleTask(${t.id})">
+      <span>${esc(t.text)}</span>
+      <small>${esc(t.date || '')}</small>
+      <button onclick="deleteTask(${t.id})">✕</button>
+    </li>`).join('') : '<p style="color:#888;padding:1rem">कोई टास्क नहीं।</p>';
+}
+
+function addTask() {
+  const text = val('taskText'), date = val('taskDate');
+  if (!text) return alert('कार्य लिखें');
+  const tasks = uget('tasks', []);
+  tasks.push({ id: Date.now(), text, date, done: false });
+  uset('tasks', tasks);
+  document.getElementById('taskText').value = '';
+  document.getElementById('taskDate').value = '';
+  loadTasks();
+}
+
+function toggleTask(id) {
+  const tasks = uget('tasks', []);
+  const t = tasks.find(x => x.id === id);
+  if (t) { t.done = !t.done; uset('tasks', tasks); loadTasks(); }
+}
+
+function deleteTask(id) {
+  uset('tasks', uget('tasks', []).filter(t => t.id !== id));
+  loadTasks();
+}
+
+/* ============ JOBS ============ */
+function loadJobs() {
+  const jobs = DB.get('jobs', DEFAULT_JOBS);
+  document.getElementById('jobsList').innerHTML = jobs.length ? jobs.map(j => `
+    <div class="card" style="font-size:1rem;text-align:left;cursor:default">
+      <h3>${esc(j.title)}</h3>
+      <p style="margin-bottom:.5rem">${esc(j.desc)}</p>
+      <a href="${esc(j.link)}" target="_blank" rel="noopener">आधिकारिक साइट →</a>
+    </div>`).join('') : '<p style="padding:1rem">अभी कोई जॉब नहीं।</p>';
+}
+
+/* ============ STORE ============ */
+function loadStore() {
+  const items = DB.get('store', DEFAULT_STORE);
+  document.getElementById('storeList').innerHTML = items.length ? items.map(s => `
+    <div class="card" style="font-size:1rem;cursor:default">
+      <h3>${esc(s.name)}</h3>
+      <p>${esc(s.desc)}</p>
+      <p style="color:#667eea;font-weight:700;font-size:1.15rem;margin:.5rem 0">${esc(s.price)}</p>
+      <button onclick="alert('भुगतान सुविधा जल्द आएगी!')" style="margin:0">🛒 खरीदें</button>
+    </div>`).join('') : '<p style="padding:1rem">अभी कोई आइटम नहीं।</p>';
+}
+
