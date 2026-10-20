@@ -171,7 +171,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     <div id="loginForm">
       <input id="loginEmail" placeholder="Email" type="email">
       <input id="loginPass" placeholder="Password" type="password">
-      <button class="primary-btn" type="button" onclick="doLogin()">Login करें</button>
+      <button class="primary-btn" type="button" onclick="doLogin(this)">Login करें</button>
       <p id="loginMsg" style="color:#e74c3c;font-weight:600;text-align:center;margin-top:.5rem"></p>
     </div>
     
@@ -179,7 +179,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
       <input id="signupName" placeholder="आपका नाम">
       <input id="signupEmail" placeholder="Email" type="email">
       <input id="signupPass" placeholder="Password (4+ अक्षर)" type="password">
-      <button class="primary-btn" type="button" onclick="doSignup()">Account बनाएं</button>
+      <button class="primary-btn" type="button" onclick="doSignup(this)">Account बनाएं</button>
       <p id="signupMsg" style="color:#e74c3c;font-weight:600;text-align:center;margin-top:.5rem"></p>
     </div>
   </div>
@@ -332,7 +332,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   <button class="back" onclick="showPage('home')">← होम</button>
   <h2>🛒 Study Store</h2>
   <div id="storeList" class="grid"></div>
-</section>
+    </section>
 
   <!-- AI -->
 <section id="ai" class="page">
@@ -498,46 +498,77 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     }
   };
 
-  window.doSignup = function() {
-    const name = document.getElementById('signupName').value.trim();
-    const email = document.getElementById('signupEmail').value.trim().toLowerCase();
-    const pass = document.getElementById('signupPass').value;
-    const msg = document.getElementById('signupMsg');
+  window.doSignup = function(btn) {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ बन रहा है...';
+    btn.disabled = true;
     
-    if(!name || !email || pass.length < 4) { 
-      msg.textContent = '⚠️ सही जानकारी भरें (Pass 4+ अक्षर)'; 
-      return; 
-    }
-    
-    let users = JSON.parse(localStorage.getItem('bodh_users') || '[]');
-    if(users.find(u => u.email === email)) { 
-      msg.textContent = '⚠️ यह ईमेल पहले से रजिस्टर्ड है! Login करें।'; 
-      return; 
-    }
-    
-    users.push({ name, email, pass });
-    localStorage.setItem('bodh_users', JSON.stringify(users));
-    localStorage.setItem('bodh_current_user', JSON.stringify({ name, email }));
-    
-    loginSuccess(name);
+    setTimeout(() => {
+      try {
+        const name = document.getElementById('signupName').value.trim();
+        const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+        const pass = document.getElementById('signupPass').value;
+        const msg = document.getElementById('signupMsg');
+        
+        msg.textContent = '';
+        
+        if(!name || !email || pass.length < 4) { 
+          msg.textContent = '⚠️ सही जानकारी भरें (Pass 4+ अक्षर)'; 
+          btn.innerHTML = originalText; btn.disabled = false;
+          return; 
+        }
+        
+        let users = JSON.parse(localStorage.getItem('bodh_users') || '[]');
+        if(users.find(u => u.email === email)) { 
+          msg.textContent = '⚠️ यह ईमेल पहले से रजिस्टर्ड है! Login करें।'; 
+          btn.innerHTML = originalText; btn.disabled = false;
+          return; 
+        }
+        
+        users.push({ name, email, pass });
+        localStorage.setItem('bodh_users', JSON.stringify(users));
+        localStorage.setItem('bodh_current_user', JSON.stringify({ name, email }));
+        
+        loginSuccess(name);
+      } catch (error) {
+        alert("Signup Error: " + error.message + "\nकृपया सुनिश्चित करें कि आपने ब्राउज़र में Storage की अनुमति दी है (Incognito मोड बंद करें)।");
+        btn.innerHTML = originalText; btn.disabled = false;
+      }
+    }, 100);
   };
 
-  window.doLogin = function() {
-    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-    const pass = document.getElementById('loginPass').value;
-    const msg = document.getElementById('loginMsg');
+  window.doLogin = function(btn) {
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '⏳ लॉगिन हो रहा है...';
+    btn.disabled = true;
     
-    if(!email || !pass) { msg.textContent = '⚠️ ईमेल और पासवर्ड भरें'; return; }
-    
-    let users = JSON.parse(localStorage.getItem('bodh_users') || '[]');
-    const user = users.find(u => u.email === email && u.pass === pass);
-    
-    if(user) {
-      localStorage.setItem('bodh_current_user', JSON.stringify({ name: user.name, email: user.email }));
-      loginSuccess(user.name);
-    } else {
-      msg.textContent = '⚠️ गलत ईमेल या पासवर्ड!';
-    }
+    setTimeout(() => {
+      try {
+        const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+        const pass = document.getElementById('loginPass').value;
+        const msg = document.getElementById('loginMsg');
+        
+        if(!email || !pass) { 
+          msg.textContent = '⚠️ ईमेल और पासवर्ड भरें'; 
+          btn.innerHTML = originalText; btn.disabled = false;
+          return; 
+        }
+        
+        let users = JSON.parse(localStorage.getItem('bodh_users') || '[]');
+        const user = users.find(u => u.email === email && u.pass === pass);
+        
+        if(user) {
+          localStorage.setItem('bodh_current_user', JSON.stringify({ name: user.name, email: user.email }));
+          loginSuccess(user.name);
+        } else {
+          msg.textContent = '⚠️ गलत ईमेल या पासवर्ड!';
+          btn.innerHTML = originalText; btn.disabled = false;
+        }
+      } catch(e) {
+        alert("Login Error: " + e.message);
+        btn.innerHTML = originalText; btn.disabled = false;
+      }
+    }, 100);
   };
 
   window.doLogout = function() {
@@ -551,18 +582,22 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     document.getElementById('appScreen').style.display = 'block';
     document.getElementById('userName').textContent = name;
     document.getElementById('greetName').textContent = name;
-    loadAds();
-    loadJobs();
-    loadStore();
-    loadNotes();
-    loadTasks();
-    initBoard(); 
-    populateTeacherQBank();
+    
+    // Protect against any single tool failing during load
+    try { loadAds(); } catch(e) { console.log(e); }
+    try { loadJobs(); } catch(e) { console.log(e); }
+    try { loadStore(); } catch(e) { console.log(e); }
+    try { loadNotes(); } catch(e) { console.log(e); }
+    try { loadTasks(); } catch(e) { console.log(e); }
+    try { initBoard(); } catch(e) { console.log(e); }
+    try { populateTeacherQBank(); } catch(e) { console.log(e); }
   }
 
   window.addEventListener('DOMContentLoaded', () => {
     const currentUser = JSON.parse(localStorage.getItem('bodh_current_user'));
-    if(currentUser) loginSuccess(currentUser.name);
+    if(currentUser) {
+      loginSuccess(currentUser.name);
+    }
     checkAdminDevice();
   });
 
@@ -605,7 +640,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     }
   };
 
-  // ================= ADS MANAGEMENT =================
+  // ================= ADS MANAGEMENT =================
   const DEFAULT_ADS = [{ id: 1, title: "🎓 BODH Premium Batch", text: "सभी विषयों के कोर्स सिर्फ ₹99 में!", img: "", link: "https://google.com" }];
   function getAds() { return JSON.parse(localStorage.getItem('bodh_ads')) || DEFAULT_ADS; }
 
@@ -780,9 +815,9 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
         sel.innerHTML += `<option value="${q.q}">${q.q}</option>`;
       });
     }
-  }
+  }
 
-  // ================= PDF TOOLS =================
+  // ================= PDF TOOLS =================
   window.mergePDFs = async function() {
     const files = document.getElementById('pdfFiles').files, msg = document.getElementById('pdfMsg'), btn = document.getElementById('mergeBtn');
     if (files.length < 2) return alert('कम से कम 2 PDF चुनें');
@@ -965,7 +1000,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   };
   window.leaveVideoRoom = function() { document.getElementById('jitsiFrame').src = ''; document.getElementById('joinRoomBox').style.display = 'block'; document.getElementById('videoFrameBox').style.display = 'none'; };
 
-  // ================= TEACHER STUDIO (ADVANCED) =================
+  // ================= TEACHER STUDIO (ADVANCED) =================
   let canvas, ctx, isDrawing = false, currentTool = 'pen', currentBgColor = '#ffffff';
   let mediaRecorder, recordedChunks = [], isRecording = false, micStream;
 
