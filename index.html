@@ -2,150 +2,150 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#667eea">
 <title>BODH - Study & Teach</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f5f7fb;color:#1a1a2e;line-height:1.6;min-height:100vh;transition:background-color 0.4s ease}
+/* RESET & BASIC SETUP */
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { width: 100%; overflow-x: hidden; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f5f7fb; color: #1a1a2e; line-height: 1.6; min-height: 100vh; }
+body { transition: background-color 0.4s ease; }
 
 /* DYNAMIC PAGE BACKGROUNDS */
-body.bg-home{background:#f5f7fb} 
-body.bg-videocall{background:#e8f8f5} 
-body.bg-teacher{background:#fef5e7} 
-body.bg-resizer{background:#f4ecf7} 
-body.bg-pdf{background:#fdedec} 
-body.bg-notes{background:#fef9e7}
-body.bg-planner{background:#eef9ff}
-body.bg-jobs{background:#f0f4f8}
-body.bg-store{background:#fff0f5}
-body.bg-ai{background:#f3f0ff}
-body.bg-admin{background:#eef2f5}
+body.bg-home { background: #f5f7fb; } 
+body.bg-videocall { background: #e8f8f5; } 
+body.bg-teacher { background: #fef5e7; } 
+body.bg-resizer { background: #f4ecf7; } 
+body.bg-pdf { background: #fdedec; } 
+body.bg-notes { background: #fef9e7; }
+body.bg-planner { background: #eef9ff; }
+body.bg-jobs { background: #f0f4f8; }
+body.bg-store { background: #fff0f5; }
+body.bg-ai { background: #f3f0ff; }
+body.bg-admin { background: #eef2f5; }
 
-/* AUTH */
-.auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:linear-gradient(135deg,#667eea,#764ba2)}
-.auth-box{background:#fff;padding:2rem 1.5rem;border-radius:16px;width:100%;max-width:380px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
-.auth-logo{display:flex;justify-content:center;align-items:center;gap:8px;font-size:2rem;font-weight:900;text-align:center;color:#4a3f8f;margin-bottom:.3rem;letter-spacing:1px}
-.auth-tag{text-align:center;color:#888;margin-bottom:1.5rem;font-size:.9rem}
-.auth-tabs{display:flex;background:#f0f2f8;padding:.25rem;border-radius:10px;margin-bottom:1rem}
-.auth-tabs button{flex:1;background:transparent;color:#666;border:none;padding:.6rem;border-radius:8px;font-weight:600;cursor:pointer;font-size:.95rem;margin:0}
-.auth-tabs button.active{background:#667eea;color:#fff}
-.auth-box input{margin-bottom:.7rem}
-.primary-btn{width:100%;padding:.8rem;font-size:1rem;margin:0}
+/* AUTH SCREEN */
+.auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 15px; background: linear-gradient(135deg, #667eea, #764ba2); }
+.auth-box { background: #fff; padding: 25px 20px; border-radius: 16px; width: 100%; max-width: 380px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.auth-logo { display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 2rem; font-weight: 900; color: #4a3f8f; margin-bottom: 5px; letter-spacing: 1px; }
+.auth-tag { text-align: center; color: #888; margin-bottom: 20px; font-size: 0.9rem; }
+.auth-tabs { display: flex; background: #f0f2f8; padding: 4px; border-radius: 10px; margin-bottom: 15px; }
+.auth-tabs button { flex: 1; background: transparent; color: #666; border: none; padding: 8px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem; }
+.auth-tabs button.active { background: #667eea; color: #fff; }
+.auth-box input { width: 100%; padding: 12px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 0.95rem; margin-bottom: 12px; background: #fafafa; }
+.primary-btn { width: 100%; padding: 12px; font-size: 1rem; border: none; border-radius: 10px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-weight: bold; cursor: pointer; margin-bottom: 10px; }
 
 /* HEADER */
-header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.15)}
-.logo{font-size:1.4rem;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:1px}
-.hdr-right{display:flex;align-items:center;gap:.5rem}
-.user-name{font-size:.85rem;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
-.logout-btn{background:rgba(255,255,255,.2);color:#fff;border:none;padding:.4rem .7rem;border-radius:6px;font-size:.8rem;cursor:pointer;margin:0}
+header { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.15); width: 100%; box-sizing: border-box; }
+.logo { display: flex; align-items: center; gap: 6px; font-size: 1.3rem; font-weight: 900; cursor: pointer; letter-spacing: 1px; flex-shrink: 0; }
+.hdr-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.user-name { font-size: 0.8rem; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.logout-btn { background: rgba(255,255,255,0.2); color: white; border: none; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
 
 /* MAIN LAYOUT */
-main{padding:1.2rem 1rem;max-width:800px;margin:0 auto;padding-bottom:80px;width:100%}
-.page{display:none}
-.page.active{display:block;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-#home h1{font-size:1.6rem;color:#4a3f8f;margin-bottom:1.5rem;text-align:center;font-weight:800}
+main { padding: 15px; max-width: 800px; margin: 0 auto; padding-bottom: 80px; width: 100%; box-sizing: border-box; }
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+#home h1 { font-size: 1.4rem; color: #4a3f8f; margin-bottom: 15px; text-align: center; font-weight: 800; }
 
-/* CARDS (Homepage) */
-.grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px;width:100%}
-@media(min-width:600px){.grid{grid-template-columns:repeat(3, 1fr)}}
-.card{background:#fff;padding:1.2rem .8rem;border-radius:20px;text-align:center;cursor:pointer;border:none;box-shadow:0 6px 16px rgba(0,0,0,.06);transition:all .3s ease;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.2rem;color:#1a1a2e;text-decoration:none;position:relative;overflow:hidden;width:100%}
-.card:active{transform:scale(.95)}
-.card h3{margin:.6rem 0 .2rem;font-size:1rem;color:#1a1a2e;font-weight:700;z-index:2;line-height:1.2}
-.card p{color:#777;font-size:.75rem;line-height:1.3;margin:0;z-index:2}
-.card::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.1;z-index:1;transition:opacity .3s}
+/* CARDS (FLEXBOX GRID - MOST COMPATIBLE) */
+.grid { display: flex; flex-wrap: wrap; justify-content: space-between; width: 100%; }
+.card { background: #fff; width: 48%; margin-bottom: 15px; padding: 15px 10px; border-radius: 16px; text-align: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.06); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 2rem; color: #1a1a2e; position: relative; overflow: hidden; }
+@media(min-width: 600px) { .card { width: 31%; } }
+.card:active { transform: scale(0.96); }
+.card h3 { margin: 10px 0 4px; font-size: 0.95rem; color: #1a1a2e; font-weight: 700; z-index: 2; line-height: 1.2; }
+.card p { color: #777; font-size: 0.75rem; line-height: 1.3; margin: 0; z-index: 2; }
+.card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.1; z-index: 1; }
 
 /* Color Coding for Cards */
-.card-video::before{background:#27ae60} .card-video{border-bottom:4px solid #27ae60}
-.card-teacher::before{background:#e67e22} .card-teacher{border-bottom:4px solid #e67e22}
-.card-resizer::before{background:#9b59b6} .card-resizer{border-bottom:4px solid #9b59b6}
-.card-pdf::before{background:#e74c3c} .card-pdf{border-bottom:4px solid #e74c3c}
-.card-notes::before{background:#f1c40f} .card-notes{border-bottom:4px solid #f1c40f}
-.card-planner::before{background:#3498db} .card-planner{border-bottom:4px solid #3498db}
-.card-jobs::before{background:#2c3e50} .card-jobs{border-bottom:4px solid #2c3e50}
-.card-store::before{background:#ff69b4} .card-store{border-bottom:4px solid #ff69b4}
-.card-ai::before{background:#8e44ad} .card-ai{border-bottom:4px solid #8e44ad}
-.card-resume::before{background:#16a085} .card-resume{border-bottom:4px solid #16a085}
-.card-mocktest::before{background:#d35400} .card-mocktest{border-bottom:4px solid #d35400}
+.card-video::before { background: #27ae60; } .card-video { border-bottom: 4px solid #27ae60; }
+.card-teacher::before { background: #e67e22; } .card-teacher { border-bottom: 4px solid #e67e22; }
+.card-resizer::before { background: #9b59b6; } .card-resizer { border-bottom: 4px solid #9b59b6; }
+.card-pdf::before { background: #e74c3c; } .card-pdf { border-bottom: 4px solid #e74c3c; }
+.card-notes::before { background: #f1c40f; } .card-notes { border-bottom: 4px solid #f1c40f; }
+.card-planner::before { background: #3498db; } .card-planner { border-bottom: 4px solid #3498db; }
+.card-jobs::before { background: #2c3e50; } .card-jobs { border-bottom: 4px solid #2c3e50; }
+.card-store::before { background: #ff69b4; } .card-store { border-bottom: 4px solid #ff69b4; }
+.card-ai::before { background: #8e44ad; } .card-ai { border-bottom: 4px solid #8e44ad; }
+.card-resume::before { background: #16a085; } .card-resume { border-bottom: 4px solid #16a085; }
+.card-mocktest::before { background: #d35400; } .card-mocktest { border-bottom: 4px solid #d35400; }
 
 /* AD BANNER */
-.ad-banner{background:#fff;border-radius:16px;padding:10px;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,.08);text-align:center;position:relative;border:1px solid #ffeeba;background-color:#fffdf5;width:100%}
-.ad-banner img{max-width:100%;height:auto;border-radius:10px;max-height:150px;object-fit:cover}
-.ad-banner p{font-size:.85rem;color:#666;margin-top:5px}
-.ad-label{position:absolute;top:-10px;left:10px;background:#f1c40f;color:#fff;font-size:.65rem;padding:2px 6px;border-radius:4px;font-weight:bold}
+.ad-banner { background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; position: relative; border: 1px solid #ffeeba; background-color: #fffdf5; width: 100%; box-sizing: border-box; }
+.ad-banner img { max-width: 100%; height: auto; border-radius: 8px; max-height: 120px; object-fit: cover; }
+.ad-label { position: absolute; top: -10px; left: 10px; background: #f1c40f; color: #fff; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
 
 /* COMMON ELEMENTS */
-h2{margin-bottom:1rem;color:#4a3f8f;font-size:1.4rem;text-align:center}
-h3{margin-bottom:.6rem;color:#4a3f8f;font-size:1.1rem}
-.back{background:none;border:none;color:#667eea;cursor:pointer;font-size:1rem;margin-bottom:1rem;padding:.3rem 0;font-weight:700}
-.tool-box,.form{background:#fff;padding:1.2rem;border-radius:16px;margin-bottom:1rem;box-shadow:0 4px 12px rgba(0,0,0,.05)}
-input,textarea,select{width:100%;padding:.8rem;border:1.5px solid #e0e0e0;border-radius:10px;font-size:.95rem;margin-bottom:.8rem;font-family:inherit;background:#fafafa;color:#1a1a2e;}
-button{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:.8rem 1.3rem;border-radius:10px;cursor:pointer;font-size:.95rem;font-weight:700;margin-right:.4rem;margin-bottom:.4rem;box-shadow:0 2px 6px rgba(102,126,234,.3);transition:all .2s}
-button:active{transform:scale(.97)}
-.msg-text{color:#27ae60;font-weight:700;margin-top:.5rem;font-size:.9rem;text-align:center}
+h2 { margin-bottom: 15px; color: #4a3f8f; font-size: 1.3rem; text-align: center; }
+h3 { margin-bottom: 10px; color: #4a3f8f; font-size: 1.1rem; }
+.back { background: none; border: none; color: #667eea; cursor: pointer; font-size: 1rem; margin-bottom: 15px; padding: 0; font-weight: 700; }
+.tool-box, .form { background: #fff; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+input, textarea, select { width: 100%; padding: 12px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 0.95rem; margin-bottom: 12px; font-family: inherit; background: #fafafa; color: #1a1a2e; }
+button { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 15px; border-radius: 10px; cursor: pointer; font-size: 0.95rem; font-weight: 700; margin-right: 5px; margin-bottom: 5px; }
+.msg-text { color: #27ae60; font-weight: 700; margin-top: 10px; font-size: 0.9rem; text-align: center; }
 
 /* MOCK TEST */
-.q-block{background:#fff;padding:1rem;border-radius:12px;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.05)}
-.q-block label{display:block;padding:.6rem;cursor:pointer;border-radius:8px;margin:.3rem 0;font-size:.95rem;background:#fafafa;border:1px solid #eee}
-.q-block input[type=radio]{width:auto;margin-right:.5rem;transform:scale(1.2)}
-#timerDisplay{position:sticky;top:65px;background:#4a3f8f;color:#fff;padding:.6rem;border-radius:10px;text-align:center;font-weight:800;margin-bottom:1rem;font-size:1.2rem;z-index:50;box-shadow:0 4px 10px rgba(0,0,0,.2)}
+.q-block { background: #fff; padding: 15px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.q-block label { display: block; padding: 10px; cursor: pointer; border-radius: 8px; margin: 5px 0; font-size: 0.95rem; background: #fafafa; border: 1px solid #eee; }
+.q-block input[type=radio] { width: auto; margin-right: 8px; }
+#timerDisplay { position: sticky; top: 60px; background: #4a3f8f; color: white; padding: 10px; border-radius: 8px; text-align: center; font-weight: 800; margin-bottom: 15px; font-size: 1.2rem; z-index: 50; }
 
 /* NOTES & PLANNER */
-.note-item{background:#fff;padding:1rem;border-radius:12px;margin:.8rem 0;box-shadow:0 2px 8px rgba(0,0,0,.05);border-left:4px solid #f1c40f}
-.note-item h4{margin-bottom:.3rem;color:#1a1a2e;font-size:1.1rem}
-.note-item p{color:#555;font-size:.9rem;margin-bottom:.8rem}
-.note-item button{padding:.4rem .8rem;font-size:.8rem;margin-right:.4rem;margin-bottom:0;border-radius:6px}
-.note-item button.del{background:#ffeaea;color:#e74c3c;box-shadow:none}
+.note-item { background: #fff; padding: 15px; border-radius: 12px; margin: 10px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-left: 4px solid #f1c40f; }
+.note-item h4 { margin-bottom: 5px; color: #1a1a2e; font-size: 1.1rem; }
+.note-item p { color: #555; font-size: 0.9rem; margin-bottom: 10px; }
+.note-item button { padding: 6px 12px; font-size: 0.8rem; background: #ffeaea; color: #e74c3c; margin: 0; }
 
-#taskList{list-style:none}
-#taskList li{background:#fff;padding:.9rem 1rem;border-radius:12px;margin-bottom:.6rem;display:flex;align-items:center;gap:.8rem;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.95rem;flex-wrap:wrap;border-left:4px solid #3498db}
-#taskList li.done{border-left-color:#27ae60;background:#f9fdfa}
-#taskList li.done span{text-decoration:line-through;color:#aaa}
-#taskList li small{color:#888;margin-left:auto;font-size:.8rem;background:#f0f2f8;padding:2px 6px;border-radius:4px}
-#taskList li input[type=checkbox]{width:20px;height:20px;margin:0;accent-color:#27ae60}
-#taskList li button{padding:.3rem .6rem;font-size:.8rem;background:#ffeaea;color:#e74c3c;margin:0;box-shadow:none;border-radius:6px}
+#taskList { list-style: none; }
+#taskList li { background: #fff; padding: 12px 15px; border-radius: 12px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); font-size: 0.95rem; border-left: 4px solid #3498db; }
+#taskList li.done { border-left-color: #27ae60; background: #f9fdfa; }
+#taskList li.done span { text-decoration: line-through; color: #aaa; }
+#taskList li small { color: #888; margin-left: auto; font-size: 0.8rem; background: #f0f2f8; padding: 2px 6px; border-radius: 4px; }
+#taskList li input[type=checkbox] { width: 18px; height: 18px; margin: 0; }
+#taskList li button { padding: 4px 8px; font-size: 0.8rem; background: #ffeaea; color: #e74c3c; margin: 0; }
 
 /* JOBS & STORE */
-.job-card { background: #fff; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.05); margin-bottom: 1rem; border-left: 4px solid #2c3e50; }
-.job-card h3 { font-size: 1.1rem; margin-bottom: 0.3rem; color: #2c3e50; }
-.job-card p { font-size: 0.85rem; color: #666; margin-bottom: 0.8rem; }
-.job-card a { display: inline-block; background: #2c3e50; color: #fff; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+.job-card { background: #fff; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 15px; border-left: 4px solid #2c3e50; }
+.job-card h3 { font-size: 1.1rem; margin-bottom: 5px; color: #2c3e50; }
+.job-card p { font-size: 0.85rem; color: #666; margin-bottom: 10px; }
+.job-card a { display: inline-block; background: #2c3e50; color: white; padding: 8px 12px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
 
-.store-card { background: #fff; padding: 1rem; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,.05); border-bottom: 4px solid #ff69b4; }
-.store-card h3 { font-size: 1.1rem; margin-bottom: 0.3rem; color: #333; }
-.store-card p { font-size: 0.85rem; color: #666; margin-bottom: 0.5rem; }
-.store-card .price { font-size: 1.2rem; font-weight: 800; color: #ff69b4; margin-bottom: 1rem; }
+.store-card { background: #fff; width: 48%; margin-bottom: 15px; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-bottom: 4px solid #ff69b4; }
+.store-card h3 { font-size: 1rem; margin-bottom: 5px; color: #333; }
+.store-card p { font-size: 0.8rem; color: #666; margin-bottom: 5px; }
+.store-card .price { font-size: 1.2rem; font-weight: 800; color: #ff69b4; margin-bottom: 10px; }
+.store-card button { padding: 8px; font-size: 0.9rem; margin: 0; width: 100%; }
 
 /* AI CHAT */
-#aiChatBox { display: flex; flex-direction: column; gap: 10px; height: 50vh; overflow-y: auto; padding: 1rem; background: #fff; border-radius: 12px; margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,.05); }
+#aiChatBox { display: flex; flex-direction: column; gap: 10px; height: 50vh; overflow-y: auto; padding: 15px; background: #fff; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 .msg { padding: 10px 14px; border-radius: 14px; max-width: 85%; font-size: 0.95rem; line-height: 1.5; }
 .msg.user { background: #8e44ad; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
 .msg.ai { background: #f3f0ff; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #e0d4ff; }
 
 /* VIDEO & TEACHER STUDIO */
-.video-container { position: relative; width: 100%; height: 60vh; background: #000; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
+.video-container { position: relative; width: 100%; height: 60vh; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px; }
 .video-container iframe { width: 100%; height: 100%; border: none; }
-#whiteboard { width: 100%; height: auto; aspect-ratio: 16 / 9; background: #fff; border-radius: 12px; border: 2px solid #ccc; touch-action: none; cursor: crosshair; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+#whiteboard { width: 100%; max-width: 100%; height: auto; aspect-ratio: 16 / 9; background: #fff; border-radius: 12px; border: 2px solid #ccc; touch-action: none; cursor: crosshair; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
 .tools { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
-.tool-btn { padding: 6px 12px; border-radius: 8px; font-size: 0.9rem; background: #eee; color: #333; box-shadow: none; margin: 0; }
+.tool-btn { padding: 8px 12px; border-radius: 8px; font-size: 0.9rem; background: #eee; color: #333; margin: 0; }
 .tool-btn.active { background: #e67e22; color: #fff; }
 .record-btn { background: #e74c3c; animation: pulse 1s infinite; }
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 
 /* FOOTER */
-footer{position:fixed;bottom:0;left:0;right:0;background:#fff;text-align:center;padding:.7rem;font-size:.85rem;border-top:1px solid #eee;z-index:99;display:flex;justify-content:center;gap:1rem;box-shadow:0 -2px 10px rgba(0,0,0,.05)}
-footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1rem;border-radius:20px;font-weight:700;font-size:.85rem}
+footer { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; text-align: center; padding: 10px; font-size: 0.85rem; border-top: 1px solid #eee; z-index: 99; display: flex; justify-content: center; gap: 15px; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+footer a { color: #667eea; text-decoration: none; background: #f0f2ff; padding: 6px 15px; border-radius: 20px; font-weight: 700; font-size: 0.85rem; }
 
 /* ADMIN TABS */
-.admin-tabs{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem;justify-content:center}
-.admin-tabs button{padding:.5rem 1rem;font-size:.85rem;margin:0;background:#fff;color:#666;box-shadow:none;border:1px solid #eee}
-.admin-tabs button.active{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
-.admin-item{background:#fff;padding:1rem;border-radius:12px;margin-bottom:.8rem;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.95rem;border-left:4px solid #ccc}
-.admin-item p{margin-bottom:.4rem;color:#555}
-.admin-item button{padding:.35rem .7rem;font-size:.8rem;margin-right:.4rem;margin-bottom:0;box-shadow:none;background:#ffeaea;color:#e74c3c}
-.bulk-box{background:#f8f9ff;border:2px dashed #667eea;padding:1rem;border-radius:12px;margin-bottom:1rem}
-.bulk-box code{background:#e0e5ff;padding:.2rem .4rem;border-radius:4px;font-size:.85rem;color:#4a3f8f;display:block;margin-bottom:.5rem;word-break:break-all}
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 15px; justify-content: center; }
+.admin-tabs button { padding: 8px 12px; font-size: 0.85rem; margin: 0; background: #fff; color: #666; border: 1px solid #eee; }
+.admin-tabs button.active { background: #1a1a2e; color: #fff; border-color: #1a1a2e; }
+.admin-item { background: #fff; padding: 12px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); font-size: 0.95rem; border-left: 4px solid #ccc; }
+.admin-item p { margin-bottom: 5px; color: #555; }
+.admin-item button { padding: 6px 10px; font-size: 0.8rem; margin-right: 5px; margin-bottom: 0; background: #ffeaea; color: #e74c3c; }
+.bulk-box { background: #f8f9ff; border: 2px dashed #667eea; padding: 15px; border-radius: 12px; margin-bottom: 15px; }
+.bulk-box code { background: #e0e5ff; padding: 4px; border-radius: 4px; font-size: 0.85rem; color: #4a3f8f; display: block; margin-bottom: 10px; word-break: break-all; }
 </style>
 </head>
 <body class="bg-home">
@@ -172,7 +172,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
       <input id="loginEmail" placeholder="Email" type="email">
       <input id="loginPass" placeholder="Password" type="password">
       <button class="primary-btn" type="button" onclick="doLogin(this)">Login करें</button>
-      <p id="loginMsg" style="color:#e74c3c;font-weight:600;text-align:center;margin-top:.5rem"></p>
+      <p id="loginMsg" style="color:#e74c3c;font-weight:600;text-align:center;margin-top:10px"></p>
     </div>
     
     <div id="signupForm" style="display:none">
@@ -180,7 +180,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
       <input id="signupEmail" placeholder="Email" type="email">
       <input id="signupPass" placeholder="Password (4+ अक्षर)" type="password">
       <button class="primary-btn" type="button" onclick="doSignup(this)">Account बनाएं</button>
-      <p id="signupMsg" style="color:#e74c3c;font-weight:600;text-align:center;margin-top:.5rem"></p>
+      <p id="signupMsg" style="color:#e74c3c;font-weight:600;text-align:center;margin-top:10px"></p>
     </div>
   </div>
 </div>
@@ -189,7 +189,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
 <div id="appScreen" style="display:none">
 <header>
   <div class="logo" onclick="showPage('home')">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
       <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
       <path d="M12 2v20"></path>
@@ -211,7 +211,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     <span class="ad-label">Sponsored</span>
     <a id="adLink" href="#" target="_blank" style="text-decoration:none;display:block">
       <img id="adImg" src="" style="display:none;">
-      <div id="adTextContainer" style="padding:10px;font-weight:bold;color:#4a3f8f;font-size:1.1rem"></div>
+      <div id="adTextContainer" style="padding:10px;font-weight:bold;color:#4a3f8f;font-size:1rem"></div>
     </a>
   </div>
 
@@ -219,7 +219,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     <div class="card card-video" onclick="showPage('videocall')">🎥<h3>Video Study</h3><p>दोस्तों से मिलें</p></div>
     <div class="card card-teacher" onclick="showPage('teacher')">👨‍🏫<h3>Teacher Studio</h3><p>पढ़ाएं और रिकॉर्ड करें</p></div>
     <div class="card card-pdf" onclick="showPage('pdf')">📄<h3>PDF टूल्स</h3><p>Merge · Split</p></div>
-    <div class="card card-resizer" onclick="showPage('resizer')">🖼️<h3>Photo Resize</h3><p>फोटो/सिग्नेचर (KB)</p></div>
+    <div class="card card-resizer" onclick="showPage('resizer')">🖼️<h3>Photo Resize</h3><p>फोटो/सिग्नेचर</p></div>
     <div class="card card-resume" onclick="showPage('resume')">📝<h3>Resume</h3><p>3 Templates</p></div>
     <div class="card card-mocktest" onclick="showPage('mocktest')">✏️<h3>Mock Test</h3><p>टाइमर + स्कोर</p></div>
     <div class="card card-notes" onclick="showPage('notes')">🗒️<h3>My Notes</h3><p>पढ़ाई के नोट्स</p></div>
@@ -296,7 +296,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   <div id="testResult" style="display:none" class="tool-box"></div>
 </section>
 
-<!-- NOTES -->
+        <!-- NOTES -->
 <section id="notes" class="page">
   <button class="back" onclick="showPage('home')">← होम</button>
   <h2>🗒️ My Notes</h2>
@@ -332,9 +332,9 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   <button class="back" onclick="showPage('home')">← होम</button>
   <h2>🛒 Study Store</h2>
   <div id="storeList" class="grid"></div>
-    </section>
-    
-<!- AI -->
+</section>
+
+<!-- AI -->
 <section id="ai" class="page">
   <button class="back" onclick="showPage('home')">← होम</button>
   <h2>🤖 BODH AI</h2>
@@ -386,7 +386,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     
     <canvas id="whiteboard"></canvas>
     
-    <div style="display:flex;gap:10px;margin-top:1rem">
+    <div style="display:flex;gap:10px;margin-top:15px">
       <button id="recordBtn" onclick="toggleRecording()" style="width:100%;background:#e74c3c">🔴 रिकॉर्डिंग शुरू करें</button>
       <a id="downloadLink" style="display:none;width:100%" download="BODH_Lecture.webm"><button style="width:100%;background:#27ae60">⬇️ डाउनलोड वीडियो</button></a>
     </div>
@@ -414,7 +414,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     </div>
     <button onclick="processResize()" style="width:100%">🪄 Resize और Compress करें</button>
   </div>
-  <div id="resizeResult" style="display:none;text-align:center;background:#fff;padding:1rem;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.05)">
+  <div id="resizeResult" style="display:none;text-align:center;background:#fff;padding:15px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.05)">
     <h3 style="color:#27ae60">✅ तैयार है!</h3>
     <img id="resizedImage" style="max-width:100%;border-radius:8px;margin-bottom:10px;border:1px dashed #ccc;">
     <p id="resizeInfo" style="font-size:0.9rem;color:#444;margin-bottom:10px;font-weight:bold"></p>
@@ -583,7 +583,6 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     document.getElementById('userName').textContent = name;
     document.getElementById('greetName').textContent = name;
     
-    // Protect against any single tool failing during load
     try { loadAds(); } catch(e) { console.log(e); }
     try { loadJobs(); } catch(e) { console.log(e); }
     try { loadStore(); } catch(e) { console.log(e); }
@@ -622,487 +621,4 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     window.open('https://wa.me/?text=' + encodeURIComponent('📚 BODH — मेरा स्टडी साथी!\n' + window.location.href), '_blank');
   }
 
-  // ================= NAVIGATION =================
-  window.showPage = function(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.body.className = 'bg-' + id;
-    window.scrollTo(0,0);
-    if(id === 'admin') {
-      if(sessionStorage.getItem('bodh_admin') === '1') {
-        document.getElementById('adminLogin').style.display = 'none';
-        document.getElementById('adminPanel').style.display = 'block';
-        adminTab('ads');
-      } else {
-        document.getElementById('adminLogin').style.display = 'block';
-        document.getElementById('adminPanel').style.display = 'none';
-      }
-    }
-  };
-
-  // ================= ADS MANAGEMENT =================
-  const DEFAULT_ADS = [{ id: 1, title: "🎓 BODH Premium Batch", text: "सभी विषयों के कोर्स सिर्फ ₹99 में!", img: "", link: "https://google.com" }];
-  function getAds() { return JSON.parse(localStorage.getItem('bodh_ads')) || DEFAULT_ADS; }
-
-  window.loadAds = function() {
-    const ads = getAds();
-    const banner = document.getElementById('homeAdBanner');
-    if (ads.length > 0) {
-      const ad = ads[0];
-      document.getElementById('adLink').href = ad.link;
-      document.getElementById('adTextContainer').textContent = ad.title + " - " + ad.text;
-      if (ad.img) {
-        document.getElementById('adImg').src = ad.img;
-        document.getElementById('adImg').style.display = 'block';
-        document.getElementById('adTextContainer').style.fontSize = '0.9rem';
-      } else {
-        document.getElementById('adImg').style.display = 'none';
-      }
-      banner.style.display = 'block';
-    } else { banner.style.display = 'none'; }
-  };
-
-  // ================= ADMIN LOGIC =================
-  window.loginAdmin = function() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === 'bodh123') {
-      sessionStorage.setItem('bodh_admin', '1');
-      document.getElementById('adminLogin').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
-      adminTab('ads');
-    } else {
-      document.getElementById('adminMsg').textContent = '❌ गलत Password (default: bodh123)';
-    }
-  };
-
-  window.logoutAdmin = function() {
-    sessionStorage.removeItem('bodh_admin');
-    document.getElementById('adminPanel').style.display = 'none';
-    document.getElementById('adminLogin').style.display = 'block';
-    document.getElementById('adminPass').value = '';
-  };
-
-  window.adminTab = function(name) {
-    document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-    const c = document.getElementById('adminContent');
-    
-    if (name === 'ads') {
-      const ads = getAds();
-      let html = `<h3>📢 Ads Manager</h3>
-        <div class="form" style="margin-bottom:1rem">
-          <input id="adTitle" placeholder="Ad Title">
-          <input id="adText" placeholder="Ad Description">
-          <input id="adImg" placeholder="Image URL (वैकल्पिक)">
-          <input id="adLink" placeholder="Target Link (https://...)">
-          <button onclick="adminAddAd()" style="width:100%">➕ नया Ad जोड़ें</button>
-        </div>`;
-      ads.forEach(ad => { html += `<div class="admin-item"><p><b>${ad.title}</b></p><p style="font-size:0.85rem">${ad.text}</p><button onclick="adminDelAd(${ad.id})">🗑️ Delete</button></div>`; });
-      c.innerHTML = html;
-    } 
-    else if (name === 'jobs') {
-      const jobs = getJobs();
-      let html = `<h3>💼 Jobs Manager</h3>
-        <div class="form" style="margin-bottom:1rem">
-          <input id="jobTitle" placeholder="Job Title">
-          <input id="jobDesc" placeholder="Description / Eligibility">
-          <input id="jobLink" placeholder="Link (https://...)">
-          <button onclick="adminAddJob()" style="width:100%">➕ जोड़ें</button>
-        </div>`;
-      jobs.forEach(j => { html += `<div class="admin-item"><p><b>${j.t}</b></p><p style="font-size:0.85rem">${j.d}</p><button onclick="adminDelJob(${j.id})">🗑️ Delete</button></div>`; });
-      c.innerHTML = html;
-    }
-    else if (name === 'store') {
-      const items = getStore();
-      let html = `<h3>🛒 Store Manager</h3>
-        <div class="form" style="margin-bottom:1rem">
-          <input id="sName" placeholder="Product Name">
-          <input id="sDesc" placeholder="Description">
-          <input id="sPrice" placeholder="Price (₹99)">
-          <button onclick="adminAddStore()" style="width:100%">➕ जोड़ें</button>
-        </div>`;
-      items.forEach(s => { html += `<div class="admin-item"><p><b>${s.n}</b> — ${s.p}</p><p style="font-size:0.85rem">${s.d}</p><button onclick="adminDelStore(${s.id})">🗑️ Delete</button></div>`; });
-      c.innerHTML = html;
-    }
-    else if (name === 'questions') {
-      c.innerHTML = `<h3>✏️ Questions Manager</h3>
-        <div class="bulk-box">
-          <h4 style="margin-bottom:.5rem">Bulk Upload (100+ Questions)</h4>
-          <code>सवाल | Option A | Option B | Option C | Option D | सही उत्तर (0-3)</code>
-          <select id="bulkQSubj" style="margin-bottom:.5rem"><option value="gk">GK</option><option value="math">Math</option><option value="reasoning">Reasoning</option></select>
-          <textarea id="bulkQText" placeholder="यहाँ सवाल पेस्ट करें (हर लाइन में एक)..." style="height:120px;font-family:monospace;font-size:.85rem"></textarea>
-          <button onclick="adminBulkAddQ()" style="width:100%;background:#27ae60">✅ सारे जोड़ें</button>
-        </div>
-        <div id="qList" style="margin-top:1rem">${renderAdminQuestions()}</div>`;
-    }
-    else if (name === 'settings') {
-      c.innerHTML = `<h3>🔧 Settings</h3><div class="form"><p style="margin-bottom:.5rem;font-size:.9rem">Admin Password</p><input type="password" id="newPass" placeholder="नया Password"><button onclick="alert('सुविधा जल्द आएगी!')" style="width:100%">💾 बदलें</button></div>`;
-    }
-  };
-
-  function renderAdminQuestions() {
-    const qb = getQB(); const labels = {gk:'GK', math:'Math', reasoning:'Reasoning'}; let h = '';
-    for(let sub in qb) {
-      if(!qb[sub].length) continue;
-      h += `<h4 style="margin:1rem 0 .5rem">${labels[sub]} (${qb[sub].length})</h4>`;
-      qb[sub].forEach((q, i) => {
-        h += `<div class="admin-item"><p><b>${q.q}</b></p><button onclick="adminDelQ('${sub}',${i})">🗑️ Delete</button></div>`;
-      });
-    }
-    return h || '<p>कोई प्रश्न नहीं।</p>';
-  }
-
-  // Add Data Functions
-  window.adminAddAd = function() {
-    const t = document.getElementById('adTitle').value, d = document.getElementById('adText').value, img = document.getElementById('adImg').value, l = document.getElementById('adLink').value;
-    if (!t || !d || !l) return alert('Title, Text और Link ज़रूरी है');
-    let ads = getAds(); ads.push({ id: Date.now(), title: t, text: d, img: img, link: l });
-    localStorage.setItem('bodh_ads', JSON.stringify(ads)); adminTab('ads'); loadAds();
-  };
-  window.adminAddJob = function() {
-    const t = document.getElementById('jobTitle').value, d = document.getElementById('jobDesc').value, l = document.getElementById('jobLink').value;
-    if (!t || !l) return alert('Title और Link ज़रूरी है');
-    let jobs = getJobs(); jobs.push({ id: Date.now(), t, d, l });
-    localStorage.setItem('bodh_jobs', JSON.stringify(jobs)); adminTab('jobs'); loadJobs();
-  };
-  window.adminAddStore = function() {
-    const n = document.getElementById('sName').value, d = document.getElementById('sDesc').value, p = document.getElementById('sPrice').value;
-    if (!n || !p) return alert('Name और Price ज़रूरी है');
-    let items = getStore(); items.push({ id: Date.now(), n, d, p });
-    localStorage.setItem('bodh_store', JSON.stringify(items)); adminTab('store'); loadStore();
-  };
-  window.adminBulkAddQ = function() {
-    const sub = document.getElementById('bulkQSubj').value, text = document.getElementById('bulkQText').value.trim();
-    if(!text) return alert('सवाल पेस्ट करें');
-    let qb = getQB(); let added = 0;
-    text.split('\n').forEach(line => {
-      if(!line.trim()) return;
-      const p = line.split('|');
-      if(p.length === 6) {
-        const q = p[0].trim(), o = [p[1].trim(), p[2].trim(), p[3].trim(), p[4].trim()], a = parseInt(p[5].trim());
-        if(q && o[0] && !isNaN(a) && a >= 0 && a <= 3) { qb[sub].push({q, o, a}); added++; }
-      }
-    });
-    localStorage.setItem('bodh_qb', JSON.stringify(qb));
-    document.getElementById('qList').innerHTML = renderAdminQuestions();
-    document.getElementById('bulkQText').value = '';
-    populateTeacherQBank();
-    alert(`✅ ${added} प्रश्न जोड़े गए!`);
-  };
-
-  // Delete Data Functions
-  window.adminDelAd = function(id) { if(!confirm('Delete?')) return; localStorage.setItem('bodh_ads', JSON.stringify(getAds().filter(a => a.id !== id))); adminTab('ads'); loadAds(); };
-  window.adminDelJob = function(id) { if(!confirm('Delete?')) return; localStorage.setItem('bodh_jobs', JSON.stringify(getJobs().filter(j => j.id !== id))); adminTab('jobs'); loadJobs(); };
-  window.adminDelStore = function(id) { if(!confirm('Delete?')) return; localStorage.setItem('bodh_store', JSON.stringify(getStore().filter(s => s.id !== id))); adminTab('store'); loadStore(); };
-  window.adminDelQ = function(sub, idx) { if(!confirm('Delete?')) return; let qb = getQB(); qb[sub].splice(idx, 1); localStorage.setItem('bodh_qb', JSON.stringify(qb)); document.getElementById('qList').innerHTML = renderAdminQuestions(); populateTeacherQBank(); };
-
-  // ================= DYNAMIC UI LOADERS =================
-  window.loadJobs = function() {
-    const jobs = getJobs();
-    document.getElementById('jobsList').innerHTML = jobs.map(j => `<div class="job-card"><h3>${j.t}</h3><p>${j.d}</p><a href="${j.l}" target="_blank">आधिकारिक साइट →</a></div>`).join('') || '<p style="text-align:center;padding:2rem">कोई नौकरी नहीं।</p>';
-  };
-
-  window.loadStore = function() {
-    const items = getStore();
-    document.getElementById('storeList').innerHTML = items.map(s => `<div class="store-card"><h3>${s.n}</h3><p>${s.d}</p><div class="price">${s.p}</div><button onclick="alert('पेमेंट गेटवे जल्द आएगा!')" style="margin:0;width:100%">खरीदें</button></div>`).join('') || '<p style="text-align:center;padding:2rem">कोई आइटम नहीं।</p>';
-  };
-
-  function populateTeacherQBank() {
-    const qb = getQB(); const sel = document.getElementById('teacherQBank');
-    if(!sel) return;
-    sel.innerHTML = '<option value="">-- मॉक टेस्ट से प्रश्न लोड करें --</option>';
-    for(let sub in qb) {
-      qb[sub].forEach(q => {
-        sel.innerHTML += `<option value="${q.q}">${q.q}</option>`;
-      });
-    }
-  }
-
-  // ================= PDF TOOLS =================
-  window.mergePDFs = async function() {
-    const files = document.getElementById('pdfFiles').files, msg = document.getElementById('pdfMsg'), btn = document.getElementById('mergeBtn');
-    if (files.length < 2) return alert('कम से कम 2 PDF चुनें');
-    btn.disabled = true; btn.textContent = '⏳ इंजन लोड हो रहा है...'; msg.textContent = '';
-    try {
-      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
-      btn.textContent = '⏳ Merge हो रहा है...';
-      const { PDFDocument } = PDFLib; const merged = await PDFDocument.create();
-      for (const f of files) {
-        const pdf = await PDFDocument.load(await f.arrayBuffer());
-        const pages = await merged.copyPages(pdf, pdf.getPageIndices());
-        pages.forEach(p => merged.addPage(p));
-      }
-      const bytes = await merged.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'merged.pdf'; a.click();
-      msg.textContent = '✅ Merge हो गया!'; msg.style.color = '#27ae60';
-    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'Merge करें'; }
-  };
-
-  window.extractPages = async function() {
-    const file = document.getElementById('splitPdf').files[0], msg = document.getElementById('splitMsg'), btn = document.getElementById('splitBtn');
-    const range = document.getElementById('pageRange').value;
-    if (!file) return alert('PDF चुनें');
-    btn.disabled = true; btn.textContent = '⏳...'; msg.textContent = '';
-    try {
-      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
-      const { PDFDocument } = PDFLib; const src = await PDFDocument.load(await file.arrayBuffer());
-      let indices = range.trim() ? range.split(',').flatMap(p => p.includes('-') ? Array.from({length: p.split('-')[1]-p.split('-')[0]+1}, (_, i) => parseInt(p.split('-')[0])+i-1) : [parseInt(p)-1]) : src.getPageIndices();
-      indices = indices.filter(i => i >= 0 && i < src.getPageCount());
-      const out = await PDFDocument.create(); const copied = await out.copyPages(src, indices);
-      copied.forEach(p => out.addPage(p));
-      const bytes = await out.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'extracted.pdf'; a.click();
-      msg.textContent = '✅ तैयार!'; msg.style.color = '#27ae60';
-    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'निकालें'; }
-  };
-
-  window.imagesToPDF = async function() {
-    const files = document.getElementById('imgFiles').files, msg = document.getElementById('imgMsg'), btn = document.getElementById('imgBtn');
-    const useA4 = document.getElementById('pdfA4Option').checked;
-    if (!files.length) return alert('इमेज चुनें');
-    btn.disabled = true; btn.textContent = '⏳ इंजन लोड हो रहा है...'; msg.textContent = '';
-    try {
-      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
-      btn.textContent = '⏳ PDF बन रही है...';
-      const { PDFDocument } = PDFLib; const pdf = await PDFDocument.create();
-      for (const f of files) {
-        const bytes = await f.arrayBuffer(); let img;
-        if (f.type === 'image/png') img = await pdf.embedPng(bytes); else img = await pdf.embedJpg(bytes);
-        if (useA4) {
-          const page = pdf.addPage([595.28, 841.89]);
-          const scale = Math.min(595.28 / img.width, 841.89 / img.height);
-          page.drawImage(img, { x: (595.28 - img.width * scale) / 2, y: (841.89 - img.height * scale) / 2, width: img.width * scale, height: img.height * scale });
-        } else {
-          const page = pdf.addPage([img.width, img.height]); page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
-        }
-      }
-      const bytes = await pdf.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'images.pdf'; a.click();
-      msg.textContent = '✅ सफल!'; msg.style.color = '#27ae60';
-    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'PDF बनाएं'; }
-  };
-
-  // ================= RESUME =================
-  window.previewResume = function() {
-    const d = { name: document.getElementById('rName').value, email: document.getElementById('rEmail').value, phone: document.getElementById('rPhone').value, skills: document.getElementById('rSkills').value, edu: document.getElementById('rEdu').value.replace(/\n/g, '<br>'), exp: document.getElementById('rExp').value.replace(/\n/g, '<br>') };
-    if (!d.name) return alert('नाम भरें');
-    const tpl = document.getElementById('rTemplate').value;
-    document.getElementById('resumePreview').innerHTML = `<div class="resume-paper ${tpl}"><h2>${d.name}</h2><p>${d.email} ${d.phone ? '| '+d.phone : ''}</p>${d.skills ? `<h3>Skills</h3><p>${d.skills}</p>` : ''}${d.edu ? `<h3>Education</h3><p>${d.edu}</p>` : ''}${d.exp ? `<h3>Experience</h3><p>${d.exp}</p>` : ''}</div>`;
-    document.getElementById('saveResumeBtn').style.display = 'block';
-    document.getElementById('resumePreview').scrollIntoView({ behavior: 'smooth' });
-  };
-  window.saveResumePDF = function() { window.print(); };
-
-  // ================= MOCK TEST =================
-  let cTest = [], tTimer = null;
-  window.startTest = function() {
-    const type = document.getElementById('testSelect').value;
-    const qb = getQB()[type] || [];
-    if(!qb.length) return alert('इस विषय में अभी कोई प्रश्न नहीं जोड़ा गया है।');
-    
-    cTest = qb.map(q => ({ ...q, sel: null }));
-    document.getElementById('testStart').style.display = 'none';
-    const area = document.getElementById('testArea'); area.style.display = 'block';
-    let html = '<div id="timerDisplay">⏱️ 05:00</div>';
-    cTest.forEach((q, i) => {
-      html += `<div class="q-block"><p><b>Q${i+1}.</b> ${q.q}</p>`;
-      q.o.forEach((opt, j) => { html += `<label><input type="radio" name="q${i}" onchange="cTest[${i}].sel=${j}"> ${opt}</label>`; });
-      html += `</div>`;
-    });
-    html += `<button onclick="submitTest()" style="width:100%">✅ Submit</button>`;
-    area.innerHTML = html;
-    let tl = 300; clearInterval(tTimer);
-    tTimer = setInterval(() => { tl--; const el = document.getElementById('timerDisplay'); if(el) el.textContent = `⏱️ 0${Math.floor(tl/60)}:${tl%60<10?'0':''}${tl%60}`; if(tl<=0){clearInterval(tTimer); submitTest();} }, 1000);
-  };
-  window.submitTest = function() {
-    clearInterval(tTimer); let score = 0;
-    cTest.forEach(q => { if(q.sel === q.a) score++; });
-    document.getElementById('testArea').style.display = 'none';
-    const res = document.getElementById('testResult'); res.style.display = 'block';
-    res.innerHTML = `<h3 style="text-align:center">स्कोर: ${score} / ${cTest.length}</h3><button onclick="showPage('home')" style="width:100%;margin-top:1rem">होम पर जाएं</button>`;
-  };
-
-  // ================= NOTES & PLANNER =================
-  window.saveNote = function() {
-    const title = document.getElementById('noteTitle').value, body = document.getElementById('noteBody').value;
-    if(!title || !body) return alert('दोनों भरें');
-    const email = JSON.parse(localStorage.getItem('bodh_current_user')).email;
-    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
-    if(!allNotes[email]) allNotes[email] = [];
-    allNotes[email].push({ id: Date.now(), title, body });
-    localStorage.setItem('bodh_notes', JSON.stringify(allNotes));
-    document.getElementById('noteTitle').value = ''; document.getElementById('noteBody').value = '';
-    loadNotes();
-  };
-  window.loadNotes = function() {
-    const list = document.getElementById('notesList'); const u = JSON.parse(localStorage.getItem('bodh_current_user')); if(!u) return;
-    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
-    let notes = allNotes[u.email] || [];
-    list.innerHTML = notes.length ? '' : '<p style="text-align:center;color:#888;padding:1rem">कोई नोट नहीं।</p>';
-    notes.forEach(n => { list.innerHTML += `<div class="note-item"><h4>${n.title}</h4><p>${n.body}</p><button onclick="delNote(${n.id})">Delete</button></div>`; });
-  };
-  window.delNote = function(id) {
-    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
-    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
-    allNotes[u.email] = allNotes[u.email].filter(n => n.id !== id);
-    localStorage.setItem('bodh_notes', JSON.stringify(allNotes)); loadNotes();
-  };
-
-  window.addTask = function() {
-    const text = document.getElementById('taskText').value, date = document.getElementById('taskDate').value;
-    if(!text) return alert('कार्य लिखें');
-    const email = JSON.parse(localStorage.getItem('bodh_current_user')).email;
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    if(!allTasks[email]) allTasks[email] = [];
-    allTasks[email].push({ id: Date.now(), text, date, done: false });
-    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks));
-    document.getElementById('taskText').value = ''; loadTasks();
-  };
-  window.loadTasks = function() {
-    const list = document.getElementById('taskList'); const u = JSON.parse(localStorage.getItem('bodh_current_user')); if(!u) return;
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    let tasks = (allTasks[u.email] || []).sort((a,b) => a.date > b.date ? 1 : -1);
-    list.innerHTML = tasks.length ? '' : '<p style="text-align:center;color:#888;padding:1rem">कोई कार्य नहीं।</p>';
-    tasks.forEach(t => { list.innerHTML += `<li class="${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="togTask(${t.id})"><span>${t.text}</span><small>${t.date||''}</small><button onclick="delTask(${t.id})">✕</button></li>`; });
-  };
-  window.togTask = function(id) {
-    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    allTasks[u.email].forEach(t => { if(t.id === id) t.done = !t.done; });
-    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks)); loadTasks();
-  };
-  window.delTask = function(id) {
-    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    allTasks[u.email] = allTasks[u.email].filter(t => t.id !== id);
-    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks)); loadTasks();
-  };
-
-  // ================= AI =================
-  window.askAI = async function() {
-    const input = document.getElementById('aiInput'); const q = input.value.trim(); if(!q) return;
-    const box = document.getElementById('aiChatBox');
-    box.innerHTML += `<div class="msg user">${q}</div>`; input.value = ''; box.scrollTop = box.scrollHeight;
-    box.innerHTML += `<div class="msg ai" id="ld">सोच रहा हूँ...</div>`;
-    try {
-      if (typeof puter === 'undefined') await loadScript('https://js.puter.com/v2/');
-      const res = await puter.ai.chat('You are BODH, a helpful study assistant. Answer briefly. Question: ' + q);
-      document.getElementById('ld').remove();
-      box.innerHTML += `<div class="msg ai">${typeof res === 'string' ? res : res.text || JSON.stringify(res)}</div>`;
-    } catch(e) { document.getElementById('ld').innerHTML = '⚠️ AI load नहीं हुई (इंटरनेट जाँचें)।'; }
-    box.scrollTop = box.scrollHeight;
-  };
-
-  // ================= VIDEO =================
-  window.joinVideoRoom = function() {
-    const room = document.getElementById('roomName').value.trim(); if(!room) return alert('कमरा नाम डालें');
-    document.getElementById('jitsiFrame').src = `https://meet.jit.si/BODH_${room}#config.prejoinPageEnabled=false`;
-    document.getElementById('joinRoomBox').style.display = 'none'; document.getElementById('videoFrameBox').style.display = 'block';
-  };
-  window.leaveVideoRoom = function() { document.getElementById('jitsiFrame').src = ''; document.getElementById('joinRoomBox').style.display = 'block'; document.getElementById('videoFrameBox').style.display = 'none'; };
-
-    // ================= TEACHER STUDIO (ADVANCED) =================
-  let canvas, ctx, isDrawing = false, currentTool = 'pen', currentBgColor = '#ffffff';
-  let mediaRecorder, recordedChunks = [], isRecording = false, micStream;
-
-  function initBoard() {
-    canvas = document.getElementById('whiteboard');
-    if(!canvas) return;
-    ctx = canvas.getContext('2d');
-    canvas.width = 1280; canvas.height = 720;
-    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    clearBoard(); 
-
-    canvas.addEventListener('touchstart', startDrawing, {passive: false});
-    canvas.addEventListener('touchmove', draw, {passive: false});
-    canvas.addEventListener('touchend', stopDrawing);
-    canvas.addEventListener('mousedown', startDrawing);
-    canvas.addEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseout', stopDrawing);
-  }
-
-  function getPos(e) {
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
-  }
-
-  function startDrawing(e) { e.preventDefault(); isDrawing = true; ctx.beginPath(); const pos = getPos(e); ctx.moveTo(pos.x, pos.y); }
-  function draw(e) {
-    if (!isDrawing) return; e.preventDefault(); const pos = getPos(e);
-    if (currentTool === 'eraser') { ctx.strokeStyle = currentBgColor; ctx.lineWidth = 40; }
-    else { ctx.strokeStyle = document.getElementById('penColor').value; ctx.lineWidth = 5; }
-    ctx.lineTo(pos.x, pos.y); ctx.stroke();
-  }
-  function stopDrawing() { isDrawing = false; }
-  window.setTool = function(tool, btn) { currentTool = tool; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); };
-  window.clearBoard = function() { if(!ctx) return; ctx.fillStyle = currentBgColor; ctx.fillRect(0, 0, canvas.width, canvas.height); };
-  window.toggleBoardTheme = function(btn) {
-    if (currentBgColor === '#ffffff') { currentBgColor = '#1e272e'; btn.innerHTML = '☀️ सफेद बोर्ड'; }
-    else { currentBgColor = '#ffffff'; btn.innerHTML = '🌗 बोर्ड बदलें'; }
-    clearBoard();
-  };
-  window.addTextToBoard = function() {
-    const text = document.getElementById('boardTyping').value; if (!text) return;
-    ctx.fillStyle = document.getElementById('penColor').value;
-    ctx.font = 'bold 36px sans-serif';
-    ctx.fillText(text, 50, 100);
-    document.getElementById('boardTyping').value = '';
-  };
-  window.loadQuestionToBoard = function() {
-    const q = document.getElementById('teacherQBank').value; if (!q) return;
-    clearBoard(); ctx.fillStyle = '#8e44ad'; ctx.font = 'bold 40px sans-serif';
-    const words = q.split(' '); let line = ''; let y = 120;
-    for(let n = 0; n < words.length; n++) {
-      let testLine = line + words[n] + ' '; let metrics = ctx.measureText(testLine);
-      if (metrics.width > canvas.width - 100 && n > 0) { ctx.fillText(line, 50, y); line = words[n] + ' '; y += 60; }
-      else { line = testLine; }
-    }
-    ctx.fillText(line, 50, y);
-  };
-  window.toggleRecording = async function() {
-    const btn = document.getElementById('recordBtn'), status = document.getElementById('recStatus');
-    if (!isRecording) {
-      try {
-        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        const stream = new MediaStream([...canvas.captureStream(30).getVideoTracks(), ...micStream.getAudioTracks()]);
-        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
-        mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
-        mediaRecorder.onstop = () => {
-          const url = URL.createObjectURL(new Blob(recordedChunks, { type: 'video/webm' }));
-          document.getElementById('downloadLink').href = url; document.getElementById('downloadLink').style.display = 'block';
-          recordedChunks = []; micStream.getTracks().forEach(t => t.stop());
-        };
-        mediaRecorder.start(); isRecording = true; btn.textContent = '⏹️ रिकॉर्डिंग रोकें'; btn.classList.add('record-btn'); status.textContent = '🔴 रिकॉर्डिंग जारी है...';
-      } catch (err) { alert('माइक्रोफोन की अनुमति नहीं मिली!'); }
-    } else {
-      mediaRecorder.stop(); isRecording = false; btn.textContent = '🔴 रिकॉर्डिंग शुरू करें'; btn.classList.remove('record-btn'); status.textContent = '✅ वीडियो तैयार! नीचे डाउनलोड बटन दबाएं।';
-    }
-  };
-
-  // ================= RESIZER =================
-  window.setPreset = function() {
-    const val = document.getElementById('resizePreset').value; if (val === 'custom' || !val) return;
-    const p = val.split(','); document.getElementById('resizeW').value = p[0]; document.getElementById('resizeH').value = p[1]; document.getElementById('resizeKB').value = p[2];
-  };
-  window.processResize = async function() {
-    const file = document.getElementById('resizeFile').files[0]; if (!file) return alert('इमेज चुनें');
-    const w = parseInt(document.getElementById('resizeW').value), h = parseInt(document.getElementById('resizeH').value), maxKB = parseInt(document.getElementById('resizeKB').value);
-    if (!w || !h || !maxKB) return alert('साइज़ और KB भरें');
-    const img = new Image(); img.src = URL.createObjectURL(file); await new Promise(r => img.onload = r);
-    const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
-    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
-    let q = 0.9, dUrl = canvas.toDataURL('image/jpeg', q); let sKB = (dUrl.length - 'data:image/jpeg;base64,'.length) * 0.75 / 1024;
-    while (sKB > maxKB && q > 0.05) { q -= 0.05; dUrl = canvas.toDataURL('image/jpeg', q); sKB = (dUrl.length - 'data:image/jpeg;base64,'.length) * 0.75 / 1024; }
-    document.getElementById('resizedImage').src = dUrl;
-    document.getElementById('resizeInfo').textContent = `साइज़: ${w}x${h} px, ${sKB.toFixed(1)} KB`;
-    document.getElementById('downloadResized').href = dUrl; document.getElementById('downloadResized').download = `BODH_${w}x${h}_${sKB.toFixed(0)}KB.jpg`;
-    document.getElementById('resizeResult').style.display = 'block';
-  };
-</script>
-</body>
-</html>
-```
+    
