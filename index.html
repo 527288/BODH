@@ -337,7 +337,529 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   </div>
 </section>
 
-// ================= VIDEO & TEACHER STUDIO =================
+<!-- VIDEO CALL -->
+<section id="videocall" class="page">
+  <button class="back" onclick="showPage('home')">← होम</button>
+  <h2>🎥 Video Group Study</h2>
+  <div id="joinRoomBox" class="form">
+    <input id="roomName" placeholder="कमरे का नाम (जैसे: BODH_Study_1)">
+    <button onclick="joinVideoRoom()" style="width:100%">जॉइन करें</button>
+  </div>
+  <div id="videoFrameBox" style="display:none">
+    <div class="video-container"><iframe id="jitsiFrame" allow="camera; microphone; fullscreen; display-capture; autoplay"></iframe></div>
+    <button onclick="leaveVideoRoom()" style="width:100%;background:#e74c3c">कॉल से बाहर निकलें</button>
+  </div>
+</section>
+
+<!-- TEACHER STUDIO -->
+<section id="teacher" class="page">
+  <button class="back" onclick="showPage('home')">← होम</button>
+  <h2>👨‍🏫 Teacher Studio</h2>
+  <div class="form">
+    <div class="tools">
+      <button class="tool-btn active" onclick="setTool('pen', this)">✏️ पेन</button>
+      <button class="tool-btn" onclick="setTool('eraser', this)">🩹 इरेज़र</button>
+      <button class="tool-btn" onclick="clearBoard()">🗑️ साफ</button>
+      <input type="color" id="penColor" value="#1a1a2e" style="width:40px;height:40px;padding:0;border:none;margin:0;cursor:pointer">
+    </div>
+    <canvas id="whiteboard" width="800" height="400"></canvas>
+    <div style="display:flex;gap:10px;margin-top:1rem">
+      <button id="recordBtn" onclick="toggleRecording()" style="width:100%;background:#e74c3c">🔴 रिकॉर्डिंग शुरू करें</button>
+      <a id="downloadLink" style="display:none;width:100%" download="BODH_Lecture.webm"><button style="width:100%;background:#27ae60">⬇️ डाउनलोड वीडियो</button></a>
+    </div>
+    <p id="recStatus" style="text-align:center;font-weight:bold;color:#e74c3c;margin-top:10px"></p>
+  </div>
+</section>
+
+<!-- RESIZER -->
+<section id="resizer" class="page">
+  <button class="back" onclick="showPage('home')">← होम</button>
+  <h2>🖼️ Photo Resizer</h2>
+  <div class="form">
+    <input type="file" id="resizeFile" accept="image/*">
+    <select id="resizePreset" onchange="setPreset()">
+      <option value="">-- तैयार साइज़ चुनें --</option>
+      <option value="200,230,50">SSC Photo (200x230, 50KB)</option>
+      <option value="140,60,20">SSC Signature (140x60, 20KB)</option>
+      <option value="300,300,100">UPSC Photo (300x300, 100KB)</option>
+      <option value="custom">कस्टम साइज़</option>
+    </select>
+    <div style="display:flex;gap:10px">
+      <input type="number" id="resizeW" placeholder="Width (px)">
+      <input type="number" id="resizeH" placeholder="Height (px)">
+      <input type="number" id="resizeKB" placeholder="Max KB">
+    </div>
+    <button onclick="processResize()" style="width:100%">🪄 Resize और Compress करें</button>
+  </div>
+  <div id="resizeResult" style="display:none;text-align:center;background:#fff;padding:1rem;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,.05)">
+    <h3 style="color:#27ae60">✅ तैयार है!</h3>
+    <img id="resizedImage" style="max-width:100%;border-radius:8px;margin-bottom:10px;border:1px dashed #ccc;">
+    <p id="resizeInfo" style="font-size:0.9rem;color:#444;margin-bottom:10px;font-weight:bold"></p>
+    <a id="downloadResized" download="BODH_resized.jpg"><button style="width:100%;background:#27ae60">⬇️ डाउनलोड करें</button></a>
+  </div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin" class="page">
+  <button class="back" onclick="showPage('home')">← होम</button>
+  <div id="adminLogin">
+    <h2>🔐 Admin Login</h2>
+    <div class="form">
+      <input type="password" id="adminPass" placeholder="Admin Password">
+      <button onclick="loginAdmin()" style="width:100%">Login</button>
+      <p id="adminMsg" style="color:#e74c3c;font-weight:600;text-align:center"></p>
+    </div>
+  </div>
+  <div id="adminPanel" style="display:none">
+    <h2>⚙️ Admin Panel</h2>
+    <div class="admin-tabs">
+      <button onclick="adminTab('ads')" data-tab="ads" class="active">📢 Ads</button>
+      <button onclick="adminTab('settings')" data-tab="settings">🔧 Settings</button>
+    </div>
+    <div id="adminContent"></div>
+    <br>
+    <button onclick="logoutAdmin()" style="width:100%;background:#e74c3c">Logout Admin</button>
+  </div>
+</section>
+
+</main>
+
+<footer id="footer"></footer>
+</div>
+
+<!-- ध्यान दें: भारी लाइब्रेरी यहाँ से हटा दी गई हैं ताकि लॉगिन फास्ट हो -->
+
+<script>
+  // ================= DYNAMIC SCRIPT LOADER =================
+  function loadScript(url) {
+    return new Promise((resolve, reject) => {
+      if(document.querySelector(`script[src="${url}"]`)) return resolve();
+      const s = document.createElement('script');
+      s.src = url;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  // ================= LOCAL AUTH SYSTEM =================
+  window.showAuthTab = function(tab) {
+    if(tab === 'login') {
+      document.getElementById('loginTab').classList.add('active'); document.getElementById('signupTab').classList.remove('active');
+      document.getElementById('loginForm').style.display = 'block'; document.getElementById('signupForm').style.display = 'none';
+    } else {
+      document.getElementById('signupTab').classList.add('active'); document.getElementById('loginTab').classList.remove('active');
+      document.getElementById('loginForm').style.display = 'none'; document.getElementById('signupForm').style.display = 'block';
+    }
+  };
+
+  window.doSignup = function() {
+    const name = document.getElementById('signupName').value.trim();
+    const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+    const pass = document.getElementById('signupPass').value;
+    const msg = document.getElementById('signupMsg');
+    
+    if(!name || !email || pass.length < 4) { 
+      msg.textContent = '⚠️ सही जानकारी भरें (Pass 4+ अक्षर)'; 
+      msg.style.display = 'block';
+      return; 
+    }
+    
+    let users = JSON.parse(localStorage.getItem('bodh_users') || '[]');
+    if(users.find(u => u.email === email)) { 
+      msg.textContent = '⚠️ यह ईमेल पहले से रजिस्टर्ड है! Login करें।'; 
+      return; 
+    }
+    
+    users.push({ name, email, pass });
+    localStorage.setItem('bodh_users', JSON.stringify(users));
+    localStorage.setItem('bodh_current_user', JSON.stringify({ name, email }));
+    
+    loginSuccess(name);
+  };
+
+  window.doLogin = function() {
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const pass = document.getElementById('loginPass').value;
+    const msg = document.getElementById('loginMsg');
+    
+    if(!email || !pass) { msg.textContent = '⚠️ ईमेल और पासवर्ड भरें'; return; }
+    
+    let users = JSON.parse(localStorage.getItem('bodh_users') || '[]');
+    const user = users.find(u => u.email === email && u.pass === pass);
+    
+    if(user) {
+      localStorage.setItem('bodh_current_user', JSON.stringify({ name: user.name, email: user.email }));
+      loginSuccess(user.name);
+    } else {
+      msg.textContent = '⚠️ गलत ईमेल या पासवर्ड!';
+    }
+  };
+
+  window.doLogout = function() {
+    if(!confirm('Logout करें?')) return;
+    localStorage.removeItem('bodh_current_user');
+    location.reload();
+  };
+
+  function loginSuccess(name) {
+    document.getElementById('authScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'block';
+    document.getElementById('userName').textContent = name;
+    document.getElementById('greetName').textContent = name;
+    loadAds();
+    loadNotes();
+    loadTasks();
+    loadJobs();
+    loadStore();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const currentUser = JSON.parse(localStorage.getItem('bodh_current_user'));
+    if(currentUser) loginSuccess(currentUser.name);
+    checkAdminDevice();
+  });
+
+  // ================= DEVICE LOCK (ADMIN) =================
+  function checkAdminDevice() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('key') === 'bodh_admin') {
+      localStorage.setItem('bodh_admin_device', 'true');
+      alert('✅ यह डिवाइस अब Admin डिवाइस के रूप में सेट हो गई है!');
+      window.history.replaceState({}, document.title, window.location.pathname); 
+    }
+    const isAdminDevice = localStorage.getItem('bodh_admin_device') === 'true';
+    const footer = document.getElementById('footer');
+    if (isAdminDevice) {
+      footer.innerHTML = `<a href="#" onclick="showPage('admin');return false">⚙️ Admin</a><a href="#" onclick="shareWhatsApp();return false">📤 Share</a>`;
+    } else {
+      footer.innerHTML = `<a href="#" onclick="shareWhatsApp();return false">📤 Share</a>`;
+    }
+  }
+
+  function shareWhatsApp() {
+    window.open('https://wa.me/?text=' + encodeURIComponent('📚 BODH — मेरा स्टडी साथी!\n' + window.location.href), '_blank');
+  }
+
+  // ================= NAVIGATION =================
+  window.showPage = function(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.body.className = 'bg-' + id;
+    window.scrollTo(0,0);
+    if(id === 'admin') {
+      if(sessionStorage.getItem('bodh_admin') === '1') {
+        document.getElementById('adminLogin').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        adminTab('ads');
+      } else {
+        document.getElementById('adminLogin').style.display = 'block';
+        document.getElementById('adminPanel').style.display = 'none';
+      }
+    }
+  };
+
+  // ================= ADS MANAGEMENT =================
+  const DEFAULT_ADS = [
+    { id: 1, title: "🎓 BODH Premium Batch", text: "सभी विषयों के कोर्स सिर्फ ₹99 में!", img: "", link: "https://google.com" }
+  ];
+
+  function getAds() {
+    const ads = localStorage.getItem('bodh_ads');
+    return ads ? JSON.parse(ads) : DEFAULT_ADS;
+  }
+
+  window.loadAds = function() {
+    const ads = getAds();
+    const banner = document.getElementById('homeAdBanner');
+    if (ads.length > 0) {
+      const ad = ads[0];
+      document.getElementById('adLink').href = ad.link;
+      document.getElementById('adTextContainer').textContent = ad.title + " - " + ad.text;
+      if (ad.img) {
+        document.getElementById('adImg').src = ad.img;
+        document.getElementById('adImg').style.display = 'block';
+        document.getElementById('adTextContainer').style.fontSize = '0.9rem';
+      } else {
+        document.getElementById('adImg').style.display = 'none';
+      }
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
+  };
+
+  window.adminAddAd = function() {
+    const t = document.getElementById('adTitle').value, d = document.getElementById('adText').value, img = document.getElementById('adImg').value, l = document.getElementById('adLink').value;
+    if (!t || !d || !l) return alert('Title, Text और Link ज़रूरी है');
+    let ads = getAds();
+    ads.push({ id: Date.now(), title: t, text: d, img: img, link: l });
+    localStorage.setItem('bodh_ads', JSON.stringify(ads));
+    adminTab('ads'); loadAds();
+  };
+
+  window.adminDelAd = function(id) {
+    if (!confirm('Delete?')) return;
+    let ads = getAds();
+    ads = ads.filter(a => a.id !== id);
+    localStorage.setItem('bodh_ads', JSON.stringify(ads));
+    adminTab('ads'); loadAds();
+  };
+
+  window.loginAdmin = function() {
+    const pass = document.getElementById('adminPass').value;
+    if (pass === 'bodh123') {
+      sessionStorage.setItem('bodh_admin', '1');
+      document.getElementById('adminLogin').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      adminTab('ads');
+    } else {
+      document.getElementById('adminMsg').textContent = '❌ गलत Password (default: bodh123)';
+    }
+  };
+
+  window.logoutAdmin = function() {
+    sessionStorage.removeItem('bodh_admin');
+    document.getElementById('adminPanel').style.display = 'none';
+    document.getElementById('adminLogin').style.display = 'block';
+    document.getElementById('adminPass').value = '';
+  };
+
+  window.adminTab = function(name) {
+    document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+    const c = document.getElementById('adminContent');
+    if (name === 'ads') {
+      const ads = getAds();
+      let html = `
+        <h3>📢 Ads Manager</h3>
+        <p style="font-size:0.85rem;margin-bottom:1rem">यहाँ से होमपेज का बैनर बदलें।</p>
+        <div class="form" style="margin-bottom:1rem">
+          <input id="adTitle" placeholder="Ad Title (मुख्य टेक्स्ट)">
+          <input id="adText" placeholder="Ad Description (छोटा टेक्स्ट)">
+          <input id="adImg" placeholder="Image URL (वैकल्पिक)">
+          <input id="adLink" placeholder="Target Link (https://...)">
+          <button onclick="adminAddAd()" style="width:100%">➕ नया Ad जोड़ें</button>
+        </div>
+      `;
+      ads.forEach(ad => {
+        html += `
+          <div class="admin-item">
+            <p><b>${ad.title}</b></p>
+            <p style="font-size:0.85rem">${ad.text}</p>
+            <p style="font-size:0.75rem;color:#888">${ad.link}</p>
+            <button onclick="adminDelAd(${ad.id})">🗑️ Delete</button>
+          </div>
+        `;
+      });
+      c.innerHTML = html;
+    } else if (name === 'settings') {
+      c.innerHTML = `
+        <h3>🔧 Settings</h3>
+        <div class="form">
+          <p style="font-size:0.9rem;color:#666;margin-bottom:0.5rem">Admin Password (डिफ़ॉल्ट: bodh123)</p>
+          <input type="password" id="newPass" placeholder="नया Password">
+          <button onclick="alert('पासवर्ड बदलने का ऑप्शन जल्द आएगा!')" style="width:100%">💾 बदलें</button>
+        </div>
+      `;
+    }
+  };
+
+  // ================= PDF TOOLS =================
+  window.mergePDFs = async function() {
+    const files = document.getElementById('pdfFiles').files, msg = document.getElementById('pdfMsg'), btn = document.getElementById('mergeBtn');
+    if (files.length < 2) return alert('कम से कम 2 PDF चुनें');
+    btn.disabled = true; btn.textContent = '⏳ इंजन लोड हो रहा है...'; msg.textContent = '';
+    try {
+      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
+      btn.textContent = '⏳ Merge हो रहा है...';
+      const { PDFDocument } = PDFLib; const merged = await PDFDocument.create();
+      for (const f of files) {
+        const pdf = await PDFDocument.load(await f.arrayBuffer());
+        const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+        pages.forEach(p => merged.addPage(p));
+      }
+      const bytes = await merged.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'merged.pdf'; a.click();
+      msg.textContent = '✅ Merge हो गया!'; msg.style.color = '#27ae60';
+    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'Merge करें'; }
+  };
+
+  window.extractPages = async function() {
+    const file = document.getElementById('splitPdf').files[0], msg = document.getElementById('splitMsg'), btn = document.getElementById('splitBtn');
+    const range = document.getElementById('pageRange').value;
+    if (!file) return alert('PDF चुनें');
+    btn.disabled = true; btn.textContent = '⏳...'; msg.textContent = '';
+    try {
+      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
+      const { PDFDocument } = PDFLib; const src = await PDFDocument.load(await file.arrayBuffer());
+      let indices = range.trim() ? range.split(',').flatMap(p => p.includes('-') ? Array.from({length: p.split('-')[1]-p.split('-')[0]+1}, (_, i) => parseInt(p.split('-')[0])+i-1) : [parseInt(p)-1]) : src.getPageIndices();
+      indices = indices.filter(i => i >= 0 && i < src.getPageCount());
+      const out = await PDFDocument.create(); const copied = await out.copyPages(src, indices);
+      copied.forEach(p => out.addPage(p));
+      const bytes = await out.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'extracted.pdf'; a.click();
+      msg.textContent = '✅ तैयार!'; msg.style.color = '#27ae60';
+    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'निकालें'; }
+  };
+
+  window.imagesToPDF = async function() {
+    const files = document.getElementById('imgFiles').files, msg = document.getElementById('imgMsg'), btn = document.getElementById('imgBtn');
+    const useA4 = document.getElementById('pdfA4Option').checked;
+    if (!files.length) return alert('इमेज चुनें');
+    btn.disabled = true; btn.textContent = '⏳ इंजन लोड हो रहा है...'; msg.textContent = '';
+    try {
+      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
+      btn.textContent = '⏳ PDF बन रही है...';
+      const { PDFDocument } = PDFLib; const pdf = await PDFDocument.create();
+      for (const f of files) {
+        const bytes = await f.arrayBuffer(); let img;
+        if (f.type === 'image/png') img = await pdf.embedPng(bytes); else img = await pdf.embedJpg(bytes);
+        if (useA4) {
+          const page = pdf.addPage([595.28, 841.89]);
+          const scale = Math.min(595.28 / img.width, 841.89 / img.height);
+          page.drawImage(img, { x: (595.28 - img.width * scale) / 2, y: (841.89 - img.height * scale) / 2, width: img.width * scale, height: img.height * scale });
+        } else {
+          const page = pdf.addPage([img.width, img.height]); page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+        }
+      }
+      const bytes = await pdf.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'images.pdf'; a.click();
+      msg.textContent = '✅ सफल!'; msg.style.color = '#27ae60';
+    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'PDF बनाएं'; }
+  };
+
+  // ================= RESUME =================
+  window.previewResume = function() {
+    const d = { name: document.getElementById('rName').value, email: document.getElementById('rEmail').value, phone: document.getElementById('rPhone').value, skills: document.getElementById('rSkills').value, edu: document.getElementById('rEdu').value.replace(/\n/g, '<br>'), exp: document.getElementById('rExp').value.replace(/\n/g, '<br>') };
+    if (!d.name) return alert('नाम भरें');
+    const tpl = document.getElementById('rTemplate').value;
+    document.getElementById('resumePreview').innerHTML = `<div class="resume-paper ${tpl}"><h2>${d.name}</h2><p>${d.email} ${d.phone ? '| '+d.phone : ''}</p>${d.skills ? `<h3>Skills</h3><p>${d.skills}</p>` : ''}${d.edu ? `<h3>Education</h3><p>${d.edu}</p>` : ''}${d.exp ? `<h3>Experience</h3><p>${d.exp}</p>` : ''}</div>`;
+    document.getElementById('saveResumeBtn').style.display = 'block';
+    document.getElementById('resumePreview').scrollIntoView({ behavior: 'smooth' });
+  };
+  window.saveResumePDF = function() { window.print(); };
+
+  // ================= MOCK TEST =================
+  const QB = {
+    gk: [{q:'भारत की राजधानी?',o:['दिल्ली','मुंबई','कोलकाता','चेन्नई'],a:0}, {q:'राष्ट्रीय पशु?',o:['शेर','हाथी','बाघ','गाय'],a:2}],
+    math: [{q:'5+7=?',o:['12','11','13','10'],a:0}, {q:'15×4=?',o:['60','55','65','50'],a:0}],
+    reasoning: [{q:'1,3,5,7,?',o:['9','8','10','11'],a:0}, {q:'2,4,8,16,?',o:['32','24','20','18'],a:0}]
+  };
+  let cTest = [], tTimer = null;
+  window.startTest = function() {
+    const type = document.getElementById('testSelect').value;
+    cTest = QB[type].map(q => ({ ...q, sel: null }));
+    document.getElementById('testStart').style.display = 'none';
+    const area = document.getElementById('testArea'); area.style.display = 'block';
+    let html = '<div id="timerDisplay">⏱️ 05:00</div>';
+    cTest.forEach((q, i) => {
+      html += `<div class="q-block"><p><b>Q${i+1}.</b> ${q.q}</p>`;
+      q.o.forEach((opt, j) => { html += `<label><input type="radio" name="q${i}" onchange="cTest[${i}].sel=${j}"> ${opt}</label>`; });
+      html += `</div>`;
+    });
+    html += `<button onclick="submitTest()" style="width:100%">✅ Submit</button>`;
+    area.innerHTML = html;
+    let tl = 300; clearInterval(tTimer);
+    tTimer = setInterval(() => { tl--; const el = document.getElementById('timerDisplay'); if(el) el.textContent = `⏱️ 0${Math.floor(tl/60)}:${tl%60<10?'0':''}${tl%60}`; if(tl<=0){clearInterval(tTimer); submitTest();} }, 1000);
+  };
+  window.submitTest = function() {
+    clearInterval(tTimer); let score = 0;
+    cTest.forEach(q => { if(q.sel === q.a) score++; });
+    document.getElementById('testArea').style.display = 'none';
+    const res = document.getElementById('testResult'); res.style.display = 'block';
+    res.innerHTML = `<h3 style="text-align:center">स्कोर: ${score} / ${cTest.length}</h3><button onclick="showPage('home')" style="width:100%;margin-top:1rem">होम पर जाएं</button>`;
+  };
+
+  // ================= NOTES & PLANNER =================
+  window.saveNote = function() {
+    const title = document.getElementById('noteTitle').value, body = document.getElementById('noteBody').value;
+    if(!title || !body) return alert('दोनों भरें');
+    const email = JSON.parse(localStorage.getItem('bodh_current_user')).email;
+    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
+    if(!allNotes[email]) allNotes[email] = [];
+    allNotes[email].push({ id: Date.now(), title, body });
+    localStorage.setItem('bodh_notes', JSON.stringify(allNotes));
+    document.getElementById('noteTitle').value = ''; document.getElementById('noteBody').value = '';
+    loadNotes();
+  };
+  window.loadNotes = function() {
+    const list = document.getElementById('notesList'); const u = JSON.parse(localStorage.getItem('bodh_current_user')); if(!u) return;
+    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
+    let notes = allNotes[u.email] || [];
+    list.innerHTML = notes.length ? '' : '<p style="text-align:center;color:#888;padding:1rem">कोई नोट नहीं।</p>';
+    notes.forEach(n => { list.innerHTML += `<div class="note-item"><h4>${n.title}</h4><p>${n.body}</p><button onclick="delNote(${n.id})">Delete</button></div>`; });
+  };
+  window.delNote = function(id) {
+    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
+    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
+    allNotes[u.email] = allNotes[u.email].filter(n => n.id !== id);
+    localStorage.setItem('bodh_notes', JSON.stringify(allNotes)); loadNotes();
+  };
+
+  window.addTask = function() {
+    const text = document.getElementById('taskText').value, date = document.getElementById('taskDate').value;
+    if(!text) return alert('कार्य लिखें');
+    const email = JSON.parse(localStorage.getItem('bodh_current_user')).email;
+    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
+    if(!allTasks[email]) allTasks[email] = [];
+    allTasks[email].push({ id: Date.now(), text, date, done: false });
+    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks));
+    document.getElementById('taskText').value = ''; loadTasks();
+  };
+  window.loadTasks = function() {
+    const list = document.getElementById('taskList'); const u = JSON.parse(localStorage.getItem('bodh_current_user')); if(!u) return;
+    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
+    let tasks = (allTasks[u.email] || []).sort((a,b) => a.date > b.date ? 1 : -1);
+    list.innerHTML = tasks.length ? '' : '<p style="text-align:center;color:#888;padding:1rem">कोई कार्य नहीं।</p>';
+    tasks.forEach(t => { list.innerHTML += `<li class="${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="togTask(${t.id})"><span>${t.text}</span><small>${t.date||''}</small><button onclick="delTask(${t.id})">✕</button></li>`; });
+  };
+  window.togTask = function(id) {
+    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
+    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
+    allTasks[u.email].forEach(t => { if(t.id === id) t.done = !t.done; });
+    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks)); loadTasks();
+  };
+  window.delTask = function(id) {
+    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
+    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
+    allTasks[u.email] = allTasks[u.email].filter(t => t.id !== id);
+    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks)); loadTasks();
+  };
+
+  // ================= JOBS & STORE =================
+  window.loadJobs = function() {
+    const jobs = [
+      {t:'SSC CGL 2026', d:'स्नातक पास — Combined Graduate Level', l:'https://ssc.nic.in'},
+      {t:'UPSC Civil Services', d:'IAS/IPS/IFS — कोई भी ग्रेजुएट', l:'https://upsc.gov.in'},
+      {t:'NSP Scholarship', d:'सभी सरकारी स्कॉलरशिप', l:'https://scholarships.gov.in'}
+    ];
+    document.getElementById('jobsList').innerHTML = jobs.map(j => `<div class="job-card"><h3>${j.t}</h3><p>${j.d}</p><a href="${j.l}" target="_blank">आधिकारिक साइट →</a></div>`).join('');
+  };
+  window.loadStore = function() {
+    const items = [
+      {n:'Complete GK Notes', p:'₹99', d:'सभी विषय'},
+      {n:'Math Practice Set', p:'₹149', d:'500+ प्रश्न'},
+      {n:'English Grammar', p:'₹79', d:'बेसिक से एडवांस'}
+    ];
+    document.getElementById('storeList').innerHTML = items.map(s => `<div class="store-card"><h3>${s.n}</h3><p>${s.d}</p><div class="price">${s.p}</div><button onclick="alert('पेमेंट गेटवे जल्द आएगा!')" style="margin:0;width:100%">खरीदें</button></div>`).join('');
+  };
+
+  // ================= AI =================
+  window.askAI = async function() {
+    const input = document.getElementById('aiInput'); const q = input.value.trim(); if(!q) return;
+    const box = document.getElementById('aiChatBox');
+    box.innerHTML += `<div class="msg user">${q}</div>`; input.value = ''; box.scrollTop = box.scrollHeight;
+    box.innerHTML += `<div class="msg ai" id="ld">सोच रहा हूँ...</div>`;
+    try {
+      if (typeof puter === 'undefined') await loadScript('https://js.puter.com/v2/');
+      const res = await puter.ai.chat('You are BODH, a helpful study assistant. Answer briefly. Question: ' + q);
+      document.getElementById('ld').remove();
+      box.innerHTML += `<div class="msg ai">${typeof res === 'string' ? res : res.text || JSON.stringify(res)}</div>`;
+    } catch(e) { document.getElementById('ld').innerHTML = '⚠️ AI load नहीं हुई (इंटरनेट जाँचें)।'; }
+    box.scrollTop = box.scrollHeight;
+  };
+
+  // ================= VIDEO & TEACHER STUDIO =================
   window.joinVideoRoom = function() {
     const room = document.getElementById('roomName').value.trim(); if(!room) return alert('कमरा नाम डालें');
     document.getElementById('jitsiFrame').src = `https://meet.jit.si/BODH_${room}#config.prejoinPageEnabled=false`;
@@ -407,4 +929,4 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
 </html>
 ```
 
-        
+              
