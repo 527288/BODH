@@ -25,7 +25,7 @@ body.bg-admin{background:#eef2f5}
 /* AUTH */
 .auth-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:linear-gradient(135deg,#667eea,#764ba2)}
 .auth-box{background:#fff;padding:2rem 1.5rem;border-radius:16px;width:100%;max-width:380px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
-.auth-logo{font-size:2rem;font-weight:bold;text-align:center;color:#4a3f8f;margin-bottom:.3rem}
+.auth-logo{display:flex;justify-content:center;align-items:center;gap:8px;font-size:2rem;font-weight:900;text-align:center;color:#4a3f8f;margin-bottom:.3rem;letter-spacing:1px}
 .auth-tag{text-align:center;color:#888;margin-bottom:1.5rem;font-size:.9rem}
 .auth-tabs{display:flex;background:#f0f2f8;padding:.25rem;border-radius:10px;margin-bottom:1rem}
 .auth-tabs button{flex:1;background:transparent;color:#666;border:none;padding:.6rem;border-radius:8px;font-weight:600;cursor:pointer;font-size:.95rem;margin:0}
@@ -35,24 +35,24 @@ body.bg-admin{background:#eef2f5}
 
 /* HEADER */
 header{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:.85rem 1rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.15)}
-.logo{font-size:1.2rem;font-weight:bold;cursor:pointer;display:flex;align-items:center;gap:4px}
+.logo{font-size:1.4rem;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:6px;letter-spacing:1px}
 .hdr-right{display:flex;align-items:center;gap:.5rem}
-.user-name{font-size:.85rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.user-name{font-size:.85rem;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
 .logout-btn{background:rgba(255,255,255,.2);color:#fff;border:none;padding:.4rem .7rem;border-radius:6px;font-size:.8rem;cursor:pointer;margin:0}
 
 /* MAIN LAYOUT */
-main{padding:1.2rem 1rem;max-width:800px;margin:0 auto;padding-bottom:80px}
+main{padding:1.2rem 1rem;max-width:800px;margin:0 auto;padding-bottom:80px;width:100%}
 .page{display:none}
 .page.active{display:block;animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 #home h1{font-size:1.6rem;color:#4a3f8f;margin-bottom:1.5rem;text-align:center;font-weight:800}
 
 /* CARDS (Homepage) */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem}
-@media(min-width:600px){.grid{grid-template-columns:repeat(3,1fr)}}
-.card{background:#fff;padding:1.2rem .8rem;border-radius:20px;text-align:center;cursor:pointer;border:none;box-shadow:0 6px 16px rgba(0,0,0,.06);transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.2rem;color:#1a1a2e;text-decoration:none;position:relative;overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px;width:100%}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3, 1fr)}}
+.card{background:#fff;padding:1.2rem .8rem;border-radius:20px;text-align:center;cursor:pointer;border:none;box-shadow:0 6px 16px rgba(0,0,0,.06);transition:all .3s ease;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:2.2rem;color:#1a1a2e;text-decoration:none;position:relative;overflow:hidden;width:100%}
 .card:active{transform:scale(.95)}
-.card h3{margin:.6rem 0 .2rem;font-size:1.05rem;color:#1a1a2e;font-weight:700;z-index:2}
+.card h3{margin:.6rem 0 .2rem;font-size:1rem;color:#1a1a2e;font-weight:700;z-index:2;line-height:1.2}
 .card p{color:#777;font-size:.75rem;line-height:1.3;margin:0;z-index:2}
 .card::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.1;z-index:1;transition:opacity .3s}
 
@@ -70,7 +70,7 @@ main{padding:1.2rem 1rem;max-width:800px;margin:0 auto;padding-bottom:80px}
 .card-mocktest::before{background:#d35400} .card-mocktest{border-bottom:4px solid #d35400}
 
 /* AD BANNER */
-.ad-banner{background:#fff;border-radius:16px;padding:10px;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,.08);text-align:center;position:relative;border:1px solid #ffeeba;background-color:#fffdf5}
+.ad-banner{background:#fff;border-radius:16px;padding:10px;margin-bottom:1.5rem;box-shadow:0 4px 12px rgba(0,0,0,.08);text-align:center;position:relative;border:1px solid #ffeeba;background-color:#fffdf5;width:100%}
 .ad-banner img{max-width:100%;height:auto;border-radius:10px;max-height:150px;object-fit:cover}
 .ad-banner p{font-size:.85rem;color:#666;margin-top:5px}
 .ad-label{position:absolute;top:-10px;left:10px;background:#f1c40f;color:#fff;font-size:.65rem;padding:2px 6px;border-radius:4px;font-weight:bold}
@@ -84,16 +84,6 @@ input,textarea,select{width:100%;padding:.8rem;border:1.5px solid #e0e0e0;border
 button{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;padding:.8rem 1.3rem;border-radius:10px;cursor:pointer;font-size:.95rem;font-weight:700;margin-right:.4rem;margin-bottom:.4rem;box-shadow:0 2px 6px rgba(102,126,234,.3);transition:all .2s}
 button:active{transform:scale(.97)}
 .msg-text{color:#27ae60;font-weight:700;margin-top:.5rem;font-size:.9rem;text-align:center}
-
-/* RESUME */
-.resume-paper{background:#fff;padding:1.5rem;margin:1rem 0;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.1);overflow-wrap:break-word}
-.tpl-classic h2{color:#1a1a2e;border-bottom:2px solid #667eea;padding-bottom:.5rem;font-size:1.4rem;margin-bottom:.3rem;text-align:left}
-.tpl-classic h3{margin-top:1rem;font-size:1rem;color:#4a3f8f;text-transform:uppercase;text-align:left}
-.tpl-modern{padding-left:1.5rem!important;border-left:4px solid #667eea}
-.tpl-modern h2{color:#667eea;font-size:1.5rem;text-align:left}
-.tpl-modern h3{margin-top:1rem;font-size:1rem;color:#1a1a2e;border-bottom:1px dashed #ccc;padding-bottom:.2rem;text-align:left}
-.tpl-minimal h2{color:#1a1a2e;font-size:1.4rem;margin-bottom:.1rem;text-align:left}
-.tpl-minimal h3{margin-top:1rem;font-size:.85rem;color:#888;text-transform:uppercase;letter-spacing:1.5px;text-align:left}
 
 /* MOCK TEST */
 .q-block{background:#fff;padding:1rem;border-radius:12px;margin-bottom:1rem;box-shadow:0 2px 8px rgba(0,0,0,.05)}
@@ -133,12 +123,12 @@ button:active{transform:scale(.97)}
 .msg.user { background: #8e44ad; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
 .msg.ai { background: #f3f0ff; color: #333; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #e0d4ff; }
 
-/* VIDEO & WHITEBOARD */
+/* VIDEO & TEACHER STUDIO */
 .video-container { position: relative; width: 100%; height: 60vh; background: #000; border-radius: 16px; overflow: hidden; margin-bottom: 1rem; }
 .video-container iframe { width: 100%; height: 100%; border: none; }
-#whiteboard { border: 2px solid #e0e0e0; border-radius: 12px; background: #fff; touch-action: none; width: 100%; height: 350px; cursor: crosshair; }
-.tools { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
-.tool-btn { padding: 6px 12px; border-radius: 8px; font-size: 0.9rem; background: #eee; color: #333; box-shadow: none; }
+#whiteboard { width: 100%; height: auto; aspect-ratio: 16 / 9; background: #fff; border-radius: 12px; border: 2px solid #ccc; touch-action: none; cursor: crosshair; box-shadow: inset 0 0 10px rgba(0,0,0,0.05); }
+.tools { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; align-items: center; }
+.tool-btn { padding: 6px 12px; border-radius: 8px; font-size: 0.9rem; background: #eee; color: #333; box-shadow: none; margin: 0; }
 .tool-btn.active { background: #e67e22; color: #fff; }
 .record-btn { background: #e74c3c; animation: pulse 1s infinite; }
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
@@ -154,6 +144,8 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
 .admin-item{background:#fff;padding:1rem;border-radius:12px;margin-bottom:.8rem;box-shadow:0 2px 8px rgba(0,0,0,.05);font-size:.95rem;border-left:4px solid #ccc}
 .admin-item p{margin-bottom:.4rem;color:#555}
 .admin-item button{padding:.35rem .7rem;font-size:.8rem;margin-right:.4rem;margin-bottom:0;box-shadow:none;background:#ffeaea;color:#e74c3c}
+.bulk-box{background:#f8f9ff;border:2px dashed #667eea;padding:1rem;border-radius:12px;margin-bottom:1rem}
+.bulk-box code{background:#e0e5ff;padding:.2rem .4rem;border-radius:4px;font-size:.85rem;color:#4a3f8f;display:block;margin-bottom:.5rem;word-break:break-all}
 </style>
 </head>
 <body class="bg-home">
@@ -161,18 +153,28 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
 <!-- AUTH SCREEN -->
 <div id="authScreen" class="auth-screen">
   <div class="auth-box">
-    <div class="auth-logo">📚 BODH</div>
+    <div class="auth-logo">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4a3f8f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        <path d="M12 2v20"></path>
+      </svg>
+      BODH
+    </div>
     <div class="auth-tag">Study & Teach</div>
+    
     <div class="auth-tabs">
       <button id="loginTab" type="button" onclick="showAuthTab('login')" class="active">Login</button>
       <button id="signupTab" type="button" onclick="showAuthTab('signup')">Signup</button>
     </div>
+    
     <div id="loginForm">
       <input id="loginEmail" placeholder="Email" type="email">
       <input id="loginPass" placeholder="Password" type="password">
       <button class="primary-btn" type="button" onclick="doLogin()">Login करें</button>
       <p id="loginMsg" style="color:#e74c3c;font-weight:600;text-align:center;margin-top:.5rem"></p>
     </div>
+    
     <div id="signupForm" style="display:none">
       <input id="signupName" placeholder="आपका नाम">
       <input id="signupEmail" placeholder="Email" type="email">
@@ -186,7 +188,14 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
 <!-- APP SCREEN -->
 <div id="appScreen" style="display:none">
 <header>
-  <div class="logo" onclick="showPage('home')">📚 BODH</div>
+  <div class="logo" onclick="showPage('home')">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+      <path d="M12 2v20"></path>
+    </svg>
+    BODH
+  </div>
   <div class="hdr-right">
     <span id="userName" class="user-name"></span>
     <button class="logout-btn" onclick="doLogout()">Logout</button>
@@ -198,7 +207,6 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
 <section id="home" class="page active">
   <h1>नमस्ते, <span id="greetName">दोस्त</span> 👋</h1>
   
-  <!-- AD BANNER -->
   <div id="homeAdBanner" style="display:none;" class="ad-banner">
     <span class="ad-label">Sponsored</span>
     <a id="adLink" href="#" target="_blank" style="text-decoration:none;display:block">
@@ -326,12 +334,12 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   <div id="storeList" class="grid"></div>
 </section>
 
-<!-- AI -->
+  <!-- AI -->
 <section id="ai" class="page">
   <button class="back" onclick="showPage('home')">← होम</button>
   <h2>🤖 BODH AI</h2>
   <div id="aiChatBox"></div>
-  <div class="chat-input-box" style="display:flex;gap:10px">
+  <div style="display:flex;gap:10px">
     <input id="aiInput" placeholder="अपना सवाल लिखें..." style="margin:0;flex:1">
     <button onclick="askAI()">भेजें</button>
   </div>
@@ -356,13 +364,28 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   <button class="back" onclick="showPage('home')">← होम</button>
   <h2>👨‍🏫 Teacher Studio</h2>
   <div class="form">
+    <div style="display:flex;gap:10px;margin-bottom:10px">
+      <input type="text" id="boardTyping" placeholder="बोर्ड पर सीधे टेक्स्ट लिखें..." style="margin:0;flex:1">
+      <button onclick="addTextToBoard()" style="margin:0;background:#3498db">लिखें</button>
+    </div>
+    
+    <div style="display:flex;gap:10px;margin-bottom:10px">
+      <select id="teacherQBank" style="margin:0;flex:1">
+        <option value="">-- मॉक टेस्ट से प्रश्न लोड करें --</option>
+      </select>
+      <button onclick="loadQuestionToBoard()" style="margin:0;background:#8e44ad">लोड करें</button>
+    </div>
+
     <div class="tools">
       <button class="tool-btn active" onclick="setTool('pen', this)">✏️ पेन</button>
       <button class="tool-btn" onclick="setTool('eraser', this)">🩹 इरेज़र</button>
+      <button class="tool-btn" onclick="toggleBoardTheme(this)">🌗 बोर्ड बदलें</button>
       <button class="tool-btn" onclick="clearBoard()">🗑️ साफ</button>
       <input type="color" id="penColor" value="#1a1a2e" style="width:40px;height:40px;padding:0;border:none;margin:0;cursor:pointer">
     </div>
-    <canvas id="whiteboard" width="800" height="400"></canvas>
+    
+    <canvas id="whiteboard"></canvas>
+    
     <div style="display:flex;gap:10px;margin-top:1rem">
       <button id="recordBtn" onclick="toggleRecording()" style="width:100%;background:#e74c3c">🔴 रिकॉर्डिंग शुरू करें</button>
       <a id="downloadLink" style="display:none;width:100%" download="BODH_Lecture.webm"><button style="width:100%;background:#27ae60">⬇️ डाउनलोड वीडियो</button></a>
@@ -399,7 +422,7 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
   </div>
 </section>
 
-<!-- ADMIN -->
+<!-- ADMIN PANEL -->
 <section id="admin" class="page">
   <button class="back" onclick="showPage('home')">← होम</button>
   <div id="adminLogin">
@@ -414,6 +437,9 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     <h2>⚙️ Admin Panel</h2>
     <div class="admin-tabs">
       <button onclick="adminTab('ads')" data-tab="ads" class="active">📢 Ads</button>
+      <button onclick="adminTab('jobs')" data-tab="jobs">💼 Jobs</button>
+      <button onclick="adminTab('store')" data-tab="store">🛒 Store</button>
+      <button onclick="adminTab('questions')" data-tab="questions">✏️ Questions</button>
       <button onclick="adminTab('settings')" data-tab="settings">🔧 Settings</button>
     </div>
     <div id="adminContent"></div>
@@ -427,8 +453,6 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
 <footer id="footer"></footer>
 </div>
 
-<!-- ध्यान दें: भारी लाइब्रेरी यहाँ से हटा दी गई हैं ताकि लॉगिन फास्ट हो -->
-
 <script>
   // ================= DYNAMIC SCRIPT LOADER =================
   function loadScript(url) {
@@ -441,6 +465,27 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
       document.head.appendChild(s);
     });
   }
+
+  // ================= LOCAL DATA & DEFAULTS =================
+  const DEFAULT_JOBS = [
+    { id: 1, t: 'SSC CGL 2026', d: 'स्नातक पास — Combined Graduate Level', l: 'https://ssc.nic.in' },
+    { id: 2, t: 'UPSC Civil Services', d: 'IAS/IPS/IFS — कोई भी ग्रेजुएट', l: 'https://upsc.gov.in' },
+    { id: 3, t: 'NSP Scholarship', d: 'सभी सरकारी स्कॉलरशिप', l: 'https://scholarships.gov.in' }
+  ];
+  const DEFAULT_STORE = [
+    { id: 1, n: 'Complete GK Notes', p: '₹99', d: 'सभी विषय' },
+    { id: 2, n: 'Math Practice Set', p: '₹149', d: '500+ प्रश्न' },
+    { id: 3, n: 'English Grammar', p: '₹79', d: 'बेसिक से एडवांस' }
+  ];
+  const DEFAULT_QB = {
+    gk: [{q:'भारत की राजधानी?', o:['दिल्ली','मुंबई','कोलकाता','चेन्नई'], a:0}, {q:'राष्ट्रीय पशु?', o:['शेर','हाथी','बाघ','गाय'], a:2}],
+    math: [{q:'5+7=?', o:['12','11','13','10'], a:0}, {q:'15×4=?', o:['60','55','65','50'], a:0}],
+    reasoning: [{q:'1,3,5,7,?', o:['9','8','10','11'], a:0}, {q:'2,4,8,16,?', o:['32','24','20','18'], a:0}]
+  };
+
+  function getJobs() { return JSON.parse(localStorage.getItem('bodh_jobs')) || DEFAULT_JOBS; }
+  function getStore() { return JSON.parse(localStorage.getItem('bodh_store')) || DEFAULT_STORE; }
+  function getQB() { return JSON.parse(localStorage.getItem('bodh_qb')) || DEFAULT_QB; }
 
   // ================= LOCAL AUTH SYSTEM =================
   window.showAuthTab = function(tab) {
@@ -461,7 +506,6 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     
     if(!name || !email || pass.length < 4) { 
       msg.textContent = '⚠️ सही जानकारी भरें (Pass 4+ अक्षर)'; 
-      msg.style.display = 'block';
       return; 
     }
     
@@ -508,10 +552,12 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     document.getElementById('userName').textContent = name;
     document.getElementById('greetName').textContent = name;
     loadAds();
-    loadNotes();
-    loadTasks();
     loadJobs();
     loadStore();
+    loadNotes();
+    loadTasks();
+    initBoard(); 
+    populateTeacherQBank();
   }
 
   window.addEventListener('DOMContentLoaded', () => {
@@ -559,374 +605,4 @@ footer a{color:#667eea;text-decoration:none;background:#f0f2ff;padding:.4rem 1re
     }
   };
 
-  // ================= ADS MANAGEMENT =================
-  const DEFAULT_ADS = [
-    { id: 1, title: "🎓 BODH Premium Batch", text: "सभी विषयों के कोर्स सिर्फ ₹99 में!", img: "", link: "https://google.com" }
-  ];
-
-  function getAds() {
-    const ads = localStorage.getItem('bodh_ads');
-    return ads ? JSON.parse(ads) : DEFAULT_ADS;
-  }
-
-  window.loadAds = function() {
-    const ads = getAds();
-    const banner = document.getElementById('homeAdBanner');
-    if (ads.length > 0) {
-      const ad = ads[0];
-      document.getElementById('adLink').href = ad.link;
-      document.getElementById('adTextContainer').textContent = ad.title + " - " + ad.text;
-      if (ad.img) {
-        document.getElementById('adImg').src = ad.img;
-        document.getElementById('adImg').style.display = 'block';
-        document.getElementById('adTextContainer').style.fontSize = '0.9rem';
-      } else {
-        document.getElementById('adImg').style.display = 'none';
-      }
-      banner.style.display = 'block';
-    } else {
-      banner.style.display = 'none';
-    }
-  };
-
-  window.adminAddAd = function() {
-    const t = document.getElementById('adTitle').value, d = document.getElementById('adText').value, img = document.getElementById('adImg').value, l = document.getElementById('adLink').value;
-    if (!t || !d || !l) return alert('Title, Text और Link ज़रूरी है');
-    let ads = getAds();
-    ads.push({ id: Date.now(), title: t, text: d, img: img, link: l });
-    localStorage.setItem('bodh_ads', JSON.stringify(ads));
-    adminTab('ads'); loadAds();
-  };
-
-  window.adminDelAd = function(id) {
-    if (!confirm('Delete?')) return;
-    let ads = getAds();
-    ads = ads.filter(a => a.id !== id);
-    localStorage.setItem('bodh_ads', JSON.stringify(ads));
-    adminTab('ads'); loadAds();
-  };
-
-  window.loginAdmin = function() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === 'bodh123') {
-      sessionStorage.setItem('bodh_admin', '1');
-      document.getElementById('adminLogin').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
-      adminTab('ads');
-    } else {
-      document.getElementById('adminMsg').textContent = '❌ गलत Password (default: bodh123)';
-    }
-  };
-
-  window.logoutAdmin = function() {
-    sessionStorage.removeItem('bodh_admin');
-    document.getElementById('adminPanel').style.display = 'none';
-    document.getElementById('adminLogin').style.display = 'block';
-    document.getElementById('adminPass').value = '';
-  };
-
-  window.adminTab = function(name) {
-    document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-    const c = document.getElementById('adminContent');
-    if (name === 'ads') {
-      const ads = getAds();
-      let html = `
-        <h3>📢 Ads Manager</h3>
-        <p style="font-size:0.85rem;margin-bottom:1rem">यहाँ से होमपेज का बैनर बदलें।</p>
-        <div class="form" style="margin-bottom:1rem">
-          <input id="adTitle" placeholder="Ad Title (मुख्य टेक्स्ट)">
-          <input id="adText" placeholder="Ad Description (छोटा टेक्स्ट)">
-          <input id="adImg" placeholder="Image URL (वैकल्पिक)">
-          <input id="adLink" placeholder="Target Link (https://...)">
-          <button onclick="adminAddAd()" style="width:100%">➕ नया Ad जोड़ें</button>
-        </div>
-      `;
-      ads.forEach(ad => {
-        html += `
-          <div class="admin-item">
-            <p><b>${ad.title}</b></p>
-            <p style="font-size:0.85rem">${ad.text}</p>
-            <p style="font-size:0.75rem;color:#888">${ad.link}</p>
-            <button onclick="adminDelAd(${ad.id})">🗑️ Delete</button>
-          </div>
-        `;
-      });
-      c.innerHTML = html;
-    } else if (name === 'settings') {
-      c.innerHTML = `
-        <h3>🔧 Settings</h3>
-        <div class="form">
-          <p style="font-size:0.9rem;color:#666;margin-bottom:0.5rem">Admin Password (डिफ़ॉल्ट: bodh123)</p>
-          <input type="password" id="newPass" placeholder="नया Password">
-          <button onclick="alert('पासवर्ड बदलने का ऑप्शन जल्द आएगा!')" style="width:100%">💾 बदलें</button>
-        </div>
-      `;
-    }
-  };
-
-  // ================= PDF TOOLS =================
-  window.mergePDFs = async function() {
-    const files = document.getElementById('pdfFiles').files, msg = document.getElementById('pdfMsg'), btn = document.getElementById('mergeBtn');
-    if (files.length < 2) return alert('कम से कम 2 PDF चुनें');
-    btn.disabled = true; btn.textContent = '⏳ इंजन लोड हो रहा है...'; msg.textContent = '';
-    try {
-      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
-      btn.textContent = '⏳ Merge हो रहा है...';
-      const { PDFDocument } = PDFLib; const merged = await PDFDocument.create();
-      for (const f of files) {
-        const pdf = await PDFDocument.load(await f.arrayBuffer());
-        const pages = await merged.copyPages(pdf, pdf.getPageIndices());
-        pages.forEach(p => merged.addPage(p));
-      }
-      const bytes = await merged.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'merged.pdf'; a.click();
-      msg.textContent = '✅ Merge हो गया!'; msg.style.color = '#27ae60';
-    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'Merge करें'; }
-  };
-
-  window.extractPages = async function() {
-    const file = document.getElementById('splitPdf').files[0], msg = document.getElementById('splitMsg'), btn = document.getElementById('splitBtn');
-    const range = document.getElementById('pageRange').value;
-    if (!file) return alert('PDF चुनें');
-    btn.disabled = true; btn.textContent = '⏳...'; msg.textContent = '';
-    try {
-      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
-      const { PDFDocument } = PDFLib; const src = await PDFDocument.load(await file.arrayBuffer());
-      let indices = range.trim() ? range.split(',').flatMap(p => p.includes('-') ? Array.from({length: p.split('-')[1]-p.split('-')[0]+1}, (_, i) => parseInt(p.split('-')[0])+i-1) : [parseInt(p)-1]) : src.getPageIndices();
-      indices = indices.filter(i => i >= 0 && i < src.getPageCount());
-      const out = await PDFDocument.create(); const copied = await out.copyPages(src, indices);
-      copied.forEach(p => out.addPage(p));
-      const bytes = await out.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'extracted.pdf'; a.click();
-      msg.textContent = '✅ तैयार!'; msg.style.color = '#27ae60';
-    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'निकालें'; }
-  };
-
-  window.imagesToPDF = async function() {
-    const files = document.getElementById('imgFiles').files, msg = document.getElementById('imgMsg'), btn = document.getElementById('imgBtn');
-    const useA4 = document.getElementById('pdfA4Option').checked;
-    if (!files.length) return alert('इमेज चुनें');
-    btn.disabled = true; btn.textContent = '⏳ इंजन लोड हो रहा है...'; msg.textContent = '';
-    try {
-      if(typeof PDFLib === 'undefined') await loadScript('https://unpkg.com/pdf-lib/dist/pdf-lib.min.js');
-      btn.textContent = '⏳ PDF बन रही है...';
-      const { PDFDocument } = PDFLib; const pdf = await PDFDocument.create();
-      for (const f of files) {
-        const bytes = await f.arrayBuffer(); let img;
-        if (f.type === 'image/png') img = await pdf.embedPng(bytes); else img = await pdf.embedJpg(bytes);
-        if (useA4) {
-          const page = pdf.addPage([595.28, 841.89]);
-          const scale = Math.min(595.28 / img.width, 841.89 / img.height);
-          page.drawImage(img, { x: (595.28 - img.width * scale) / 2, y: (841.89 - img.height * scale) / 2, width: img.width * scale, height: img.height * scale });
-        } else {
-          const page = pdf.addPage([img.width, img.height]); page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
-        }
-      }
-      const bytes = await pdf.save(); const blob = new Blob([bytes], { type: 'application/pdf' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'images.pdf'; a.click();
-      msg.textContent = '✅ सफल!'; msg.style.color = '#27ae60';
-    } catch (e) { alert(e.message); } finally { btn.disabled = false; btn.textContent = 'PDF बनाएं'; }
-  };
-
-  // ================= RESUME =================
-  window.previewResume = function() {
-    const d = { name: document.getElementById('rName').value, email: document.getElementById('rEmail').value, phone: document.getElementById('rPhone').value, skills: document.getElementById('rSkills').value, edu: document.getElementById('rEdu').value.replace(/\n/g, '<br>'), exp: document.getElementById('rExp').value.replace(/\n/g, '<br>') };
-    if (!d.name) return alert('नाम भरें');
-    const tpl = document.getElementById('rTemplate').value;
-    document.getElementById('resumePreview').innerHTML = `<div class="resume-paper ${tpl}"><h2>${d.name}</h2><p>${d.email} ${d.phone ? '| '+d.phone : ''}</p>${d.skills ? `<h3>Skills</h3><p>${d.skills}</p>` : ''}${d.edu ? `<h3>Education</h3><p>${d.edu}</p>` : ''}${d.exp ? `<h3>Experience</h3><p>${d.exp}</p>` : ''}</div>`;
-    document.getElementById('saveResumeBtn').style.display = 'block';
-    document.getElementById('resumePreview').scrollIntoView({ behavior: 'smooth' });
-  };
-  window.saveResumePDF = function() { window.print(); };
-
-  // ================= MOCK TEST =================
-  const QB = {
-    gk: [{q:'भारत की राजधानी?',o:['दिल्ली','मुंबई','कोलकाता','चेन्नई'],a:0}, {q:'राष्ट्रीय पशु?',o:['शेर','हाथी','बाघ','गाय'],a:2}],
-    math: [{q:'5+7=?',o:['12','11','13','10'],a:0}, {q:'15×4=?',o:['60','55','65','50'],a:0}],
-    reasoning: [{q:'1,3,5,7,?',o:['9','8','10','11'],a:0}, {q:'2,4,8,16,?',o:['32','24','20','18'],a:0}]
-  };
-  let cTest = [], tTimer = null;
-  window.startTest = function() {
-    const type = document.getElementById('testSelect').value;
-    cTest = QB[type].map(q => ({ ...q, sel: null }));
-    document.getElementById('testStart').style.display = 'none';
-    const area = document.getElementById('testArea'); area.style.display = 'block';
-    let html = '<div id="timerDisplay">⏱️ 05:00</div>';
-    cTest.forEach((q, i) => {
-      html += `<div class="q-block"><p><b>Q${i+1}.</b> ${q.q}</p>`;
-      q.o.forEach((opt, j) => { html += `<label><input type="radio" name="q${i}" onchange="cTest[${i}].sel=${j}"> ${opt}</label>`; });
-      html += `</div>`;
-    });
-    html += `<button onclick="submitTest()" style="width:100%">✅ Submit</button>`;
-    area.innerHTML = html;
-    let tl = 300; clearInterval(tTimer);
-    tTimer = setInterval(() => { tl--; const el = document.getElementById('timerDisplay'); if(el) el.textContent = `⏱️ 0${Math.floor(tl/60)}:${tl%60<10?'0':''}${tl%60}`; if(tl<=0){clearInterval(tTimer); submitTest();} }, 1000);
-  };
-  window.submitTest = function() {
-    clearInterval(tTimer); let score = 0;
-    cTest.forEach(q => { if(q.sel === q.a) score++; });
-    document.getElementById('testArea').style.display = 'none';
-    const res = document.getElementById('testResult'); res.style.display = 'block';
-    res.innerHTML = `<h3 style="text-align:center">स्कोर: ${score} / ${cTest.length}</h3><button onclick="showPage('home')" style="width:100%;margin-top:1rem">होम पर जाएं</button>`;
-  };
-
-  // ================= NOTES & PLANNER =================
-  window.saveNote = function() {
-    const title = document.getElementById('noteTitle').value, body = document.getElementById('noteBody').value;
-    if(!title || !body) return alert('दोनों भरें');
-    const email = JSON.parse(localStorage.getItem('bodh_current_user')).email;
-    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
-    if(!allNotes[email]) allNotes[email] = [];
-    allNotes[email].push({ id: Date.now(), title, body });
-    localStorage.setItem('bodh_notes', JSON.stringify(allNotes));
-    document.getElementById('noteTitle').value = ''; document.getElementById('noteBody').value = '';
-    loadNotes();
-  };
-  window.loadNotes = function() {
-    const list = document.getElementById('notesList'); const u = JSON.parse(localStorage.getItem('bodh_current_user')); if(!u) return;
-    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
-    let notes = allNotes[u.email] || [];
-    list.innerHTML = notes.length ? '' : '<p style="text-align:center;color:#888;padding:1rem">कोई नोट नहीं।</p>';
-    notes.forEach(n => { list.innerHTML += `<div class="note-item"><h4>${n.title}</h4><p>${n.body}</p><button onclick="delNote(${n.id})">Delete</button></div>`; });
-  };
-  window.delNote = function(id) {
-    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
-    let allNotes = JSON.parse(localStorage.getItem('bodh_notes') || '{}');
-    allNotes[u.email] = allNotes[u.email].filter(n => n.id !== id);
-    localStorage.setItem('bodh_notes', JSON.stringify(allNotes)); loadNotes();
-  };
-
-  window.addTask = function() {
-    const text = document.getElementById('taskText').value, date = document.getElementById('taskDate').value;
-    if(!text) return alert('कार्य लिखें');
-    const email = JSON.parse(localStorage.getItem('bodh_current_user')).email;
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    if(!allTasks[email]) allTasks[email] = [];
-    allTasks[email].push({ id: Date.now(), text, date, done: false });
-    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks));
-    document.getElementById('taskText').value = ''; loadTasks();
-  };
-  window.loadTasks = function() {
-    const list = document.getElementById('taskList'); const u = JSON.parse(localStorage.getItem('bodh_current_user')); if(!u) return;
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    let tasks = (allTasks[u.email] || []).sort((a,b) => a.date > b.date ? 1 : -1);
-    list.innerHTML = tasks.length ? '' : '<p style="text-align:center;color:#888;padding:1rem">कोई कार्य नहीं।</p>';
-    tasks.forEach(t => { list.innerHTML += `<li class="${t.done?'done':''}"><input type="checkbox" ${t.done?'checked':''} onchange="togTask(${t.id})"><span>${t.text}</span><small>${t.date||''}</small><button onclick="delTask(${t.id})">✕</button></li>`; });
-  };
-  window.togTask = function(id) {
-    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    allTasks[u.email].forEach(t => { if(t.id === id) t.done = !t.done; });
-    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks)); loadTasks();
-  };
-  window.delTask = function(id) {
-    const u = JSON.parse(localStorage.getItem('bodh_current_user'));
-    let allTasks = JSON.parse(localStorage.getItem('bodh_tasks') || '{}');
-    allTasks[u.email] = allTasks[u.email].filter(t => t.id !== id);
-    localStorage.setItem('bodh_tasks', JSON.stringify(allTasks)); loadTasks();
-  };
-
-  // ================= JOBS & STORE =================
-  window.loadJobs = function() {
-    const jobs = [
-      {t:'SSC CGL 2026', d:'स्नातक पास — Combined Graduate Level', l:'https://ssc.nic.in'},
-      {t:'UPSC Civil Services', d:'IAS/IPS/IFS — कोई भी ग्रेजुएट', l:'https://upsc.gov.in'},
-      {t:'NSP Scholarship', d:'सभी सरकारी स्कॉलरशिप', l:'https://scholarships.gov.in'}
-    ];
-    document.getElementById('jobsList').innerHTML = jobs.map(j => `<div class="job-card"><h3>${j.t}</h3><p>${j.d}</p><a href="${j.l}" target="_blank">आधिकारिक साइट →</a></div>`).join('');
-  };
-  window.loadStore = function() {
-    const items = [
-      {n:'Complete GK Notes', p:'₹99', d:'सभी विषय'},
-      {n:'Math Practice Set', p:'₹149', d:'500+ प्रश्न'},
-      {n:'English Grammar', p:'₹79', d:'बेसिक से एडवांस'}
-    ];
-    document.getElementById('storeList').innerHTML = items.map(s => `<div class="store-card"><h3>${s.n}</h3><p>${s.d}</p><div class="price">${s.p}</div><button onclick="alert('पेमेंट गेटवे जल्द आएगा!')" style="margin:0;width:100%">खरीदें</button></div>`).join('');
-  };
-
-  // ================= AI =================
-  window.askAI = async function() {
-    const input = document.getElementById('aiInput'); const q = input.value.trim(); if(!q) return;
-    const box = document.getElementById('aiChatBox');
-    box.innerHTML += `<div class="msg user">${q}</div>`; input.value = ''; box.scrollTop = box.scrollHeight;
-    box.innerHTML += `<div class="msg ai" id="ld">सोच रहा हूँ...</div>`;
-    try {
-      if (typeof puter === 'undefined') await loadScript('https://js.puter.com/v2/');
-      const res = await puter.ai.chat('You are BODH, a helpful study assistant. Answer briefly. Question: ' + q);
-      document.getElementById('ld').remove();
-      box.innerHTML += `<div class="msg ai">${typeof res === 'string' ? res : res.text || JSON.stringify(res)}</div>`;
-    } catch(e) { document.getElementById('ld').innerHTML = '⚠️ AI load नहीं हुई (इंटरनेट जाँचें)।'; }
-    box.scrollTop = box.scrollHeight;
-  };
-
-  // ================= VIDEO & TEACHER STUDIO =================
-  window.joinVideoRoom = function() {
-    const room = document.getElementById('roomName').value.trim(); if(!room) return alert('कमरा नाम डालें');
-    document.getElementById('jitsiFrame').src = `https://meet.jit.si/BODH_${room}#config.prejoinPageEnabled=false`;
-    document.getElementById('joinRoomBox').style.display = 'none'; document.getElementById('videoFrameBox').style.display = 'block';
-  };
-  window.leaveVideoRoom = function() { document.getElementById('jitsiFrame').src = ''; document.getElementById('joinRoomBox').style.display = 'block'; document.getElementById('videoFrameBox').style.display = 'none'; };
-
-  const canvas = document.getElementById('whiteboard'); const ctx = canvas.getContext('2d');
-  let isDrawing = false, currentTool = 'pen';
-  function resizeCanvas() { const rect = canvas.getBoundingClientRect(); canvas.width = rect.width; canvas.height = 350; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; }
-  window.addEventListener('resize', resizeCanvas); resizeCanvas();
-  canvas.addEventListener('touchstart', startDrawing); canvas.addEventListener('touchmove', draw); canvas.addEventListener('touchend', stopDrawing);
-  canvas.addEventListener('mousedown', startDrawing); canvas.addEventListener('mousemove', draw); canvas.addEventListener('mouseup', stopDrawing); canvas.addEventListener('mouseout', stopDrawing);
-  function getPos(e) { const rect = canvas.getBoundingClientRect(); return { x: (e.touches ? e.touches[0].clientX : e.clientX) - rect.left, y: (e.touches ? e.touches[0].clientY : e.clientY) - rect.top }; }
-  function startDrawing(e) { e.preventDefault(); isDrawing = true; ctx.beginPath(); ctx.moveTo(getPos(e).x, getPos(e).y); }
-  function draw(e) {
-    if (!isDrawing) return; e.preventDefault();
-    if (currentTool === 'eraser') { ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 30; }
-    else { ctx.strokeStyle = document.getElementById('penColor').value; ctx.lineWidth = 4; }
-    ctx.lineTo(getPos(e).x, getPos(e).y); ctx.stroke();
-  }
-  function stopDrawing() { isDrawing = false; }
-  window.setTool = function(tool, btn) { currentTool = tool; document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); };
-  window.clearBoard = function() { ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height); }; clearBoard();
-
-  let mediaRecorder, recordedChunks = [], isRecording = false, micStream;
-  window.toggleRecording = async function() {
-    const btn = document.getElementById('recordBtn'), status = document.getElementById('recStatus');
-    if (!isRecording) {
-      try {
-        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(new MediaStream([...canvas.captureStream(30).getVideoTracks(), ...micStream.getAudioTracks()]), { mimeType: 'video/webm' });
-        mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) recordedChunks.push(e.data); };
-        mediaRecorder.onstop = () => {
-          const url = URL.createObjectURL(new Blob(recordedChunks, { type: 'video/webm' }));
-          document.getElementById('downloadLink').href = url; document.getElementById('downloadLink').style.display = 'block';
-          recordedChunks = []; micStream.getTracks().forEach(t => t.stop());
-        };
-        mediaRecorder.start(); isRecording = true; btn.textContent = '⏹️ रोकें'; btn.classList.add('record-btn'); status.textContent = '🔴 रिकॉर्डिंग...';
-      } catch (err) { alert('माइक्रोफोन की अनुमति नहीं मिली!'); }
-    } else {
-      mediaRecorder.stop(); isRecording = false; btn.textContent = '🔴 रिकॉर्डिंग शुरू करें'; btn.classList.remove('record-btn'); status.textContent = '✅ वीडियो तैयार!';
-    }
-  };
-
-  // ================= RESIZER =================
-  window.setPreset = function() {
-    const val = document.getElementById('resizePreset').value; if (val === 'custom' || !val) return;
-    const p = val.split(','); document.getElementById('resizeW').value = p[0]; document.getElementById('resizeH').value = p[1]; document.getElementById('resizeKB').value = p[2];
-  };
-  window.processResize = async function() {
-    const file = document.getElementById('resizeFile').files[0]; if (!file) return alert('इमेज चुनें');
-    const w = parseInt(document.getElementById('resizeW').value), h = parseInt(document.getElementById('resizeH').value), maxKB = parseInt(document.getElementById('resizeKB').value);
-    if (!w || !h || !maxKB) return alert('साइज़ और KB भरें');
-    const img = new Image(); img.src = URL.createObjectURL(file); await new Promise(r => img.onload = r);
-    const canvas = document.createElement('canvas'); canvas.width = w; canvas.height = h;
-    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h); ctx.drawImage(img, 0, 0, w, h);
-    let q = 0.9, dUrl = canvas.toDataURL('image/jpeg', q); let sKB = (dUrl.length - 'data:image/jpeg;base64,'.length) * 0.75 / 1024;
-    while (sKB > maxKB && q > 0.05) { q -= 0.05; dUrl = canvas.toDataURL('image/jpeg', q); sKB = (dUrl.length - 'data:image/jpeg;base64,'.length) * 0.75 / 1024; }
-    document.getElementById('resizedImage').src = dUrl;
-    document.getElementById('resizeInfo').textContent = `साइज़: ${w}x${h} px, ${sKB.toFixed(1)} KB`;
-    document.getElementById('downloadResized').href = dUrl; document.getElementById('downloadResized').download = `BODH_${w}x${h}_${sKB.toFixed(0)}KB.jpg`;
-    document.getElementById('resizeResult').style.display = 'block';
-  };
-</script>
-</body>
-</html>
-```
-
-              
+  
