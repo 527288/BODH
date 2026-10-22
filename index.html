@@ -958,6 +958,27 @@ footer a { color: #667eea; text-decoration: none; background: #f0f2ff; padding: 
     document.getElementById('downloadResized').href = dUrl; document.getElementById('downloadResized').download = `BODH_${w}x${h}_${sKB.toFixed(0)}KB.jpg`;
     document.getElementById('resizeResult').style.display = 'block';
   };
+// ================= DEVICE LOCK (ADMIN) =================
+  function checkAdminDevice() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('key') === 'bodh_admin') {
+      localStorage.setItem('bodh_admin_device', 'true');
+      alert('✅ यह डिवाइस अब Admin डिवाइस के रूप में सेट हो गई है!');
+      window.history.replaceState({}, document.title, window.location.pathname); 
+    }
+    const isAdminDevice = localStorage.getItem('bodh_admin_device') === 'true';
+    const footer = document.getElementById('footer');
+    if (isAdminDevice) {
+      footer.innerHTML = `<a href="#" onclick="showPage('admin');return false">⚙️ Admin</a><a href="#" onclick="shareWhatsApp();return false">📤 Share</a>`;
+    } else {
+      footer.innerHTML = `<a href="#" onclick="shareWhatsApp();return false">📤 Share</a>`;
+    }
+  }
+
+  function shareWhatsApp() {
+    window.open('https://wa.me/?text=' + encodeURIComponent('📚 BODH — मेरा स्टडी साथी!\n' + window.location.href), '_blank');
+  }
+```
 </script>
 </body>
 </html>
